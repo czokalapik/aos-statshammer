@@ -57,6 +57,11 @@ class SimulationProcessor {
         if (!mwModifier.inAddition) return extraDamage;
       }
 
+      const awModifier = this.profile.modifiers.getModifier(m.AUTO_WOUND, C.TO_HIT);
+      if (awModifier && hitRoll >= awModifier.on) {
+        return this.resolveSaveRoll() + extraDamage;
+      }
+
       const cbModifier = this.profile.modifiers.getModifier(m.CONDITIONAL_BONUS, C.TO_HIT);
       if (cbModifier && hitRoll >= cbModifier.on) {
         const splitProfile = this.profile.getSplitProfile([cbModifier], [cbModifier.getAsBonusModifier()]);

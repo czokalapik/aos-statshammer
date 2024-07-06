@@ -1,5 +1,5 @@
-import type { Characteristic } from 'api/constants';
-
+import type { Characteristic } from '../../constants';
+import AutoWound from './AutoWound';
 import BaseModifier from './BaseModifier';
 import Bonus from './Bonus';
 import ConditionalBonus from './ConditionalBonus';
@@ -14,6 +14,7 @@ import RerollOnes from './RerollOnes';
  * The list of possible modifiers
  */
 export const MODIFIERS = {
+  AUTO_WOUND: AutoWound,
   REROLL_ONES: RerollOnes,
   REROLL_FAILED: RerollFailed,
   REROLL: Reroll,

@@ -7,12 +7,12 @@ import { notificationsStore, unitsStore } from 'store/slices';
 
 import MenuItem from '../MenuItem';
 
-interface IImportUnitItemProps {
+interface IImportArmyItemProps {
   onClick?: () => void;
   mini?: boolean;
 }
 
-const ImportUnitItem = ({ onClick, mini }: IImportUnitItemProps) => {
+const ImportArmyItem = ({ onClick, mini }: IImportArmyItemProps) => {
   const dispatch = useDispatch();
   const uploadEnabled = useSelector(addUnitEnabledSelector);
 
@@ -20,16 +20,22 @@ const ImportUnitItem = ({ onClick, mini }: IImportUnitItemProps) => {
    * In this case that would be importing the uploaded unit data
    * @param {object} data the JSON from the uploaded unit
    * */
-  const onUnitUpload = useCallback(
+  const onArmyUpload = useCallback(
     (data) => {
-      if (data && data.name && data.weapon_profiles) {
-        dispatch(
-          notificationsStore.actions.addNotification({
-            message: 'Successfully imported unit',
-            variant: 'success',
-          }),
-        );
-        dispatch(unitsStore.actions.addUnit({ unit: data }));
+      debugger;
+      if (data && data.units) {
+        dispatch(unitsStore.actions.clearAllUnits());
+        data.units.forEach(unit => {
+          if (unit.name && unit.weapon_profiles) {
+            dispatch(
+              notificationsStore.actions.addNotification({
+                message: 'Successfully imported unit',
+                variant: 'success',
+              }),
+            );
+            dispatch(unitsStore.actions.addUnit({ unit }));
+          }
+        });
       }
       if (onClick) onClick();
     },
@@ -38,13 +44,13 @@ const ImportUnitItem = ({ onClick, mini }: IImportUnitItemProps) => {
 
   return (
     <Uploader
-      onUpload={onUnitUpload}
+      onUpload={onArmyUpload}
       disabled={!uploadEnabled}
       component={
-        <MenuItem disabled={!uploadEnabled} label="Import Unit" icon={<ImportExport />} mini={mini} />
+        <MenuItem disabled={!uploadEnabled} label="Import Army" icon={<ImportExport />} mini={mini} />
       }
     />
   );
 };
 
-export default ImportUnitItem;
+export default ImportArmyItem;

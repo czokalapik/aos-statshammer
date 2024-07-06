@@ -131,7 +131,7 @@ const AppBar = () => {
                   <Grid item>
                     <Link to={ROUTES.HOME} className={classes.link}>
                       <Typography variant="h5" component="h1" className={classes.title}>
-                        AoS Statshammer
+                        AoS Statshammer V4
                       </Typography>
                     </Link>
                   </Grid>

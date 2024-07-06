@@ -7,12 +7,12 @@ export enum Characteristic {
   SAVE = 'save',
 }
 
-export const getCharacteristic = (val: string): Characteristic | null => {
+export const getCharacteristic = (val: string): Characteristic => {
   const k = Object.keys(Characteristic).find((key) => Characteristic[key] === val);
   if (k) {
     return Characteristic[k];
   }
-  return null;
+  throw new Error(`Invalid characteristic ${val}`);
 };
 
 export const getCharacteristicsAfter = (characteristic: Characteristic): Characteristic[] => {

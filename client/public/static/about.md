@@ -2,7 +2,6 @@
 
 A tool for calculating and comparing damage outputs for
 **Warhammer Age of Sigmar** units (also referred to as Mathhammer).
-If you are interested in Warcry calculations, see the sister-project [Warcry-Statshammer](https://warcry-statshammer.herokuapp.com)
 
 ## Average Damage Stats
 
@@ -33,10 +32,10 @@ Export the full stats, as well as, simulations to PDF form
 
 ## And more
 
-Keep an eye on the [Github Releases](https://github.com/damonhook/aos-statshammer/releases), or the [Reddit page](https://www.reddit.com/r/AoSStatshammer) to get notified of new additions
+Keep an eye on the [Github Releases](https://github.com/Manwe56/aos-statshammer/releases)
 
 ## Notes
 
-This is a free community tool built by Damon Hook (`NoMaDhOoK`)
+This is a free community tool built by Damon Hook (`NoMaDhOoK`) then Grégory Ribéron (`Manwe56`)
 
 **Remember:** There is more to a unit than just its damage output. This is a tool, not a definitive answer of which unit is better

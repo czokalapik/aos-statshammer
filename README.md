@@ -1,7 +1,5 @@
-![https://img.shields.io/github/v/release/damonhook/aos-statshammer.svg](https://img.shields.io/github/v/release/damonhook/aos-statshammer.svg)
-
 <div align="center">
-    <a href="https://aos-statshammer.herokuapp.com/" target="_blank">
+    <a href="https://aos-statshammer.netlify.app/" target="_blank">
         <img width="128" src="docs/logo256.png">
     </a>
 </div>
@@ -11,13 +9,13 @@
 A tool for calculating and comparing damage outputs for Warhammer Age of Sigmar units
 (also referred to as Mathhammer).
 
-The production deploy of the tool is located at: https://aos-statshammer.herokuapp.com/
+The production deploy of the tool is located at: https://aos-statshammer.netlify.app/
 
 The tool works by adding a number of weapon profiles to various units, which can contain
 a number of modifiers (abilities)
 
 <div align="center">
-    <a href="https://aos-statshammer.herokuapp.com/" target="_blank">
+    <a href="https://aos-statshammer.netlify.app/" target="_blank">
         <img width="100%" src="docs/compare.png">
     </a>
 </div>
@@ -57,8 +55,7 @@ a number of modifiers (abilities)
 - **Dark Theme**
 - **Persisitent data between refreshes**
 - **And more**
-  - Keep an eye on the [Github Releases](https://github.com/damonhook/aos-statshammer/releases),
-    or the [SubReddit](https://www.reddit.com/r/AoSStatshammer/) to get notified of new additions
+  - Keep an eye on the [Github Releases](https://github.com/Manwe56/aos-statshammer/releases)
 
 ## Roadmap Features
 

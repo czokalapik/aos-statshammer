@@ -10,10 +10,11 @@ import { ROUTES } from 'utils/urls';
 import DrawerLogo from './DrawerLogo';
 import ClearTargetItem from './items/ClearTargetItem';
 import ClearUnitsItem from './items/ClearUnitsItem';
-import ImportUnitItem from './items/ImportUnitItem';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
+import ExportArmyItem from './items/ExportArmyItem';
+import ImportArmyItem from './items/ImportArmyItem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -94,7 +95,8 @@ const Drawer = () => {
         {isHome && (
           <>
             <ClearUnitsItem mini />
-            <ImportUnitItem mini />
+            <ImportArmyItem mini />
+            <ExportArmyItem mini />
             <ClearTargetItem mini />
           </>
         )}

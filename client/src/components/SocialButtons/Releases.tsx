@@ -8,7 +8,7 @@ const Releases = ({ className, forceVariant }: ISocialButtonProps) => {
   return (
     <SocialItem
       className={className}
-      href="https://github.com/damonhook/aos-statshammer/releases"
+      href="https://github.com/Manwe56/aos-statshammer/releases"
       text="Releases"
       icon={<ReleasesIcon />}
       forceVariant={forceVariant}

@@ -55,20 +55,27 @@ export default class AverageDamageProcessor {
       }
     }
 
+    const awModifier = this.profile.modifiers.getModifier(m.AUTO_WOUND, C.TO_HIT);
+    let autoWounds = 0;
+    if (awModifier) {
+      autoWounds = attacks * awModifier.resolve(this.profile);
+      hits = Math.max(hits - autoWounds, 0);
+    }
+
     const cbModifier = this.profile.modifiers.getModifier(m.CONDITIONAL_BONUS, C.TO_HIT);
     let splitDamage = 0;
     if (cbModifier) {
       const newProfile = this.profile.getSplitProfile([cbModifier], [cbModifier.getAsBonusModifier()]);
       const cbModHits = attacks * cbModifier.resolve(this.profile);
       const splitProcessor = new AverageDamageProcessor(newProfile, this.target);
-      splitDamage = splitProcessor.resolveWounds(cbModHits);
+      splitDamage = splitProcessor.resolveWounds(cbModHits, 0);
       hits = Math.max(hits - cbModHits, 0);
     }
 
-    return this.resolveWounds(hits) + mortalDamage + splitDamage;
+    return this.resolveWounds(hits, autoWounds) + mortalDamage + splitDamage;
   }
 
-  resolveWounds(hits: number) {
+  resolveWounds(hits: number, autoWounds: number) {
     let wounds = hits * D6.getProbability(this.profile.getToWound());
     wounds += hits * this.profile.resolveRerolls(C.TO_WOUND);
     wounds += hits * this.profile.resolveModifier(m.EXPLODING, C.TO_WOUND);
@@ -93,6 +100,7 @@ export default class AverageDamageProcessor {
       splitDamage = splitProcessor.resolveSaves(cbModWounds);
       wounds = Math.max(wounds - cbModWounds, 0);
     }
+    wounds += autoWounds;
 
     return this.resolveSaves(wounds) + mortalDamage + splitDamage;
   }

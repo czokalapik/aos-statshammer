@@ -131,6 +131,15 @@ export const rattlingGunners = new Unit('Rattling Gunners', [
   new WeaponProfile(1, DiceValue.parse('2D6'), 4, 4, 1, 1, []),
 ]);
 
+export const unitWithAutoWounds = new Unit('AutoWound', [
+  new WeaponProfile(6,6,6,6,0,1, [
+    new m.AUTO_WOUND({
+      characteristic: C.TO_HIT,
+      on:6
+    })
+  ])
+]);
+
 // #region edge cases
 export const explodingAndConditionalSame = new Unit('Exploding And Conditional (Same Characteristic)', [
   new WeaponProfile(1, 3, 3, 4, 1, 2, [

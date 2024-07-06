@@ -162,11 +162,11 @@ const generate = async (
   // eslint-disable-next-line new-cap
   const doc = new jsPDF('p', 'pt', 'a4') as IJsPDF;
   doc.setProperties({
-    title: 'AoS Statshammer Report',
+    title: 'AoS Statshammer V4 Report',
   });
   cursor.reset();
   cursor.incr(20);
-  addHeader(doc, 'AoS Statshammer Report');
+  addHeader(doc, 'AoS Statshammer V4 Report');
   generateUnits(doc, units);
   if (target && target.modifiers && target.modifiers.length) {
     generateTarget(doc, target);

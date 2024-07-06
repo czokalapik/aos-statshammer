@@ -1,40 +1,21 @@
-import fetch from 'cross-fetch';
 import store from 'store';
 import { getSanitizedTargetSelector, getSanitizedUnitsSelector } from 'store/selectors';
-import { notificationsStore, statsStore } from 'store/slices';
+import { statsStore } from 'store/slices';
 
 import type { TDispatch } from './api.types';
+import StatsController from './core/controllers/statsController';
 
 export const fetchStatsCompare = () => async (dispatch: TDispatch) => {
   dispatch(statsStore.actions.fetchStatsPending());
-  try {
-    const state = store.getState();
-    const units = getSanitizedUnitsSelector(state)(true);
-    const target = getSanitizedTargetSelector(state);
-    if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [] }));
-    const data = { units, target };
-    const request = await fetch('/api/compare', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+  const state = store.getState();
+  const units = getSanitizedUnitsSelector(state)(true);
+  const target = getSanitizedTargetSelector(state);
+  if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [] }));
+  const data = { units, target };
 
-    const res = await request.json();
-    dispatch(statsStore.actions.fetchStatsSuccess({ results: res.results }));
-  } catch (error) {
-    dispatch(statsStore.actions.fetchStatsError({ error }));
-    dispatch(
-      notificationsStore.actions.addNotification({
-        message: 'Failed to fetch stats',
-        variant: 'error',
-        action: {
-          label: 'Retry',
-          onClick: () => dispatch(fetchStatsCompare()),
-        },
-      }),
-    );
-  }
+  const statController = new StatsController();
+
+  const res = statController.compareUnits(data);
+
+  dispatch(statsStore.actions.fetchStatsSuccess({ results: res.results }));
 };

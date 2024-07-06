@@ -2,7 +2,7 @@ import { CircularProgress, Divider, IconButton, Paper, Theme, Typography } from 
 import { grey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { LogoIcon } from 'components/Icons';
-import { Github, Reddit, Releases, WarcryStatshammer } from 'components/SocialButtons';
+import { Github } from 'components/SocialButtons';
 import { useReadFromFile } from 'hooks';
 import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -100,9 +100,6 @@ const About = () => {
           <Typography variant="h6">Social:</Typography>
           <div>
             <Github className={classes.socialButton} />
-            <Reddit className={classes.socialButton} />
-            <Releases className={classes.socialButton} />
-            <WarcryStatshammer className={classes.socialButton} />
           </div>
           <div className={classes.spacer} />
           <Divider className={classes.divider} />

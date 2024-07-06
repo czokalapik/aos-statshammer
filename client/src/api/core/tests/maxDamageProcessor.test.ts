@@ -53,6 +53,10 @@ describe('MaxDamageProcessor', () => {
     expect(u.rattlingGunners.maxDamage()).toEqual(12);
   });
 
+  test('Auto wound', () => {
+    expect(u.unitWithAutoWounds.maxDamage()).toEqual(36);
+  })
+
   test('Edge Cases', () => {
     expect(u.explodingAndConditionalSame.maxDamage()).toEqual(21);
     expect(u.explodingAndConditionalDifferent.maxDamage()).toEqual(27);

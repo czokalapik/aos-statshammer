@@ -1,7 +1,7 @@
 import { Paper, Typography, useMediaQuery } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Github, Reddit, Releases, WarcryStatshammer } from 'components/SocialButtons';
+import { Github } from 'components/SocialButtons';
 import { useRouteFind } from 'hooks';
 import React from 'react';
 import { ROUTES } from 'utils/urls';
@@ -53,7 +53,9 @@ const Footer = () => {
       <Paper className={clsx(classes.paper)} square>
         <Typography variant="body2" component="p">
           Built by: Damon Hook&nbsp;
-          <i>(NoMaDhOoK)</i>
+          <i>(NoMaDhOoK)</i>&nbsp;
+          Grégory Ribéron&nbsp;
+          <i>(Manwe56)</i>
         </Typography>
         <Typography variant="body2" component="p">
           Disclaimer: This tool is in no way endorsed or sanctioned by Games Workshop - it is unofficial and
@@ -61,9 +63,6 @@ const Footer = () => {
         </Typography>
         <Typography component="div" className={clsx(classes.Actions, mobile ? classes.mobileActions : null)}>
           <Github className={classes.footerButton} />
-          <Reddit className={classes.footerButton} />
-          <Releases className={classes.footerButton} />
-          <WarcryStatshammer className={classes.footerButton} />
         </Typography>
       </Paper>
     </footer>

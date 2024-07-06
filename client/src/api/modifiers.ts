@@ -1,58 +1,16 @@
-import fetch from 'cross-fetch';
-import { modifiersStore, notificationsStore, targetModifiersStore } from 'store/slices';
+import { modifiersStore, targetModifiersStore } from 'store/slices';
 
 import type { TDispatch } from './api.types';
+import { getModifiers, getTargetModifiers } from './core/controllers/modifiersController';
 
 export const fetchModifiers = () => async (dispatch: TDispatch) => {
   dispatch(modifiersStore.actions.fetchModifiersPending());
-  try {
-    const request = await fetch('/api/modifiers', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const res = await request.json();
-    dispatch(modifiersStore.actions.fetchModifiersSuccess({ items: res.modifiers }));
-  } catch (error) {
-    dispatch(modifiersStore.actions.fetchModifiersError({ error }));
-    dispatch(
-      notificationsStore.actions.addNotification({
-        message: 'Failed to fetch modifiers',
-        variant: 'error',
-        action: {
-          label: 'Retry',
-          onClick: () => dispatch(fetchModifiers()),
-        },
-      }),
-    );
-  }
+  const res = { modifiers: getModifiers() };
+  dispatch(modifiersStore.actions.fetchModifiersSuccess({ items: res.modifiers }));
 };
 
 export const fetchTargetModifiers = () => async (dispatch: TDispatch) => {
   dispatch(targetModifiersStore.actions.fetchTargetModifiersPending());
-  try {
-    const request = await fetch('/api/target/modifiers', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const res = await request.json();
-    dispatch(targetModifiersStore.actions.fetchTargetModifiersSuccess({ items: res.modifiers }));
-  } catch (error) {
-    dispatch(targetModifiersStore.actions.fetchTargetModifiersError({ error }));
-    dispatch(
-      notificationsStore.actions.addNotification({
-        message: 'Failed to fetch target modifiers',
-        variant: 'error',
-        action: {
-          label: 'Retry',
-          onClick: () => dispatch(fetchTargetModifiers()),
-        },
-      }),
-    );
-  }
+  const res = { modifiers: getTargetModifiers() };
+  dispatch(targetModifiersStore.actions.fetchTargetModifiersSuccess({ items: res.modifiers }));
 };

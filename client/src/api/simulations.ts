@@ -1,17 +1,15 @@
 import appConfig from 'appConfig';
-import fetch from 'cross-fetch';
 import store from 'store';
 import {
   getSanitizedTargetSelector,
   getSanitizedUnitsSelector,
-  ISanitizedUnit,
   numSimulationsSelector,
 } from 'store/selectors';
-import { configStore, notificationsStore, simulationsStore } from 'store/slices';
-import type { ISimulation } from 'types/simulations';
-import type { IStore, ITargetStore } from 'types/store';
+import { configStore, simulationsStore } from 'store/slices';
+import type { IStore } from 'types/store';
 
 import type { TDispatch } from './api.types';
+import StatsController from './core/controllers/statsController';
 
 const verifyNumSimulations = (state: IStore, dispatch: TDispatch): number => {
   const storeNumSims = numSimulationsSelector(state);
@@ -23,57 +21,16 @@ const verifyNumSimulations = (state: IStore, dispatch: TDispatch): number => {
   return numSims;
 };
 
-const fetchSimulationForSave = async (
-  units: ISanitizedUnit[],
-  target: ITargetStore,
-  save: number,
-  numSimulations: number,
-) => {
-  const data = { units, target, numSimulations, save };
-  return fetch('/api/simulate/save', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-};
-
 export const fetchSimulations = () => async (dispatch: TDispatch) => {
   dispatch(simulationsStore.actions.fetchSimulationsPending());
-  try {
-    const state = store.getState();
-    const units = getSanitizedUnitsSelector(state)(false);
-    if (!units) dispatch(simulationsStore.actions.fetchSimulationsSuccess({ results: [] }));
-    const target = getSanitizedTargetSelector(state);
-    const numSimulations = verifyNumSimulations(state, dispatch);
+  const state = store.getState();
+  const units = getSanitizedUnitsSelector(state)(false);
+  if (!units) dispatch(simulationsStore.actions.fetchSimulationsSuccess({ results: [] }));
+  const target = getSanitizedTargetSelector(state);
+  const numSimulations = verifyNumSimulations(state, dispatch);
 
-    const responses = await Promise.all(
-      [2, 3, 4, 5, 6, 0].map((save) =>
-        fetchSimulationForSave(units, target, save, numSimulations).then((data) => data.json()),
-      ),
-    );
+  const statsController = new StatsController();
+  const res = statsController.simulateUnits({ units, target, numSimulations });
 
-    const res: ISimulation = responses.reduce(
-      (acc, { results }) => ({
-        results: [...acc.results, results],
-      }),
-      { results: [] },
-    );
-
-    dispatch(simulationsStore.actions.fetchSimulationsSuccess({ results: res.results }));
-  } catch (error) {
-    dispatch(simulationsStore.actions.fetchSimulationsError({ error }));
-    dispatch(
-      notificationsStore.actions.addNotification({
-        message: 'Failed to fetch simulations',
-        variant: 'error',
-        action: {
-          label: 'Retry',
-          onClick: () => dispatch(fetchSimulations()),
-        },
-      }),
-    );
-  }
+  dispatch(simulationsStore.actions.fetchSimulationsSuccess({ results: res.results }));
 };

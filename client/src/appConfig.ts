@@ -1,6 +1,6 @@
 const appConfig = {
   limits: {
-    units: 5,
+    units: 10,
     profiles: 8,
     modifiers: 5,
   },
