@@ -123,19 +123,22 @@ export default class StatsController {
   ): TProbabilityResult[] {
     const maxDamage = Math.max(...Object.keys(probabilities).map((n) => Number(n)));
     const sums = unitNames.reduce((acc, name) => ({ ...acc, [name]: 0 }), {});
-    const cumulative = [...Array(maxDamage)].map((_, damage) => {
-      const map = probabilities[damage] ?? {};
+    const cumulative = [...Array(maxDamage+1)].map((_, damage) => {
+      const map = probabilities[damage - 1] ?? {};
       return unitNames.reduce(
         (acc, name) => {
           sums[name] += map[name] ?? 0;
           if (sums[name] >= 100 || damage > metrics.max[name]) {
             sums[name] = 100;
           }
-          return { ...acc, [name]: Number(sums[name].toFixed(2)) };
+          return { ...acc, [name]: Number(100 - sums[name].toFixed(2)) };
         },
         { damage },
       );
     });
-    return [...cumulative, unitNames.reduce((acc, name) => ({ ...acc, [name]: 100 }), { damage: maxDamage })];
+    return [
+      ...cumulative,
+      unitNames.reduce((acc, name) => ({ ...acc, [name]: 100 - sums[name] }), { damage: maxDamage }),
+    ];
   }
 }

@@ -49,7 +49,7 @@ const CumulativeProbabilityGraphs: React.FC<ICumulativeProbabilityGraphsProps> =
               const { save, cumulative } = item;
               return (
                 <LineGraph
-                  title={`Cumulative Damage Probability (${save ? '-' : `${save}+`})`}
+                  title={`Kill Probability (${save ? '-' : `${save}+`})`}
                   key={save}
                   data={cumulative}
                   isAnimationActive={false}

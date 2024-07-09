@@ -189,7 +189,7 @@ const generate = async (
   addPage(doc);
   cursor.incr(20);
   doc.setFontSize(14);
-  addSubHeader(doc, 'Cumulative Probabilities');
+  addSubHeader(doc, 'Kill Probabilities');
   cursor.incr(10);
   await addGraphs(doc, cumulativeClassName);
   addPage(doc);

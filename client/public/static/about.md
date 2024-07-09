@@ -24,7 +24,7 @@ The number of simulations is customizable from the simulations screen.
 
 ## Import/Export JSON
 
-Save your crafted units so that you can re-import them later
+Save your crafted units and armies so that you can re-import them later
 
 ## Export PDF
 

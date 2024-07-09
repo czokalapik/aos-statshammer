@@ -7,8 +7,8 @@ These extra analytics are split into the following **3 tabs**:
 
 ## Cumulative
 
-- Cumulative Probability Graphs
-  - I.e: What is the **%** chance that the unit will inflict **<= x** damage
+- Kill Probability Graphs
+  - I.e: What is the **%** chance that the unit will inflict **>= x** damage
     against a target with **y** save
 
 ## Discrete

@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { LineGraph } from 'components/Graphs';
@@ -86,6 +86,7 @@ const BasicCurves = React.memo(
         loading={pending}
         loaderDelay={0}
       >
+        <Typography> How many chances do I have to do exactly X damage ?</Typography>
         <GraphControls
           activeReferenceLine={activeReferenceLine}
           setActiveReferenceLine={handleReferenceLineChanged}

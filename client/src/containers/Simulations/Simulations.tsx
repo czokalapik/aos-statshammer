@@ -70,7 +70,7 @@ const Simulations = () => {
       <div className={classes.container}>
         <Tabbed
           className={classes.tabs}
-          tabNames={['Cumulative', 'Discrete', 'Metrics']}
+          tabNames={['Kill stats', 'Discrete', 'Metrics']}
           tabContent={[
             <div className={classes.tab}>
               <CumulativeCurves

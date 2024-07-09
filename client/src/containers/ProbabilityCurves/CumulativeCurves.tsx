@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { LineGraph } from 'components/Graphs';
@@ -12,6 +12,7 @@ import type { TError } from 'types/store';
 import GraphControls from './GraphControls';
 import Loadable from './Loadable';
 import { getTicks, REFERENCE_LINE_OPTIONS } from './probabilityUtils';
+import { InfoOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   probabilityCurves: {},
@@ -82,11 +83,12 @@ const CumulativeCurves: React.FC<CumulativeCurvesProps> = React.memo(
     return (
       <ListItem
         className={clsx(classes.probabilityCurves, className)}
-        header="Cumulative Probability Curves"
+        header="Kill stats Curves"
         collapsible
         loading={pending}
         loaderDelay={0}
       >
+        <Typography> How many chances do I have to do at least X damage ?</Typography>
         <GraphControls
           activeReferenceLine={activeReferenceLine}
           setActiveReferenceLine={handleReferenceLineChanged}
@@ -96,7 +98,7 @@ const CumulativeCurves: React.FC<CumulativeCurvesProps> = React.memo(
             {probabilities.map(({ save, cumulative, metrics }) => (
               <Grid item className={classes.graphContainer} key={save}>
                 <LineGraph
-                  title={`Cumulative Damage Probability (${!save ? '-' : `${save}+`})`}
+                  title={`Kill Probability (${!save ? '-' : `${save}+`})`}
                   data={cumulative}
                   series={unitNames}
                   xAxis={{
