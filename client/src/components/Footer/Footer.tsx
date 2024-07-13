@@ -53,8 +53,7 @@ const Footer = () => {
       <Paper className={clsx(classes.paper)} square>
         <Typography variant="body2" component="p">
           Built by: Damon Hook&nbsp;
-          <i>(NoMaDhOoK)</i>&nbsp;
-          Grégory Ribéron&nbsp;
+          <i>(NoMaDhOoK)</i>&nbsp; Grégory Ribéron&nbsp;
           <i>(Manwe56)</i>
         </Typography>
         <Typography variant="body2" component="p">

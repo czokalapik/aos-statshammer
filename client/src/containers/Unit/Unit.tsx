@@ -9,7 +9,7 @@ import WeaponProfile from 'containers/WeaponProfile';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { addUnitEnabledSelector, numUnitsSelector, unitNamesSelector } from 'store/selectors';
+import { numUnitsSelector, unitNamesSelector } from 'store/selectors';
 import { notificationsStore, unitsStore } from 'store/slices';
 import type { IUnit } from 'types/unit';
 import { scrollToRef } from 'utils/scrollIntoView';
@@ -45,7 +45,6 @@ const Unit = React.memo(
   ({ id, unit, className }: IUnitProps) => {
     const unitRef = useRef(null);
     const classes = useStyles();
-    const adUnitEnabled = useSelector(addUnitEnabledSelector, shallowEqual);
     const numUnits = useSelector(numUnitsSelector, shallowEqual);
     const unitNames = useSelector(unitNamesSelector, shallowEqual);
     const dispatch = useDispatch();
@@ -85,7 +84,11 @@ const Unit = React.memo(
     const copyUnit = () => {
       dispatch(
         unitsStore.actions.addUnit({
-          unit: { name: `${unit.name} copy`, weapon_profiles: [...unit.weapon_profiles] },
+          unit: {
+            name: `${unit.name} copy`,
+            weapon_profiles: [...unit.weapon_profiles],
+            active: numUnits < appConfig.limits.unitsVisibleByDefault,
+          },
         }),
       );
     };
@@ -106,17 +109,22 @@ const Unit = React.memo(
       dispatch(unitsStore.actions.addWeaponProfile({ index: id }));
     };
 
+    const handleToggleUnit = () => {
+      dispatch(unitsStore.actions.toggleUnit({ index: id }));
+    };
+
     return (
       <div ref={unitRef}>
         <ListItem
           className={clsx(classes.unit, className)}
           header={`Unit (${unit.name})`}
+          checked={unit.active}
+          onToggle={handleToggleUnit}
           primaryItems={[
             {
               name: 'Copy',
               onClick: copyUnit,
               icon: <FileCopy />,
-              disabled: !adUnitEnabled,
             },
             { name: 'Delete', onClick: handleDeleteUnit, icon: <Delete /> },
           ]}

@@ -1,21 +1,25 @@
 import { Add as AddIcon } from '@material-ui/icons';
+import appConfig from 'appConfig';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUnitEnabledSelector, numUnitsSelector } from 'store/selectors';
+import { numUnitsSelector } from 'store/selectors';
 import { unitsStore } from 'store/slices';
 
 import FloatingButton from '../FloatingButton';
 
 const AddUnitFab = () => {
   const numUnits = useSelector(numUnitsSelector);
-  const enabled = useSelector(addUnitEnabledSelector);
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(unitsStore.actions.addUnit({ unit: { name: `Unit ${numUnits + 1}` } }));
+    dispatch(
+      unitsStore.actions.addUnit({
+        unit: { name: `Unit ${numUnits + 1}`, active: numUnits < appConfig.limits.unitsVisibleByDefault },
+      }),
+    );
   };
 
-  return <FloatingButton onClick={handleClick} icon={<AddIcon />} disabled={!enabled} />;
+  return <FloatingButton onClick={handleClick} icon={<AddIcon />} />;
 };
 
 export default AddUnitFab;

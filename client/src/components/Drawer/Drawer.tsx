@@ -12,13 +12,13 @@ import { HASHES, ROUTES } from 'utils/urls';
 import DrawerLogo from './DrawerLogo';
 import ClearTargetItem from './items/ClearTargetItem';
 import ClearUnitsItem from './items/ClearUnitsItem';
+import ExportArmyItem from './items/ExportArmyItem';
 import ImportArmyItem from './items/ImportArmyItem';
 import SocialItems from './items/SocialItems';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
 import Rail from './Rail';
-import ExportArmyItem from './items/ExportArmyItem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {

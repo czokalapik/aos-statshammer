@@ -123,7 +123,7 @@ export default class StatsController {
   ): TProbabilityResult[] {
     const maxDamage = Math.max(...Object.keys(probabilities).map((n) => Number(n)));
     const sums = unitNames.reduce((acc, name) => ({ ...acc, [name]: 0 }), {});
-    const cumulative = [...Array(maxDamage+1)].map((_, damage) => {
+    const cumulative = [...Array(maxDamage + 1)].map((_, damage) => {
       const map = probabilities[damage - 1] ?? {};
       return unitNames.reduce(
         (acc, name) => {

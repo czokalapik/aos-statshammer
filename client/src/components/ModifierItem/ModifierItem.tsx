@@ -1,4 +1,4 @@
-import { Grid, Switch } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import type { IPrimaryItem } from 'components/ListControls/types';
@@ -100,15 +100,14 @@ const ModifierItem = React.memo(
       <div ref={itemRef}>
         <ListItem
           className={clsx(classes.modifier, { [classes.nested]: nested, [classes.disabled]: !active })}
+          onToggle={handleActiveChanged}
+          checked={active}
           primaryItems={actions}
           header={definition.name}
           collapsible
         >
           <div className={classes.modifierContent}>
             <Grid container spacing={1} alignItems="center">
-              <Grid item>
-                <Switch checked={active} onChange={handleActiveChanged} />
-              </Grid>
               <Grid item>
                 <ModifierDescription definition={definition} options={options} />
               </Grid>

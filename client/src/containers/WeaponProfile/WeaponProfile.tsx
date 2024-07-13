@@ -1,4 +1,3 @@
-import { Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit, FileCopy } from '@material-ui/icons';
 import clsx from 'clsx';
@@ -130,6 +129,8 @@ const WeaponProfile: React.FC<IWeaponProfileProps> = React.memo(
         <ListItem
           className={clsx(classes.profile, profile.active ? '' : classes.inactive)}
           header={header}
+          checked={profile.active}
+          onToggle={handleToggleProfile}
           primaryItems={[
             { name: 'Edit', onClick: handleOpen, icon: <Edit /> },
             {
@@ -147,7 +148,6 @@ const WeaponProfile: React.FC<IWeaponProfileProps> = React.memo(
           collapsible
         >
           <div className={classes.content}>
-            <Switch className={classes.switch} onChange={handleToggleProfile} checked={profile.active} />
             <div className={classes.details} onClick={handleOpen} role="button">
               <Characteristics profile={profile} />
               {profile.modifiers && profile.modifiers.length ? (

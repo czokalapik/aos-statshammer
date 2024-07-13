@@ -29,6 +29,33 @@ const commonOptions = {
   },
 };
 
+const seriesColor = [
+  '#f44336',
+  '#e81e63',
+  '#9c27b0',
+  '#673ab7',
+  '#3f51b5',
+  '#2196f3',
+  '#03a9f4',
+  '#00bcd4',
+  '#009688',
+  '#4caf50',
+  '#8bc34a',
+  '#cddc39',
+  '#ffeb3b',
+  '#ffc107',
+  '#ff9800',
+  '#ff5722',
+  '#795548',
+  '#9e9e9e',
+  '#607d8b',
+  '#8884d8',
+  '#82ca9d',
+  '#ff7300',
+  teal[400],
+  '#f50057',
+];
+
 const lightTheme = createMuiTheme({
   name: 'Light Theme',
   palette: {
@@ -44,7 +71,7 @@ const lightTheme = createMuiTheme({
       grid: grey[300],
       axis: grey[700],
       tooltip: grey[50],
-      series: ['#8884d8', '#82ca9d', '#ff7300', teal[400], '#f50057'],
+      series: seriesColor,
     },
     notifications: {
       info: grey[900],
@@ -76,7 +103,7 @@ const darkTheme = createMuiTheme({
       grid: grey[700],
       axis: grey[400],
       tooltip: grey[900],
-      series: ['#8884d8', '#82ca9d', '#ff7300', teal[400], '#ff5252'],
+      series: seriesColor,
     },
     notifications: {
       info: grey[100],

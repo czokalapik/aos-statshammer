@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Switch, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import appConfig from 'appConfig';
@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 
 interface IListItemHeaderProps {
   header: string;
+  checked?: boolean;
+  onToggle?: (checked) => void;
   primaryItems?: IPrimaryItem[];
   secondaryItems?: ISecondaryItem[];
   className?: string;
@@ -55,6 +57,8 @@ interface IListItemHeaderProps {
 
 const ListItemHeader: React.FC<IListItemHeaderProps> = ({
   header,
+  checked,
+  onToggle,
   primaryItems,
   secondaryItems,
   className,
@@ -103,6 +107,7 @@ const ListItemHeader: React.FC<IListItemHeaderProps> = ({
           actions={dialogActions}
         />
       )}
+      {onToggle && <Switch onChange={onToggle} checked={checked} />}
       <ListControls
         primaryItems={primaryItems}
         secondaryItems={secondaryItems}

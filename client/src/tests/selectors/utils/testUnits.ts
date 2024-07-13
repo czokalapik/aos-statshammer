@@ -4,6 +4,7 @@ import type { IUnit } from 'types/unit';
 export const unit1: IUnit = {
   name: 'Test Unit 1',
   uuid: 'unit-0',
+  active: true,
   weapon_profiles: [
     {
       active: true,
@@ -51,6 +52,7 @@ export const unit1: IUnit = {
 export const unit2: IUnit = {
   name: 'Test Unit 2',
   uuid: 'unit-1',
+  active: true,
   weapon_profiles: [
     {
       active: true,
@@ -79,6 +81,7 @@ export const unit2: IUnit = {
 export const unit3: IUnit = {
   name: 'Test Unit 3',
   uuid: 'unit-2',
+  active: false,
   weapon_profiles: [
     {
       active: true,
@@ -125,6 +128,7 @@ export const unit3: IUnit = {
 export const unit4: IUnit = {
   name: 'Test Unit 4',
   uuid: 'unit-3',
+  active: true,
   weapon_profiles: [],
 };
 

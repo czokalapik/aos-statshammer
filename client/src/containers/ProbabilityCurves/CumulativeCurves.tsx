@@ -12,7 +12,6 @@ import type { TError } from 'types/store';
 import GraphControls from './GraphControls';
 import Loadable from './Loadable';
 import { getTicks, REFERENCE_LINE_OPTIONS } from './probabilityUtils';
-import { InfoOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   probabilityCurves: {},

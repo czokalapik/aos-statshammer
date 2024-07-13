@@ -132,12 +132,12 @@ export const rattlingGunners = new Unit('Rattling Gunners', [
 ]);
 
 export const unitWithAutoWounds = new Unit('AutoWound', [
-  new WeaponProfile(6,6,6,6,0,1, [
+  new WeaponProfile(6, 6, 6, 6, 0, 1, [
     new m.AUTO_WOUND({
       characteristic: C.TO_HIT,
-      on:6
-    })
-  ])
+      on: 6,
+    }),
+  ]),
 ]);
 
 // #region edge cases

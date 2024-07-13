@@ -55,7 +55,7 @@ describe('MaxDamageProcessor', () => {
 
   test('Auto wound', () => {
     expect(u.unitWithAutoWounds.maxDamage()).toEqual(36);
-  })
+  });
 
   test('Edge Cases', () => {
     expect(u.explodingAndConditionalSame.maxDamage()).toEqual(21);

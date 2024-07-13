@@ -19,11 +19,8 @@ describe('unitsSelectors', () => {
     expect(selectors.numUnitsSelector(state)).toEqual(4);
   });
 
-  test('addUnitEnabledSelector', () => {
-    const minState = { ...state, units: [...Array(1)].map(() => testUnits.unit1) };
-    const maxState = { ...state, units: [...Array(99)].map(() => testUnits.unit1) };
-    expect(selectors.addUnitEnabledSelector(minState)).toEqual(true);
-    expect(selectors.addUnitEnabledSelector(maxState)).toEqual(false);
+  test('activeUnitsSelector', () => {
+    expect(selectors.activeUnitsSelector(state).length).toEqual(2);
   });
 
   test('unitIndexByUuidSelector', () => {
@@ -41,25 +38,17 @@ describe('unitsSelectors', () => {
   });
 
   test('unitNamesSelector', () => {
-    expect(selectors.unitNamesSelector(state)).toEqual(['Test Unit 1', 'Test Unit 2', 'Test Unit 3']);
+    expect(selectors.unitNamesSelector(state)).toEqual(['Test Unit 1', 'Test Unit 2']);
   });
 
   test('getSanitizedUnitsSelector', () => {
     const getSanitizedUnits = selectors.getSanitizedUnitsSelector(state);
     expect(typeof getSanitizedUnits).toEqual('function');
 
-    const expectedUsingName = [
-      testUnits.sanitizedUnit1Name,
-      testUnits.sanitizedUnit2Name,
-      testUnits.sanitizedUnit3Name,
-    ];
+    const expectedUsingName = [testUnits.sanitizedUnit1Name, testUnits.sanitizedUnit2Name];
     expect(getSanitizedUnits(false)).toEqual(expectedUsingName);
 
-    const expectedUsingUuid = [
-      testUnits.sanitizedUnit1Uuid,
-      testUnits.sanitizedUnit2Uuid,
-      testUnits.sanitizedUnit3Uuid,
-    ];
+    const expectedUsingUuid = [testUnits.sanitizedUnit1Uuid, testUnits.sanitizedUnit2Uuid];
     expect(getSanitizedUnits(true)).toEqual(expectedUsingUuid);
   });
 });

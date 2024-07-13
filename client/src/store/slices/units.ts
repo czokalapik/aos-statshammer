@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import appConfig from 'appConfig';
 import { nanoid } from 'nanoid';
 import type { IUnitStore } from 'types/store';
 import type { IUnitParameter, IWeaponProfileParameter } from 'types/unit';
@@ -19,6 +20,7 @@ const INITIAL_STATE: IUnitStore = [
   {
     name: 'Unit 1',
     uuid: nanoid(),
+    active: true,
     weapon_profiles: [{ ...DEFAULT_WEAPON_PROFILE, uuid: nanoid() }],
   },
 ];
@@ -27,12 +29,13 @@ export const addUnit = (
   state: IUnitStore,
   action: { payload: { unit: IUnitParameter; atPosition?: number | null } },
 ) => {
-  const { name, weapon_profiles } = action.payload.unit;
+  const { name, weapon_profiles, active } = action.payload.unit;
   const { atPosition } = action.payload;
   const profiles = weapon_profiles ?? [DEFAULT_WEAPON_PROFILE];
   const unit = {
     name,
     uuid: nanoid(),
+    active: active ?? state.length < appConfig.limits.unitsVisibleByDefault,
     weapon_profiles: profiles.map((profile) => ({
       ...profile,
       uuid: nanoid(),
@@ -55,6 +58,14 @@ export const editUnitName = (state: IUnitStore, action: { payload: { index: numb
   const unit = state[index];
   if (unit) {
     unit.name = name;
+  }
+};
+
+export const toggleUnit = (state: IUnitStore, action: { payload: { index: number } }) => {
+  const { index } = action.payload;
+  const unit = state[index];
+  if (unit) {
+    unit.active = !unit.active;
   }
 };
 
@@ -149,6 +160,7 @@ export const unitsStore = createSlice({
     addUnit,
     deleteUnit,
     editUnitName,
+    toggleUnit,
     clearAllUnits,
     moveUnit,
     addWeaponProfile,

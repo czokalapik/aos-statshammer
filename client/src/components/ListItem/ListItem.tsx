@@ -25,6 +25,8 @@ const useStyles = makeStyles(() => ({
 
 interface IListItemProps {
   header: string;
+  checked?: boolean;
+  onToggle?: (checked) => void;
   primaryItems?: IPrimaryItem[];
   secondaryItems?: ISecondaryItem[];
   className?: string;
@@ -41,6 +43,8 @@ interface IListItemProps {
 const ListItem: React.FC<IListItemProps> = ({
   children,
   header,
+  checked,
+  onToggle,
   primaryItems,
   secondaryItems,
   className,
@@ -57,6 +61,8 @@ const ListItem: React.FC<IListItemProps> = ({
     <Card className={clsx(classes.listItem, className)} {...other}>
       <ListItemHeader
         header={header}
+        checked={checked}
+        onToggle={onToggle}
         primaryItems={primaryItems}
         secondaryItems={secondaryItems}
         collapsible={collapsible}

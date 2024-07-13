@@ -1,10 +1,10 @@
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add, ImportExport } from '@material-ui/icons';
+import appConfig from 'appConfig';
 import Uploader from 'components/Uploader';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUnitEnabledSelector } from 'store/selectors';
+import { useDispatch } from 'react-redux';
 import { notificationsStore, unitsStore } from 'store/slices';
 import type { IUnitStore } from 'types/store';
 import type { IUnit } from 'types/unit';
@@ -28,7 +28,6 @@ interface IAddUnitButtonProps {
 
 const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
   const classes = useStyles();
-  const addUnitEnabled = useSelector(addUnitEnabledSelector);
   const dispatch = useDispatch();
 
   const onUpload = (data: IUnit) => {
@@ -44,7 +43,14 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
   };
 
   const handleaddUnit = () => {
-    dispatch(unitsStore.actions.addUnit({ unit: { name: `Unit ${units.length + 1}` } }));
+    dispatch(
+      unitsStore.actions.addUnit({
+        unit: {
+          name: `Unit ${units.length + 1}`,
+          active: units.length < appConfig.limits.unitsVisibleByDefault,
+        },
+      }),
+    );
   };
 
   return (
@@ -55,20 +61,17 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
         variant="contained"
         startIcon={<Add />}
         color="primary"
-        disabled={!addUnitEnabled}
         className={classes.button}
       >
         Add Unit
       </Button>
       <Uploader
         onUpload={onUpload}
-        disabled={!addUnitEnabled}
         component={
           <Button
             variant="contained"
             startIcon={<ImportExport />}
             color="primary"
-            disabled={!addUnitEnabled}
             className={classes.button}
             component="span"
           >

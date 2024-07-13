@@ -1,4 +1,3 @@
-import appConfig from 'appConfig';
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 import type { IStore } from 'types/store';
@@ -15,9 +14,6 @@ export const unitByIndexSelector = createSelector(unitsSelector, (units) =>
 /** Retrieve the number of units in the current state */
 export const numUnitsSelector = createSelector(unitsSelector, (units) => units.length);
 
-/** Retrieve whether the add unit buttons should be enabled or not (has the limit been reached) */
-export const addUnitEnabledSelector = createSelector(numUnitsSelector, (num) => num < appConfig.limits.units);
-
 /** Retrieve a units index by its UUID field */
 export const unitIndexByUuidSelector = createSelector(unitsSelector, (units) =>
   _.memoize((uuid: string) => units.findIndex((unit) => unit.uuid === uuid)),
@@ -30,6 +26,7 @@ export const unitByUuidSelector = createSelector(unitsSelector, unitIndexByUuidS
 
 export const activeUnitsSelector = createSelector(unitsSelector, (units) =>
   units
+    .filter((unit) => unit.active)
     .map((unit) => ({
       ...unit,
       weapon_profiles: unit.weapon_profiles
