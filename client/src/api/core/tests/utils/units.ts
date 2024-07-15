@@ -5,13 +5,13 @@ import { MODIFIERS as m } from '../../models/modifiers';
 import Unit from '../../models/unit';
 import WeaponProfile from '../../models/weaponProfile';
 
-export const chainraspHorde = new Unit('Chainrasp Horde', [
+export const chainraspHorde = new Unit('Chainrasp Horde', 100, [
   new WeaponProfile(10, 2, 4, 4, 0, 1, [
     new m.LEADER_BONUS({ characteristic: C.ATTACKS, numLeaders: 1, bonus: 1 }),
   ]),
 ]);
 
-export const mortekGuard = new Unit('Mortek Guard', [
+export const mortekGuard = new Unit('Mortek Guard', 100, [
   new WeaponProfile(9, 2, 3, 4, 1, 1, [
     new m.LEADER_BONUS({ characteristic: C.ATTACKS, numLeaders: 1, bonus: 1 }),
     new m.EXPLODING({
@@ -24,13 +24,13 @@ export const mortekGuard = new Unit('Mortek Guard', [
   new WeaponProfile(1, 2, 3, 3, 1, 1, []),
 ]);
 
-export const hearthGuardBerzerkersBroadaxes = new Unit('Hearthguard Berzerkers', [
+export const hearthGuardBerzerkersBroadaxes = new Unit('Hearthguard Berzerkers', 100, [
   new WeaponProfile(20, 2, 3, 3, 1, 2, [
     new m.LEADER_BONUS({ characteristic: C.ATTACKS, numLeaders: 1, bonus: 1 }),
   ]),
 ]);
 
-export const hearthGuardBerzerkersPoleaxes = new Unit('Hearthguard Berzerkers', [
+export const hearthGuardBerzerkersPoleaxes = new Unit('Hearthguard Berzerkers', 100, [
   new WeaponProfile(20, 2, 3, 3, 0, 1, [
     new m.LEADER_BONUS({ characteristic: C.ATTACKS, numLeaders: 1, bonus: 1 }),
     new m.MORTAL_WOUNDS({
@@ -43,12 +43,12 @@ export const hearthGuardBerzerkersPoleaxes = new Unit('Hearthguard Berzerkers', 
   ]),
 ]);
 
-export const necropolisStalkersBase = new Unit('Necropolis Stalkers', [
+export const necropolisStalkersBase = new Unit('Necropolis Stalkers', 100, [
   new WeaponProfile(1, 3, 3, 4, 2, 2, []),
   new WeaponProfile(2, 5, 3, 3, 1, 1, []),
 ]);
 
-export const necropolisStalkersPrec = new Unit('Necropolis Stalkers', [
+export const necropolisStalkersPrec = new Unit('Necropolis Stalkers', 100, [
   new WeaponProfile(1, 3, 3, 4, 2, 2, [
     new m.BONUS({ characteristic: C.REND, bonus: 1 }),
     new m.BONUS({ characteristic: C.DAMAGE, bonus: 1 }),
@@ -59,18 +59,18 @@ export const necropolisStalkersPrec = new Unit('Necropolis Stalkers', [
   ]),
 ]);
 
-export const necropolisStalkersSwordsBase = new Unit('Necropolis Stalkers', [
+export const necropolisStalkersSwordsBase = new Unit('Necropolis Stalkers', 100, [
   new WeaponProfile(3, 5, 3, 3, 1, 1, []),
 ]);
 
-export const necropolisStalkersSwordsPrec = new Unit('Necropolis Stalkers', [
+export const necropolisStalkersSwordsPrec = new Unit('Necropolis Stalkers', 100, [
   new WeaponProfile(3, 5, 3, 3, 1, 1, [
     new m.BONUS({ characteristic: C.REND, bonus: 1 }),
     new m.BONUS({ characteristic: C.DAMAGE, bonus: 1 }),
   ]),
 ]);
 
-export const gotrek = new Unit('Gotrek Gurnisson', [
+export const gotrek = new Unit('Gotrek Gurnisson', 100, [
   new WeaponProfile(1, 6, 3, 3, 2, 3, [
     new m.REROLL({ characteristic: C.TO_HIT }),
     new m.REROLL({ characteristic: C.TO_WOUND }),
@@ -84,7 +84,7 @@ export const gotrek = new Unit('Gotrek Gurnisson', [
   ]),
 ]);
 
-export const spiritHosts = new Unit('Spirit Hosts', [
+export const spiritHosts = new Unit('Spirit Hosts', 100, [
   new WeaponProfile(3, 6, 5, 4, 0, 1, [
     new m.MORTAL_WOUNDS({
       characteristic: C.TO_HIT,
@@ -96,7 +96,7 @@ export const spiritHosts = new Unit('Spirit Hosts', [
   ]),
 ]);
 
-export const kurnothHuntersSwords = new Unit('Kurnoth Hunters', [
+export const kurnothHuntersSwords = new Unit('Kurnoth Hunters', 100, [
   new WeaponProfile(3, 4, 3, 3, 1, 2, [
     new m.MORTAL_WOUNDS({
       characteristic: C.TO_WOUND,
@@ -109,7 +109,7 @@ export const kurnothHuntersSwords = new Unit('Kurnoth Hunters', [
   ]),
 ]);
 
-export const plagueMonksOld = new Unit('Plague Monks (pre Dec 2019 FAQ)', [
+export const plagueMonksOld = new Unit('Plague Monks (pre Dec 2019 FAQ)', 100, [
   new WeaponProfile(20, 2, 4, 4, 0, 1, [
     new m.REROLL({ characteristic: C.TO_HIT }),
     new m.CONDITIONAL_BONUS({
@@ -127,11 +127,11 @@ export const plagueMonksOld = new Unit('Plague Monks (pre Dec 2019 FAQ)', [
   ]),
 ]);
 
-export const rattlingGunners = new Unit('Rattling Gunners', [
+export const rattlingGunners = new Unit('Rattling Gunners', 100, [
   new WeaponProfile(1, DiceValue.parse('2D6'), 4, 4, 1, 1, []),
 ]);
 
-export const unitWithAutoWounds = new Unit('AutoWound', [
+export const unitWithAutoWounds = new Unit('AutoWound', 200, [
   new WeaponProfile(6, 6, 6, 6, 0, 1, [
     new m.AUTO_WOUND({
       characteristic: C.TO_HIT,
@@ -141,7 +141,7 @@ export const unitWithAutoWounds = new Unit('AutoWound', [
 ]);
 
 // #region edge cases
-export const explodingAndConditionalSame = new Unit('Exploding And Conditional (Same Characteristic)', [
+export const explodingAndConditionalSame = new Unit('Exploding And Conditional (Same Characteristic)', 100, [
   new WeaponProfile(1, 3, 3, 4, 1, 2, [
     new m.EXPLODING({
       characteristic: C.TO_HIT,
@@ -160,6 +160,7 @@ export const explodingAndConditionalSame = new Unit('Exploding And Conditional (
 
 export const explodingAndConditionalDifferent = new Unit(
   'Exploding And Conditional (Different Characteristic)',
+  100,
   [
     new WeaponProfile(1, 3, 3, 4, 1, 2, [
       new m.EXPLODING({

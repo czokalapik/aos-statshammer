@@ -27,6 +27,7 @@ export interface ITargetStore {
 export interface IStatsStore {
   pending: boolean;
   payload: TResults;
+  per100Points: boolean;
   error: TError;
 }
 

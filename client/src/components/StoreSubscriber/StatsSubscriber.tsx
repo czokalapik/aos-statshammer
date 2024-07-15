@@ -4,6 +4,7 @@ import _ from 'lodash';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
+import { statsPer100Points } from 'store/selectors';
 import { targetSelector } from 'store/selectors/targetSelectors';
 import { unitsSelector } from 'store/selectors/unitsSelectors';
 import type { IUnit } from 'types/unit';
@@ -31,6 +32,7 @@ const StatsSubscriber = () => {
   const dispatch = useDispatch();
   const units = useSelector(filteredUnitsSelector, _.isEqual);
   const target = useSelector(targetSelector, _.isEqual);
+  const per100Points = useSelector(statsPer100Points, _.isEqual);
 
   const [debouncedUseEffect] = useDebouncedCallback(() => {
     dispatch(fetchStatsCompare());
@@ -38,7 +40,7 @@ const StatsSubscriber = () => {
 
   useEffect(() => {
     debouncedUseEffect();
-  }, [debouncedUseEffect, units, target, dispatch]);
+  }, [debouncedUseEffect, units, target, per100Points, dispatch]);
 
   return <span style={{ display: 'none' }} />;
 };

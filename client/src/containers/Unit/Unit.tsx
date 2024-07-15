@@ -18,6 +18,23 @@ const useStyles = makeStyles((theme) => ({
   unit: {
     marginBottom: '1em',
   },
+  inputs: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
+  },
+  fieldPoints: {
+    width: '8em',
+    margin: '1em 1em 0 0',
+  },
+  fieldName: {
+    width: '16em',
+    margin: '1em 1em 0 0',
+    flexGrow: 1,
+  },
   profiles: {
     marginTop: '1em',
   },
@@ -81,12 +98,18 @@ const Unit = React.memo(
       return undefined;
     }, [unit, unitNames]);
 
+    const unitPointsError = useMemo(() => {
+      if (!unit.points) return 'Required';
+      return undefined;
+    }, [unit]);
+
     const copyUnit = () => {
       dispatch(
         unitsStore.actions.addUnit({
           unit: {
             name: `${unit.name} copy`,
             weapon_profiles: [...unit.weapon_profiles],
+            points: unit.points,
             active: numUnits < appConfig.limits.unitsVisibleByDefault,
           },
         }),
@@ -105,6 +128,10 @@ const Unit = React.memo(
       dispatch(unitsStore.actions.editUnitName({ index: id, name: event.target.value }));
     };
 
+    const handleEditPoints = (event: any) => {
+      dispatch(unitsStore.actions.editUnitPoints({ index: id, points: event.target.value }));
+    };
+
     const handleAddProfile = () => {
       dispatch(unitsStore.actions.addWeaponProfile({ index: id }));
     };
@@ -117,7 +144,7 @@ const Unit = React.memo(
       <div ref={unitRef}>
         <ListItem
           className={clsx(classes.unit, className)}
-          header={`Unit (${unit.name})`}
+          header={`${unit.name}`}
           checked={unit.active}
           onToggle={handleToggleUnit}
           primaryItems={[
@@ -135,14 +162,25 @@ const Unit = React.memo(
           ]}
           collapsible
         >
-          <TextField
-            label="Unit Name"
-            value={unit.name}
-            onChange={handleEditName}
-            error={Boolean(unitNameError)}
-            helperText={unitNameError}
-            fullWidth
-          />
+          <div className={classes.inputs}>
+            <TextField
+              className={classes.fieldName}
+              label="Unit Name"
+              value={unit.name}
+              onChange={handleEditName}
+              error={Boolean(unitNameError)}
+              helperText={unitNameError}
+            />
+            <TextField
+              className={classes.fieldPoints}
+              label="Unit Points"
+              value={unit.points}
+              type="number"
+              onChange={handleEditPoints}
+              error={Boolean(unitPointsError)}
+              helperText={unitPointsError}
+            />
+          </div>
           <div className={classes.profiles}>
             {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (
               unit.weapon_profiles.map((profile, index) => (

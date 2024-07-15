@@ -22,9 +22,10 @@ const useStyles = makeStyles(() => ({
 interface IStatsGraphsProps {
   results: TResult[];
   unitNames: string[];
+  per100Points: boolean;
 }
 
-const StatsGraphs: React.FC<IStatsGraphsProps> = ({ results, unitNames }) => {
+const StatsGraphs: React.FC<IStatsGraphsProps> = ({ results, unitNames, per100Points }) => {
   const classes = useStyles();
   const xAxisFormatter = useCallback((value) => (value === 'None' ? '-' : `${value}+`), []);
 
@@ -32,7 +33,7 @@ const StatsGraphs: React.FC<IStatsGraphsProps> = ({ results, unitNames }) => {
     <>
       <GraphWrapper className="pdf-copy">
         <BarGraph
-          title="Average Damage"
+          title={`Average Damage Table ${per100Points ? 'per 100 points' : ''}`}
           isAnimationActive={false}
           data={results}
           series={unitNames}
@@ -49,7 +50,7 @@ const StatsGraphs: React.FC<IStatsGraphsProps> = ({ results, unitNames }) => {
       <GraphWrapper className="pdf-copy">
         <div className={classes.graphGroup}>
           <LineGraph
-            title="Average Damage"
+            title={`Average Damage Table ${per100Points ? 'per 100 points' : ''}`}
             className={classes.line}
             isAnimationActive={false}
             data={results}
@@ -64,7 +65,7 @@ const StatsGraphs: React.FC<IStatsGraphsProps> = ({ results, unitNames }) => {
             }}
           />
           <RadarGraph
-            title="Average Damage"
+            title={`Average Damage Table ${per100Points ? 'per 100 points' : ''}`}
             className={classes.line}
             isAnimationActive={false}
             data={results}

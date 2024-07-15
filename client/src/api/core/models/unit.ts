@@ -13,14 +13,16 @@ type TFreqMap = { [damage: number]: number };
  */
 class Unit {
   name: string;
+  points: number;
   weaponProfiles: WeaponProfile[];
 
   /**
    * @param name The name of the unit
    * @param weaponProfiles The list of weapon profiles belonging to the unit
    */
-  constructor(name: string, weaponProfiles: any) {
+  constructor(name: string, points: number, weaponProfiles: any) {
     this.name = name;
+    this.points = points;
     this.weaponProfiles = weaponProfiles.map((profile) => {
       if (profile instanceof WeaponProfile) return profile;
       return new WeaponProfile(
@@ -39,11 +41,12 @@ class Unit {
    * Calculate the average damage this unit would do against a particular target
    * @param target The target to calculate the damage against
    */
-  averageDamage(target: Target): number {
-    return this.weaponProfiles.reduce(
+  averageDamage(target: Target, per100Points = false): number {
+    const averageDamage = this.weaponProfiles.reduce(
       (acc, profile) => acc + new AverageDamageProcessor(profile, target).getAverageDamage(),
       0,
     );
+    return per100Points ? (averageDamage * 100) / Math.max(1, this.points) : averageDamage;
   }
 
   /**

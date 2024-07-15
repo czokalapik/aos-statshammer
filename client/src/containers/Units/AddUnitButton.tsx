@@ -47,6 +47,7 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
       unitsStore.actions.addUnit({
         unit: {
           name: `Unit ${units.length + 1}`,
+          points: 100,
           active: units.length < appConfig.limits.unitsVisibleByDefault,
         },
       }),

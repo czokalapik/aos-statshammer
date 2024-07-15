@@ -21,6 +21,7 @@ const INITIAL_STATE: IUnitStore = [
     name: 'Unit 1',
     uuid: nanoid(),
     active: true,
+    points: 100,
     weapon_profiles: [{ ...DEFAULT_WEAPON_PROFILE, uuid: nanoid() }],
   },
 ];
@@ -29,13 +30,14 @@ export const addUnit = (
   state: IUnitStore,
   action: { payload: { unit: IUnitParameter; atPosition?: number | null } },
 ) => {
-  const { name, weapon_profiles, active } = action.payload.unit;
+  const { name, weapon_profiles, active, points } = action.payload.unit;
   const { atPosition } = action.payload;
   const profiles = weapon_profiles ?? [DEFAULT_WEAPON_PROFILE];
   const unit = {
     name,
     uuid: nanoid(),
     active: active ?? state.length < appConfig.limits.unitsVisibleByDefault,
+    points: points ?? 100,
     weapon_profiles: profiles.map((profile) => ({
       ...profile,
       uuid: nanoid(),
@@ -58,6 +60,14 @@ export const editUnitName = (state: IUnitStore, action: { payload: { index: numb
   const unit = state[index];
   if (unit) {
     unit.name = name;
+  }
+};
+
+export const editUnitPoints = (state: IUnitStore, action: { payload: { index: number; points: number } }) => {
+  const { index, points } = action.payload;
+  const unit = state[index];
+  if (unit) {
+    unit.points = points;
   }
 };
 
@@ -160,6 +170,7 @@ export const unitsStore = createSlice({
     addUnit,
     deleteUnit,
     editUnitName,
+    editUnitPoints,
     toggleUnit,
     clearAllUnits,
     moveUnit,

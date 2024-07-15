@@ -31,13 +31,15 @@ export default class StatsController {
   /**
    * Compare the average damage of these units. Used by `api/compare`
    */
-  compareUnits({ units, target }): ICompareResponse {
-    const unitList: Unit[] = units.map(({ name, weapon_profiles }) => new Unit(name, weapon_profiles));
+  compareUnits({ units, target, per100Points }): ICompareResponse {
+    const unitList: Unit[] = units.map(
+      ({ name, points, weapon_profiles }) => new Unit(name, points, weapon_profiles),
+    );
     const results = SAVES.map((save) => {
       const targetClass = new Target(save, target ? target.modifiers : []);
       return unitList.reduce(
         (acc, unit) => {
-          acc[unit.name] = Number(unit.averageDamage(targetClass).toFixed(2));
+          acc[unit.name] = Number(unit.averageDamage(targetClass, per100Points).toFixed(2));
           return acc;
         },
         { save: save ?? 0 },
@@ -68,7 +70,9 @@ export default class StatsController {
     target,
     numSimulations = 1000,
   }: ISimulateForSaveRequest): ISimulationsForSaveResponse {
-    const unitList: Unit[] = units.map(({ name, weapon_profiles }) => new Unit(name, weapon_profiles));
+    const unitList: Unit[] = units.map(
+      ({ name, points, weapon_profiles }) => new Unit(name, points, weapon_profiles),
+    );
     const targetClass = new Target(save, target ? target.modifiers : []);
     const data = unitList.reduce<TMappedResult>(
       (acc, unit) => {

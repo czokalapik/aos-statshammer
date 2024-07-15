@@ -5,6 +5,7 @@ import type { IStatsStore, TError } from 'types/store';
 const INITIAL_STATE: IStatsStore = {
   pending: false,
   payload: [],
+  per100Points: false,
   error: null,
 };
 
@@ -26,6 +27,10 @@ const fetchStatsError = (state: IStatsStore, action: { payload: { error: TError 
   state.error = error;
 };
 
+export const toggleStatsPer100Points = (state: IStatsStore) => {
+  state.per100Points = !state.per100Points;
+};
+
 export const statsStore = createSlice({
   name: 'stats',
   initialState: INITIAL_STATE,
@@ -33,5 +38,6 @@ export const statsStore = createSlice({
     fetchStatsPending,
     fetchStatsSuccess,
     fetchStatsError,
+    toggleStatsPer100Points,
   },
 });

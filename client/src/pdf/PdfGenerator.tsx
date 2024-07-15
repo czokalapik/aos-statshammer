@@ -5,7 +5,7 @@ import _ from 'lodash';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { ISanitizedUnit, unitNamesSelector } from 'store/selectors';
+import { ISanitizedUnit, statsPer100Points, unitNamesSelector } from 'store/selectors';
 import { lightTheme } from 'themes';
 import type { IJsPDF } from 'types/pdf';
 import type { ISimulationResult } from 'types/simulations';
@@ -47,10 +47,11 @@ const PdfGenerator: React.FC<IPdfGeneratorProps> = ({ units, target, results, pr
 
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const unitNames = useSelector(unitNamesSelector, _.isEqual);
+  const per100Points = useSelector(statsPer100Points);
 
   const generatePdf = useCallback(
-    () => generate(units, target, results, unitNames, 'pdf-copy', 'pdf-cumulative', 'pdf-prob'),
-    [results, target, unitNames, units],
+    () => generate(units, target, results, unitNames, per100Points, 'pdf-copy', 'pdf-cumulative', 'pdf-prob'),
+    [results, target, unitNames, units, per100Points],
   );
 
   const refCallback = useCallback(() => {
@@ -81,7 +82,7 @@ const PdfGenerator: React.FC<IPdfGeneratorProps> = ({ units, target, results, pr
     <div className={classes.pdfGenerator}>
       <ThemeProvider theme={lightTheme}>
         <div className={classes.hidden} ref={ref}>
-          <StatsGraphs results={results} unitNames={unitNames} />
+          <StatsGraphs results={results} unitNames={unitNames} per100Points />
           <CumulativeProbabilityGraphs probabilities={probabilities} unitNames={unitNames} />
           <ProbabilityGraphs probabilities={probabilities} unitNames={unitNames} />
         </div>

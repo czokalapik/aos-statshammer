@@ -5,6 +5,7 @@ export const unit1: IUnit = {
   name: 'Test Unit 1',
   uuid: 'unit-0',
   active: true,
+  points: 100,
   weapon_profiles: [
     {
       active: true,
@@ -53,6 +54,7 @@ export const unit2: IUnit = {
   name: 'Test Unit 2',
   uuid: 'unit-1',
   active: true,
+  points: 200,
   weapon_profiles: [
     {
       active: true,
@@ -82,6 +84,7 @@ export const unit3: IUnit = {
   name: 'Test Unit 3',
   uuid: 'unit-2',
   active: false,
+  points: 300,
   weapon_profiles: [
     {
       active: true,
@@ -129,11 +132,13 @@ export const unit4: IUnit = {
   name: 'Test Unit 4',
   uuid: 'unit-3',
   active: true,
+  points: 400,
   weapon_profiles: [],
 };
 
 export const sanitizedUnit1Name: ISanitizedUnit = {
   name: 'Test Unit 1',
+  points: 100,
   weapon_profiles: [
     {
       active: true,
@@ -172,6 +177,7 @@ export const sanitizedUnit1Name: ISanitizedUnit = {
 
 export const sanitizedUnit2Name: ISanitizedUnit = {
   name: 'Test Unit 2',
+  points: 200,
   weapon_profiles: [
     {
       active: true,
@@ -199,6 +205,7 @@ export const sanitizedUnit2Name: ISanitizedUnit = {
 
 export const sanitizedUnit3Name: ISanitizedUnit = {
   name: 'Test Unit 3',
+  points: 300,
   weapon_profiles: [
     {
       active: true,

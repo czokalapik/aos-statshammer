@@ -7,6 +7,8 @@ import TargetSummary from 'components/TargetSummary';
 import Graphs from 'containers/Graphs';
 import _ from 'lodash';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { statsStore } from 'store/slices';
 import type { IStatsStore } from 'types/store';
 import { ROUTES } from 'utils/urls';
 
@@ -24,11 +26,16 @@ interface IResultsProps {
 
 const Results: React.FC<IResultsProps> = React.memo(
   ({ stats, unitNames, className }) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const theme = useTheme();
     const firstLoad = !stats?.payload?.length && stats?.pending;
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
+
+    const handleStatsToggle = () => {
+      dispatch(statsStore.actions.toggleStatsPer100Points());
+    };
 
     const downloadDisabled = unitNames.length <= 0;
 
@@ -54,9 +61,11 @@ const Results: React.FC<IResultsProps> = React.memo(
           </Tooltip>
         )}
         <ListItem
-          header="Average Damage Table"
+          header={`Average Damage Table ${stats.per100Points ? 'per 100 points' : ''}`}
           collapsible
           loading={stats.pending}
+          checked={stats.per100Points}
+          onToggle={handleStatsToggle}
           loaderDelay={firstLoad ? 0 : 350}
         >
           <ResultsTable stats={stats} unitNames={unitNames} />

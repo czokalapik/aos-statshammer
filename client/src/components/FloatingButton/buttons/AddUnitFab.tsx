@@ -14,7 +14,11 @@ const AddUnitFab = () => {
   const handleClick = () => {
     dispatch(
       unitsStore.actions.addUnit({
-        unit: { name: `Unit ${numUnits + 1}`, active: numUnits < appConfig.limits.unitsVisibleByDefault },
+        unit: {
+          name: `Unit ${numUnits + 1}`,
+          points: 100,
+          active: numUnits < appConfig.limits.unitsVisibleByDefault,
+        },
       }),
     );
   };

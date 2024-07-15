@@ -132,6 +132,7 @@ export const target: ITargetStore = {
 export const stats: IStatsStore = {
   pending: false,
   error: false,
+  per100Points: false,
   payload: [],
 };
 

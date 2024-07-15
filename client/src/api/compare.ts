@@ -1,5 +1,5 @@
 import store from 'store';
-import { getSanitizedTargetSelector, getSanitizedUnitsSelector } from 'store/selectors';
+import { getSanitizedTargetSelector, getSanitizedUnitsSelector, statsPer100Points } from 'store/selectors';
 import { statsStore } from 'store/slices';
 
 import type { TDispatch } from './api.types';
@@ -10,8 +10,9 @@ export const fetchStatsCompare = () => async (dispatch: TDispatch) => {
   const state = store.getState();
   const units = getSanitizedUnitsSelector(state)(true);
   const target = getSanitizedTargetSelector(state);
+  const per100Points = statsPer100Points(state);
   if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [] }));
-  const data = { units, target };
+  const data = { units, target, per100Points };
 
   const statController = new StatsController();
 

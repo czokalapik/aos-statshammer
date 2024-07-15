@@ -20,6 +20,7 @@ export interface IWeaponProfile extends IWeaponProfileParameter {
 export interface IUnitParameter {
   name: string;
   active: boolean;
+  points: number;
   weapon_profiles?: IWeaponProfileParameter[];
 }
 

@@ -122,7 +122,7 @@ const generateTarget = (doc: IJsPDF, target: ITargetStore) => {
   cursor.incr(10);
 };
 
-const generateStatsTable = (doc: IJsPDF, results: TResult[], unitNames: string[]) => {
+const generateStatsTable = (doc: IJsPDF, results: TResult[], unitNames: string[], per100Points: boolean) => {
   const body = unitNames.map((name) =>
     results.reduce<(string | number)[]>((acc, { save, ...results }) => [...acc, results[name]], [name]),
   );
@@ -130,7 +130,13 @@ const generateStatsTable = (doc: IJsPDF, results: TResult[], unitNames: string[]
   autoTable(doc, {
     startY: cursor.pos,
     head: [
-      [{ content: 'Average Damage', colSpan: 7, styles: { halign: 'center' } }],
+      [
+        {
+          content: `Average Damage Table ${per100Points ? 'per 100 points' : ''}`,
+          colSpan: 7,
+          styles: { halign: 'center' },
+        },
+      ],
       ['Unit Name', ...results.map(({ save }) => (save !== 0 ? `${save}+` : '-'))],
     ],
     body,
@@ -155,6 +161,7 @@ const generate = async (
   target: ITargetStore,
   results: TResult[],
   unitNames: string[],
+  per100points: boolean,
   statsClassName: string,
   cumulativeClassName: string,
   probabilitiesClassName: string,
@@ -183,7 +190,7 @@ const generate = async (
   cursor.incr(20);
   addSubHeader(doc, 'Results');
 
-  generateStatsTable(doc, results, unitNames);
+  generateStatsTable(doc, results, unitNames, per100points);
 
   await addGraphs(doc, statsClassName);
   addPage(doc);

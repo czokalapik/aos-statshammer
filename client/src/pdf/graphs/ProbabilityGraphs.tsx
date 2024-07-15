@@ -50,7 +50,7 @@ const ProbabilityGraphs = ({ probabilities, unitNames }: IProbabilityGraphsProps
               const { save, discrete } = item;
               return (
                 <LineGraph
-                  title={`Damage Probability (${save ? '-' : `${save}+`})`}
+                  title={`Damage Probability (${save ? `${save}+` : '-'})`}
                   key={save}
                   data={discrete}
                   isAnimationActive={false}

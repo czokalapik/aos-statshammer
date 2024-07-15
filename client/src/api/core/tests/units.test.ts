@@ -57,4 +57,8 @@ describe('Units', () => {
   describe('Auto wound unit', () => {
     testUnit(u.unitWithAutoWounds, [6, 5, 4, 3, 2, 1]);
   });
+
+  describe('Per 100 points', () => {
+    testUnit(u.unitWithAutoWounds, [3, 2.5, 2, 1.5, 1, 0.5], true);
+  });
 });

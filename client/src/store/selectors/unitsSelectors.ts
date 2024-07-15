@@ -46,12 +46,14 @@ export const unitNamesSelector = createSelector(activeUnitsSelector, (units) =>
 
 export interface ISanitizedUnit {
   name: string;
+  points: number;
   weapon_profiles: IWeaponProfile[];
 }
 export const getSanitizedUnitsSelector = createSelector(activeUnitsSelector, (units) =>
   _.memoize((useUuidAsName: boolean): ISanitizedUnit[] =>
-    units.map(({ uuid, name, weapon_profiles }) => ({
+    units.map(({ uuid, name, points, weapon_profiles }) => ({
       name: useUuidAsName ? uuid : name,
+      points,
       weapon_profiles,
     })),
   ),

@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SaveTooltip } from 'components/GraphTooltips';
 import ListItem from 'components/ListItem';
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { statsStore } from 'store/slices';
 import type { IStatsStore } from 'types/store';
 
 import GraphWrapper from './GraphWrapper';
@@ -18,9 +20,14 @@ interface GraphListProps {
 }
 
 const GraphList: React.FC<GraphListProps> = ({ stats, unitNames, graphMap }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const firstLoad = (!stats.payload || !stats.payload.length) && stats.pending;
   const xAxisFormatter = useCallback((value) => (value === 'None' ? '-' : `${value}+`), []);
+
+  const handleStatsToggle = () => {
+    dispatch(statsStore.actions.toggleStatsPer100Points());
+  };
 
   return (
     <Typography component="div">
@@ -28,6 +35,8 @@ const GraphList: React.FC<GraphListProps> = ({ stats, unitNames, graphMap }) => 
         <ListItem
           key={name}
           header={name}
+          checked={stats.per100Points}
+          onToggle={handleStatsToggle}
           collapsible
           loading={stats.pending}
           loaderDelay={firstLoad ? 0 : 350}
@@ -38,7 +47,7 @@ const GraphList: React.FC<GraphListProps> = ({ stats, unitNames, graphMap }) => 
             error={Boolean(stats.error)}
           >
             <Graph
-              title="Average Damage"
+              title={`Average Damage ${stats.per100Points ? 'per 100 points' : ''}`}
               className={classes.content}
               data={stats.payload}
               series={unitNames}

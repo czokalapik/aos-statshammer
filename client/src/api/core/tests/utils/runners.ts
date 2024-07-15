@@ -15,11 +15,11 @@ export const assertCloseEnough = (actual: number, expected: number, deviation = 
   assert.equal(diffDeviation <= deviation, true, `${actual} is not within ${deviation} of ${expected}`);
 };
 
-export const testUnit = (unit: Unit, results: number[]) => {
+export const testUnit = (unit: Unit, results: number[], per100Points = false) => {
   repeat(results).forEach(({ save, result }) => {
     it(`should return correct damage (${save} save, ${result} damage)`, () => {
       const target = new Target(save);
-      assert.equal(round(unit.averageDamage(target)), result);
+      assert.equal(round(unit.averageDamage(target, per100Points)), result);
     });
   });
 };
