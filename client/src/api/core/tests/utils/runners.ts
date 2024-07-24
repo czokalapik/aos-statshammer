@@ -1,3 +1,4 @@
+import { RENDS } from 'api/core/constants';
 import assert from 'assert';
 
 import Target from '../../models/target';
@@ -7,7 +8,10 @@ export const SAVES = [0, 6, 5, 4, 3, 2];
 
 export const round = (number: number) => Math.round(number * 1000) / 1000;
 
-export const repeat = (results: number[]) => SAVES.map((save, index) => ({ save, result: results[index] }));
+export const repeatSave = (results: number[]) =>
+  SAVES.map((save, index) => ({ save, result: results[index] }));
+export const repeatRend = (results: number[]) =>
+  RENDS.map((rend, index) => ({ rend, result: results[index] }));
 
 export const assertCloseEnough = (actual: number, expected: number, deviation = 0.1) => {
   const diff = Math.abs(actual - expected);
@@ -16,7 +20,7 @@ export const assertCloseEnough = (actual: number, expected: number, deviation = 
 };
 
 export const testUnit = (unit: Unit, results: number[], per100Points = false) => {
-  repeat(results).forEach(({ save, result }) => {
+  repeatSave(results).forEach(({ save, result }) => {
     it(`should return correct damage (${save} save, ${result} damage)`, () => {
       const target = new Target(save);
       assert.equal(round(unit.averageDamage(target, per100Points)), result);
@@ -24,8 +28,16 @@ export const testUnit = (unit: Unit, results: number[], per100Points = false) =>
   });
 };
 
+export const testEffectiveHealth = (unit: Unit, results: number[], per100Points = false) => {
+  repeatRend(results).forEach(({ rend, result }) => {
+    it(`should return correct health (${rend} rend, ${result} health)`, () => {
+      assert.equal(round(unit.effectiveHealth(rend, per100Points)), result);
+    });
+  });
+};
+
 export const testSimulation = (unit: Unit, results: number[]) => {
-  repeat(results).forEach(({ save, result }) => {
+  repeatSave(results).forEach(({ save, result }) => {
     it(`should return correct mean damage (${save} save, ${result} damage, 5% variance)`, () => {
       const target = new Target(save);
       assertCloseEnough(unit.runSimulations(target, 3000).metrics.mean, result);

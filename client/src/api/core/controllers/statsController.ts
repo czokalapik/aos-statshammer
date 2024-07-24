@@ -1,4 +1,6 @@
-import { SAVES } from '../constants';
+import { ISanitizedUnit } from 'store/selectors';
+
+import { RENDS, SAVES } from '../constants';
 import Target from '../models/target';
 import Unit from '../models/unit';
 import type { IUnitSimulation } from '../types/models';
@@ -17,7 +19,7 @@ type TMappedResult = {
 };
 
 interface ISimulateForSaveRequest {
-  units: any;
+  units: ISanitizedUnit[];
   save: number;
   target: any;
   numSimulations?: number;
@@ -32,10 +34,8 @@ export default class StatsController {
    * Compare the average damage of these units. Used by `api/compare`
    */
   compareUnits({ units, target, per100Points }): ICompareResponse {
-    const unitList: Unit[] = units.map(
-      ({ name, points, weapon_profiles }) => new Unit(name, points, weapon_profiles),
-    );
-    const results = SAVES.map((save) => {
+    const unitList: Unit[] = units.map((u) => new Unit(u));
+    const saveResults = SAVES.map((save) => {
       const targetClass = new Target(save, target ? target.modifiers : []);
       return unitList.reduce(
         (acc, unit) => {
@@ -46,7 +46,17 @@ export default class StatsController {
       );
     });
 
-    return { results };
+    const healthResults = RENDS.map((rend) => {
+      return unitList.reduce(
+        (acc, unit) => {
+          acc[unit.name] = Number(unit.effectiveHealth(rend, per100Points).toFixed(2));
+          return acc;
+        },
+        { label: `${rend}` ?? '-' },
+      );
+    });
+
+    return { saveResults, healthResults };
   }
 
   simulateUnits({ units, target, numSimulations = 1000 }): ISimulationsResponse {
@@ -70,9 +80,7 @@ export default class StatsController {
     target,
     numSimulations = 1000,
   }: ISimulateForSaveRequest): ISimulationsForSaveResponse {
-    const unitList: Unit[] = units.map(
-      ({ name, points, weapon_profiles }) => new Unit(name, points, weapon_profiles),
-    );
+    const unitList: Unit[] = units.map((unit) => new Unit(unit));
     const targetClass = new Target(save, target ? target.modifiers : []);
     const data = unitList.reduce<TMappedResult>(
       (acc, unit) => {

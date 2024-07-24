@@ -12,19 +12,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ISaveTooltipProps extends ITooltipProps {}
+interface ISaveTooltipProps extends ITooltipProps {
+  dataLabel: string;
+}
 
 /**
  * A tooltip to display when you hover over a value in a graph
  */
-const SaveTooltip: React.FC<ISaveTooltipProps> = ({ active, payload, label }) => {
+const ChartTooltip: React.FC<ISaveTooltipProps> = ({ active, payload, label, dataLabel }) => {
   const classes = useStyles();
   if (active) {
     return (
       <Paper className={classes.tooltip}>
-        <Typography variant="h6">
-          {`Save: ${Number(label) !== 0 && label !== 'None' ? `${label}+` : '-'}`}
-        </Typography>
+        <Typography variant="h6">{`${dataLabel}: ${label}`}</Typography>
         {(payload ?? []).map(({ color, name, value }) => (
           <Typography style={{ color }} key={name}>{`${name}: ${value}`}</Typography>
         ))}
@@ -34,10 +34,10 @@ const SaveTooltip: React.FC<ISaveTooltipProps> = ({ active, payload, label }) =>
   return null;
 };
 
-SaveTooltip.defaultProps = {
+ChartTooltip.defaultProps = {
   active: false,
   payload: [],
   label: '',
 };
 
-export default SaveTooltip;
+export default ChartTooltip;

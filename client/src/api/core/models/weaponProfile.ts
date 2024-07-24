@@ -23,7 +23,7 @@ class WeaponProfile {
     toWound: number,
     rend: number,
     damage: number | string | DiceValue,
-    modifiers: BaseModifier[] = [],
+    modifiers: (BaseModifier | { id: string; options: any })[] = [],
   ) {
     this.numModels = Number(numModels);
     this.attacks = DiceValue.parse(attacks);

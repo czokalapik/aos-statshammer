@@ -1,4 +1,4 @@
-import type { IModifierInstance } from './modifiers';
+import type { IModifierInstance, IModifierInstanceParameter } from './modifiers';
 
 export interface IWeaponProfileParameter {
   name?: string;
@@ -20,12 +20,17 @@ export interface IWeaponProfile extends IWeaponProfileParameter {
 export interface IUnitParameter {
   name: string;
   active: boolean;
+  reinforced: boolean;
   points: number;
+  health: number;
+  models: number;
+  save: number;
+  modifiers?: IModifierInstanceParameter[];
   weapon_profiles?: IWeaponProfileParameter[];
 }
 
 export interface IUnit extends IUnitParameter {
-  name: string;
   uuid: string;
+  modifiers: IModifierInstance[];
   weapon_profiles: IWeaponProfile[];
 }

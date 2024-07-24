@@ -17,6 +17,11 @@ const AddUnitFab = () => {
         unit: {
           name: `Unit ${numUnits + 1}`,
           points: 100,
+          reinforced: false,
+          health: 2,
+          models: 5,
+          modifiers: [],
+          save: 4,
           active: numUnits < appConfig.limits.unitsVisibleByDefault,
         },
       }),

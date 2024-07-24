@@ -4,7 +4,7 @@ import BaseTargetModifier from './BaseTargetModifier';
 
 export default class TargetEthereal extends BaseTargetModifier {
   static get displayName() {
-    return 'Target Ethereal';
+    return 'Ethereal';
   }
 
   static get description() {

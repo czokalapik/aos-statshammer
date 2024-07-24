@@ -13,7 +13,7 @@ export default class TargetMortalNegate extends BaseTargetModifier {
   }
 
   static get displayName() {
-    return 'Target Mortal Wound Negate';
+    return 'Mortal Wound Negate';
   }
 
   static get description() {

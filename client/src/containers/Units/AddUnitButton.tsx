@@ -48,6 +48,11 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
         unit: {
           name: `Unit ${units.length + 1}`,
           points: 100,
+          reinforced: false,
+          health: 2,
+          models: 5,
+          modifiers: [],
+          save: 4,
           active: units.length < appConfig.limits.unitsVisibleByDefault,
         },
       }),

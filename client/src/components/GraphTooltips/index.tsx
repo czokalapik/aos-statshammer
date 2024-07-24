@@ -1,3 +1,3 @@
 export { default as DefaultTooltip } from './DefaultTooltip';
-export { default as SaveTooltip } from './SaveTooltip';
+export { default as ChartTooltip } from './ChartTooltip';
 export { default as ProbabilityTooltip } from './ProbabilityTooltip';

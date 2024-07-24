@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
+import { IModifierInstanceParameter } from 'types/modifiers';
 import type { IStore } from 'types/store';
 import type { IWeaponProfile } from 'types/unit';
 
@@ -35,6 +36,7 @@ export const activeUnitsSelector = createSelector(unitsSelector, (units) =>
           ...profile,
           modifiers: (profile.modifiers ?? []).filter((mod) => mod.active ?? true),
         })),
+      modifiers: unit.modifiers.filter((mod) => mod.active),
     }))
     .filter(({ weapon_profiles }) => weapon_profiles && weapon_profiles?.length),
 );
@@ -47,13 +49,21 @@ export const unitNamesSelector = createSelector(activeUnitsSelector, (units) =>
 export interface ISanitizedUnit {
   name: string;
   points: number;
+  health: number;
+  models: number;
+  save: number;
+  modifiers?: IModifierInstanceParameter[];
   weapon_profiles: IWeaponProfile[];
 }
 export const getSanitizedUnitsSelector = createSelector(activeUnitsSelector, (units) =>
   _.memoize((useUuidAsName: boolean): ISanitizedUnit[] =>
-    units.map(({ uuid, name, points, weapon_profiles }) => ({
+    units.map(({ uuid, name, points, weapon_profiles, health, models, save, modifiers }) => ({
       name: useUuidAsName ? uuid : name,
       points,
+      health,
+      models,
+      save,
+      modifiers,
       weapon_profiles,
     })),
   ),

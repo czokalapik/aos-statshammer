@@ -5,7 +5,12 @@ export const unit1: IUnit = {
   name: 'Test Unit 1',
   uuid: 'unit-0',
   active: true,
+  reinforced: false,
   points: 100,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,
@@ -55,6 +60,11 @@ export const unit2: IUnit = {
   uuid: 'unit-1',
   active: true,
   points: 200,
+  reinforced: false,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,
@@ -84,7 +94,12 @@ export const unit3: IUnit = {
   name: 'Test Unit 3',
   uuid: 'unit-2',
   active: false,
+  reinforced: false,
   points: 300,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,
@@ -132,13 +147,22 @@ export const unit4: IUnit = {
   name: 'Test Unit 4',
   uuid: 'unit-3',
   active: true,
+  reinforced: false,
   points: 400,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [],
 };
 
 export const sanitizedUnit1Name: ISanitizedUnit = {
   name: 'Test Unit 1',
   points: 100,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,
@@ -178,6 +202,10 @@ export const sanitizedUnit1Name: ISanitizedUnit = {
 export const sanitizedUnit2Name: ISanitizedUnit = {
   name: 'Test Unit 2',
   points: 200,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,
@@ -206,6 +234,10 @@ export const sanitizedUnit2Name: ISanitizedUnit = {
 export const sanitizedUnit3Name: ISanitizedUnit = {
   name: 'Test Unit 3',
   points: 300,
+  health: 2,
+  models: 5,
+  modifiers: [],
+  save: 4,
   weapon_profiles: [
     {
       active: true,

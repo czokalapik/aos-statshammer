@@ -22,3 +22,6 @@ export const getCharacteristicsAfter = (characteristic: Characteristic): Charact
 };
 
 export const SAVES = [2, 3, 4, 5, 6, 0];
+
+export const MORTAL_WOUND_REND = 'MW';
+export const RENDS = [MORTAL_WOUND_REND, 3, 2, 1, 0];

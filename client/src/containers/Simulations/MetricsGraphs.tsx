@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { BarGraph } from 'components/Graphs';
-import { SaveTooltip } from 'components/GraphTooltips';
+import { ChartTooltip } from 'components/GraphTooltips';
 import ListItem from 'components/ListItem';
 import React, { useCallback, useMemo } from 'react';
 import type { ISimulationResult } from 'types/simulations';
@@ -55,7 +55,7 @@ const MetricsGraphs = ({ results, unitNames, pending }: IMetricsGraphsProps) => 
             value: 'Average Damage',
             position: 'insideLeft',
           }}
-          tooltip={<SaveTooltip />}
+          tooltip={<ChartTooltip dataLabel="Save" />}
         />
       </ListItem>
     </Typography>

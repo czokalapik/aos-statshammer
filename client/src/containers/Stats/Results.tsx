@@ -9,7 +9,9 @@ import _ from 'lodash';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { statsStore } from 'store/slices';
+import { ChartsLabels } from 'types/charts';
 import type { IStatsStore } from 'types/store';
+import { averageDamageTitle, healthTitle } from 'utils/texts';
 import { ROUTES } from 'utils/urls';
 
 import ResultsTable from './ResultsTable';
@@ -32,6 +34,22 @@ const Results: React.FC<IResultsProps> = React.memo(
     const firstLoad = !stats?.payload?.length && stats?.pending;
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
+
+    const damageChartsLabel = (per100Points: boolean): ChartsLabels => {
+      return {
+        title: averageDamageTitle(per100Points),
+        axisLabel: 'Save',
+        valueLabel: 'Average Damage',
+      };
+    };
+
+    const healthChartsLabel = (per100Points: boolean): ChartsLabels => {
+      return {
+        title: healthTitle(per100Points),
+        axisLabel: 'Rend',
+        valueLabel: 'Effective health',
+      };
+    };
 
     const handleStatsToggle = () => {
       dispatch(statsStore.actions.toggleStatsPer100Points());
@@ -61,16 +79,54 @@ const Results: React.FC<IResultsProps> = React.memo(
           </Tooltip>
         )}
         <ListItem
-          header={`Average Damage Table ${stats.per100Points ? 'per 100 points' : ''}`}
+          header={damageChartsLabel(stats.per100Points).title}
           collapsible
           loading={stats.pending}
           checked={stats.per100Points}
           onToggle={handleStatsToggle}
           loaderDelay={firstLoad ? 0 : 350}
         >
-          <ResultsTable stats={stats} unitNames={unitNames} />
+          <ResultsTable
+            loading={firstLoad}
+            error={stats.error}
+            results={stats.damageResults}
+            unitNames={unitNames}
+            chartsLabels={damageChartsLabel(stats.per100Points)}
+          />
         </ListItem>
-        <Graphs stats={stats} unitNames={unitNames} />
+
+        <ListItem
+          header={healthChartsLabel(stats.per100Points).title}
+          collapsible
+          loading={stats.pending}
+          checked={stats.per100Points}
+          onToggle={handleStatsToggle}
+          loaderDelay={firstLoad ? 0 : 350}
+        >
+          <ResultsTable
+            loading={firstLoad}
+            error={stats.error}
+            results={stats.effectiveHealthResults}
+            unitNames={unitNames}
+            chartsLabels={healthChartsLabel(stats.per100Points)}
+          />
+        </ListItem>
+        <Graphs
+          loading={firstLoad}
+          error={stats.error}
+          per100Points={stats.per100Points}
+          results={stats.damageResults}
+          unitNames={unitNames}
+          chartsLabels={damageChartsLabel(stats.per100Points)}
+        />
+        <Graphs
+          loading={firstLoad}
+          error={stats.error}
+          per100Points={stats.per100Points}
+          results={stats.effectiveHealthResults}
+          unitNames={unitNames}
+          chartsLabels={healthChartsLabel(stats.per100Points)}
+        />
         {!mobile && !lg && (
           <Button
             href={ROUTES.PDF}

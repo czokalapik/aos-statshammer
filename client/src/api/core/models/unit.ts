@@ -1,9 +1,14 @@
+import { ISanitizedUnit } from 'store/selectors';
+import { IModifierInstanceParameter } from 'types/modifiers';
+
+import { Characteristic, MORTAL_WOUND_REND } from '../constants';
 import AverageDamageProcessor from '../processors/averageDamageProcessor';
 import MaxDamageProcessor from '../processors/maxDamageProcessor';
 import SimulationProcessor from '../processors/simulationProcessor';
 import type { IUnitSimulation, TUnitSimulationBucket, TUnitSimulationMetrics } from '../types/models/unit';
 import { range } from '../utils/mathUtils';
-import type Target from './target';
+import MortalWounds from './modifiers/MortalWounds';
+import Target from './target';
 import WeaponProfile from './weaponProfile';
 
 type TFreqMap = { [damage: number]: number };
@@ -14,16 +19,24 @@ type TFreqMap = { [damage: number]: number };
 class Unit {
   name: string;
   points: number;
+  health: number;
+  models: number;
+  save: number;
+  modifiers: IModifierInstanceParameter[] | undefined;
   weaponProfiles: WeaponProfile[];
 
   /**
    * @param name The name of the unit
    * @param weaponProfiles The list of weapon profiles belonging to the unit
    */
-  constructor(name: string, points: number, weaponProfiles: any) {
-    this.name = name;
-    this.points = points;
-    this.weaponProfiles = weaponProfiles.map((profile) => {
+  constructor(unit: ISanitizedUnit) {
+    this.name = unit.name;
+    this.points = unit.points;
+    this.health = unit.health;
+    this.models = unit.models;
+    this.save = unit.save;
+    this.modifiers = unit.modifiers;
+    this.weaponProfiles = unit.weapon_profiles?.map((profile) => {
       if (profile instanceof WeaponProfile) return profile;
       return new WeaponProfile(
         profile.num_models,
@@ -47,6 +60,37 @@ class Unit {
       0,
     );
     return per100Points ? (averageDamage * 100) / Math.max(1, this.points) : averageDamage;
+  }
+
+  effectiveHealth(rend: number | string, per100Points: boolean): number {
+    let totalHealth = this.models * this.health;
+    const target = new Target(this.save, this.modifiers);
+
+    if (per100Points) {
+      totalHealth *= 100 / this.points;
+    }
+
+    if (rend === MORTAL_WOUND_REND) {
+      // will do 1 MW in average
+      const mortalWoundProfile = new WeaponProfile(1, 2, 4, 4, 0, 1, [
+        new MortalWounds({
+          characteristic: Characteristic.TO_HIT,
+          on: 4,
+          unmodified: true,
+          inAddition: false,
+          mortalWounds: 1,
+        }),
+      ]);
+      const averageDamageProcessor = new AverageDamageProcessor(mortalWoundProfile, target);
+      return totalHealth / averageDamageProcessor.getAverageDamage();
+    }
+
+    const rendNumber = Number(rend);
+    // will do 1 DMG in average
+    const rendProfile = new WeaponProfile(1, 4, 4, 4, rendNumber, 1);
+    const averageProcessorWithRend = new AverageDamageProcessor(rendProfile, target);
+
+    return totalHealth / averageProcessorWithRend.getAverageDamage();
   }
 
   /**

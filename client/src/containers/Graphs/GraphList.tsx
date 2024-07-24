@@ -1,11 +1,13 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { SaveTooltip } from 'components/GraphTooltips';
+import { ChartTooltip } from 'components/GraphTooltips';
 import ListItem from 'components/ListItem';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { statsStore } from 'store/slices';
-import type { IStatsStore } from 'types/store';
+import { ChartsLabels } from 'types/charts';
+import { StatsResults } from 'types/stats';
+import type { TError } from 'types/store';
 
 import GraphWrapper from './GraphWrapper';
 
@@ -14,16 +16,26 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface GraphListProps {
-  stats: IStatsStore;
+  loading: boolean;
+  per100Points: boolean;
+  results: StatsResults;
+  error: TError;
   unitNames: string[];
+  chartsLabels: ChartsLabels;
   graphMap: Map<string, any>;
 }
 
-const GraphList: React.FC<GraphListProps> = ({ stats, unitNames, graphMap }) => {
+const GraphList: React.FC<GraphListProps> = ({
+  loading,
+  per100Points,
+  error,
+  results,
+  unitNames,
+  chartsLabels,
+  graphMap,
+}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const firstLoad = (!stats.payload || !stats.payload.length) && stats.pending;
-  const xAxisFormatter = useCallback((value) => (value === 'None' ? '-' : `${value}+`), []);
 
   const handleStatsToggle = () => {
     dispatch(statsStore.actions.toggleStatsPer100Points());
@@ -35,31 +47,26 @@ const GraphList: React.FC<GraphListProps> = ({ stats, unitNames, graphMap }) => 
         <ListItem
           key={name}
           header={name}
-          checked={stats.per100Points}
+          checked={per100Points}
           onToggle={handleStatsToggle}
           collapsible
-          loading={stats.pending}
-          loaderDelay={firstLoad ? 0 : 350}
+          loading={loading}
+          loaderDelay={loading ? 0 : 350}
         >
-          <GraphWrapper
-            loading={(!stats.payload || !stats.payload.length) && stats.pending}
-            numUnits={unitNames.length}
-            error={Boolean(stats.error)}
-          >
+          <GraphWrapper loading={loading} numUnits={unitNames.length} error={Boolean(error)}>
             <Graph
-              title={`Average Damage ${stats.per100Points ? 'per 100 points' : ''}`}
+              title={chartsLabels.title}
               className={classes.content}
-              data={stats.payload}
+              data={results}
               series={unitNames}
               xAxis={{
-                dataKey: 'save',
-                tickFormatter: xAxisFormatter,
+                dataKey: 'label',
               }}
               yAxisLabel={{
-                value: 'Average Damage',
+                value: chartsLabels.valueLabel,
                 position: 'insideLeft',
               }}
-              tooltip={<SaveTooltip />}
+              tooltip={<ChartTooltip dataLabel={chartsLabels.axisLabel} />}
             />
           </GraphWrapper>
         </ListItem>

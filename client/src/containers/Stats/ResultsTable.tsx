@@ -4,7 +4,9 @@ import clsx from 'clsx';
 import { StatsErrorCard } from 'components/ErrorCards';
 import TableSkeleton from 'components/Skeletons/TableSkeleton';
 import React from 'react';
-import type { IStatsStore } from 'types/store';
+import { ChartsLabels } from 'types/charts';
+import { StatsResults } from 'types/stats';
+import type { TError } from 'types/store';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -33,17 +35,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IResultsTableProps {
-  stats: IStatsStore;
+  loading: boolean;
+  results: StatsResults;
+  error: TError;
   unitNames: string[];
+  chartsLabels: ChartsLabels;
   className?: string;
 }
 
-const ResultsTable: React.FC<IResultsTableProps> = ({ stats, unitNames, className }) => {
+const ResultsTable: React.FC<IResultsTableProps> = ({
+  error,
+  loading,
+  results,
+  unitNames,
+  chartsLabels,
+  className,
+}) => {
   const classes = useStyles();
-  if (stats.error) {
+  if (error) {
     return <StatsErrorCard className={classes.error} />;
   }
-  if (!stats?.payload?.length) {
+  if (loading) {
     return (
       <TableSkeleton
         dense
@@ -58,7 +70,7 @@ const ResultsTable: React.FC<IResultsTableProps> = ({ stats, unitNames, classNam
       <Table size="small" className={clsx(classes.table, className)}>
         <TableHead>
           <TableRow className={classes.header}>
-            <TableCell className={clsx(classes.sticky, classes.header)}>Save</TableCell>
+            <TableCell className={clsx(classes.sticky, classes.header)}>{chartsLabels.axisLabel}</TableCell>
             {unitNames.map((name) => (
               <TableCell align="right" key={name} className={classes.header}>
                 {name}
@@ -67,17 +79,14 @@ const ResultsTable: React.FC<IResultsTableProps> = ({ stats, unitNames, classNam
           </TableRow>
         </TableHead>
         <TableBody>
-          {stats.payload.map((result) => {
-            const { save, ...unitResults } = result;
+          {results.map((result) => {
             return (
               // eslint-disable-next-line react/no-array-index-key
-              <TableRow key={save}>
-                <TableCell className={clsx(classes.sticky, classes.cell)}>
-                  {save && save !== 0 ? `${save}+` : '-'}
-                </TableCell>
+              <TableRow key={result.label}>
+                <TableCell className={clsx(classes.sticky, classes.cell)}>{result.label}</TableCell>
                 {unitNames.map((name) => (
                   <TableCell key={name} align="right">
-                    {unitResults[name]}
+                    {result[name]}
                   </TableCell>
                 ))}
               </TableRow>

@@ -5,7 +5,7 @@ import BaseTargetModifier from './BaseTargetModifier';
 
 export default class TargetRerollOnes extends BaseTargetModifier {
   static get displayName() {
-    return 'Target Reroll Ones';
+    return 'Reroll Save Ones';
   }
 
   static get description() {

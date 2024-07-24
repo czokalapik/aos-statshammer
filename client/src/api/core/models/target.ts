@@ -10,7 +10,7 @@ class Target {
   save: number;
   modifiers: TargetModifierManager;
 
-  constructor(save = 0, modifiers: BaseTargetModifier[] = []) {
+  constructor(save = 0, modifiers: (BaseTargetModifier | { id: string; options: any })[] = []) {
     this.save = save ? Number(save) : 0;
     this.modifiers = new TargetModifierManager(modifiers);
   }

@@ -1,4 +1,4 @@
-import { testUnit } from './utils/runners';
+import { testEffectiveHealth, testUnit } from './utils/runners';
 import * as u from './utils/units';
 
 describe('Units', () => {
@@ -60,5 +60,10 @@ describe('Units', () => {
 
   describe('Per 100 points', () => {
     testUnit(u.unitWithAutoWounds, [3, 2.5, 2, 1.5, 1, 0.5], true);
+  });
+
+  describe('Effective health', () => {
+    testEffectiveHealth(u.unitWithSave4, [60, 60, (60 * 6) / 5, (60 * 6) / 4, (60 * 6) / 3], false);
+    testEffectiveHealth(u.unitWithSave4, [30, 30, (30 * 6) / 5, (30 * 6) / 4, (30 * 6) / 3], true);
   });
 });

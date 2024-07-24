@@ -30,7 +30,7 @@ export const appReducer = combineReducers({
 const middleware: Middleware[] = [thunk];
 
 const persistConfig = {
-  key: 'aos-statshammer-12-12-19',
+  key: 'aos-statshammer-4-2-0',
   storage,
   stateReconciler: autoMergeLevel2,
   whitelist: ['units', 'config', 'target'],

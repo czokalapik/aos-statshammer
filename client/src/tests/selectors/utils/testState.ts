@@ -134,6 +134,8 @@ export const stats: IStatsStore = {
   error: false,
   per100Points: false,
   payload: [],
+  damageResults: [],
+  effectiveHealthResults: [],
 };
 
 export const simulations: ISimulationsStore = {

@@ -1,7 +1,7 @@
 import type { IModifierDefinition, IModifierInstance } from './modifiers';
 import type { INotification } from './notification';
 import type { ISimulationResult } from './simulations';
-import type { TResults } from './stats';
+import type { StatsResults, TResults } from './stats';
 import type { IUnit } from './unit';
 
 export type TError = boolean | string | null;
@@ -27,6 +27,8 @@ export interface ITargetStore {
 export interface IStatsStore {
   pending: boolean;
   payload: TResults;
+  damageResults: StatsResults;
+  effectiveHealthResults: StatsResults;
   per100Points: boolean;
   error: TError;
 }

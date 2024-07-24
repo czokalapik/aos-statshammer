@@ -8,15 +8,20 @@ import StatsController from './core/controllers/statsController';
 export const fetchStatsCompare = () => async (dispatch: TDispatch) => {
   dispatch(statsStore.actions.fetchStatsPending());
   const state = store.getState();
-  const units = getSanitizedUnitsSelector(state)(true);
+  const units = getSanitizedUnitsSelector(state)(false);
   const target = getSanitizedTargetSelector(state);
   const per100Points = statsPer100Points(state);
-  if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [] }));
+  if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [], effectiveHealthResults: [] }));
   const data = { units, target, per100Points };
 
   const statController = new StatsController();
 
   const res = statController.compareUnits(data);
 
-  dispatch(statsStore.actions.fetchStatsSuccess({ results: res.results }));
+  dispatch(
+    statsStore.actions.fetchStatsSuccess({
+      results: res.saveResults,
+      effectiveHealthResults: res.healthResults,
+    }),
+  );
 };

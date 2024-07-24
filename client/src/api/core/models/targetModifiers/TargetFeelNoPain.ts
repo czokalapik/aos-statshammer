@@ -13,7 +13,7 @@ export default class TargetFeelNoPain extends BaseTargetModifier {
   }
 
   static get displayName() {
-    return 'Target Ward';
+    return 'Ward';
   }
 
   static get description() {

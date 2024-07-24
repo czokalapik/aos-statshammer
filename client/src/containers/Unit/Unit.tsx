@@ -1,16 +1,18 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, Switch, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add, Delete, FileCopy } from '@material-ui/icons';
 import appConfig from 'appConfig';
 import clsx from 'clsx';
 import ListItem from 'components/ListItem';
 import NoItemsCard from 'components/NoItemsCard';
+import UnitModifierList from 'components/UnitModifierList';
 import WeaponProfile from 'containers/WeaponProfile';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { numUnitsSelector, unitNamesSelector } from 'store/selectors';
+import { numUnitsSelector, targetModifierByIdSelector, unitNamesSelector } from 'store/selectors';
 import { notificationsStore, unitsStore } from 'store/slices';
+import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
 import type { IUnit } from 'types/unit';
 import { scrollToRef } from 'utils/scrollIntoView';
 
@@ -21,13 +23,20 @@ const useStyles = makeStyles((theme) => ({
   inputs: {
     display: 'flex',
     flexWrap: 'wrap',
-    flexDirection: 'column',
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: 'row',
-    },
+    flexDirection: 'row',
   },
   fieldPoints: {
     width: '8em',
+    margin: '1em 1em 0 0',
+  },
+  fieldSmallNumber: {
+    width: '4em',
+    margin: '1em 1em 0 0',
+  },
+  fieldReinforced: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
     margin: '1em 1em 0 0',
   },
   fieldName: {
@@ -64,6 +73,7 @@ const Unit = React.memo(
     const classes = useStyles();
     const numUnits = useSelector(numUnitsSelector, shallowEqual);
     const unitNames = useSelector(unitNamesSelector, shallowEqual);
+    const getModifierById = useSelector(targetModifierByIdSelector);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -103,13 +113,33 @@ const Unit = React.memo(
       return undefined;
     }, [unit]);
 
+    const unitHealthError = useMemo(() => {
+      if (!unit.health) return 'Required';
+      return undefined;
+    }, [unit]);
+
+    const unitModelsError = useMemo(() => {
+      if (!unit.models) return 'Required';
+      return undefined;
+    }, [unit]);
+
+    const unitSaveError = useMemo(() => {
+      if (!unit.save) return 'Required';
+      return undefined;
+    }, [unit]);
+
     const copyUnit = () => {
       dispatch(
         unitsStore.actions.addUnit({
           unit: {
             name: `${unit.name} copy`,
             weapon_profiles: [...unit.weapon_profiles],
+            reinforced: unit.reinforced,
             points: unit.points,
+            health: unit.health,
+            models: unit.models,
+            modifiers: [...unit.modifiers],
+            save: unit.save,
             active: numUnits < appConfig.limits.unitsVisibleByDefault,
           },
         }),
@@ -132,6 +162,18 @@ const Unit = React.memo(
       dispatch(unitsStore.actions.editUnitPoints({ index: id, points: event.target.value }));
     };
 
+    const handleEditModels = (event: any) => {
+      dispatch(unitsStore.actions.editUnitModels({ index: id, models: event.target.value }));
+    };
+
+    const handleEditHealth = (event: any) => {
+      dispatch(unitsStore.actions.editUnitHealth({ index: id, health: event.target.value }));
+    };
+
+    const handleEditSave = (event: any) => {
+      dispatch(unitsStore.actions.editUnitSave({ index: id, save: event.target.value }));
+    };
+
     const handleAddProfile = () => {
       dispatch(unitsStore.actions.addWeaponProfile({ index: id }));
     };
@@ -139,6 +181,40 @@ const Unit = React.memo(
     const handleToggleUnit = () => {
       dispatch(unitsStore.actions.toggleUnit({ index: id }));
     };
+
+    const handleToggleReinforced = () => {
+      dispatch(unitsStore.actions.toggleReinforcedUnit({ index: id }));
+    };
+
+    const addUnitModifier = (modifier: IModifierInstanceParameter) => {
+      dispatch(unitsStore.actions.addUnitModifier({ index: id, modifier }));
+    };
+
+    const removeUnitModifier = (index: number) => {
+      dispatch(unitsStore.actions.removeUnitModifier({ index: id, modifierIndex: index }));
+    };
+
+    const moveUnitModifier = (index: number, newIndex: number) => {
+      dispatch(
+        unitsStore.actions.moveUnitModifier({ index: id, modifierIndex: index, modifierNewIndex: newIndex }),
+      );
+    };
+
+    const onUnitModifierOptionChange = (index: number, name: string, value: TOptionValue) => {
+      dispatch(unitsStore.actions.editUnitModifierOption({ index: id, modifierIndex: index, name, value }));
+    };
+
+    const onUnitModifierToggle = (index: number) => {
+      dispatch(unitsStore.actions.toggleUnitModifierActive({ index: id, modifierIndex: index }));
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getUnitModifierErrorCallBack = useCallback(
+      _.memoize((index: number) => (error: boolean) => {
+        dispatch(unitsStore.actions.editTargetModifierError({ index: id, modifierIndex: index, error }));
+      }),
+      [dispatch],
+    );
 
     return (
       <div ref={unitRef}>
@@ -181,6 +257,39 @@ const Unit = React.memo(
               helperText={unitPointsError}
             />
           </div>
+          <div className={classes.inputs}>
+            <div className={classes.fieldReinforced}>
+              <Typography variant="caption">Reinforced</Typography>
+              <Switch checked={unit.reinforced} onChange={handleToggleReinforced} />
+            </div>
+            <TextField
+              className={classes.fieldSmallNumber}
+              label="Save"
+              value={unit.save}
+              type="number"
+              onChange={handleEditSave}
+              error={Boolean(unitSaveError)}
+              helperText={unitSaveError}
+            />
+            <TextField
+              className={classes.fieldSmallNumber}
+              label="Health"
+              value={unit.health}
+              type="number"
+              onChange={handleEditHealth}
+              error={Boolean(unitHealthError)}
+              helperText={unitHealthError}
+            />
+            <TextField
+              className={classes.fieldSmallNumber}
+              label="Models"
+              value={unit.models}
+              type="number"
+              onChange={handleEditModels}
+              error={Boolean(unitModelsError)}
+              helperText={unitModelsError}
+            />
+          </div>
           <div className={classes.profiles}>
             {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (
               unit.weapon_profiles.map((profile, index) => (
@@ -213,6 +322,18 @@ const Unit = React.memo(
           >
             Add Profile
           </Button>
+          <div className={classes.profiles}>
+            <UnitModifierList
+              activeModifiers={unit.modifiers}
+              addUnitModifier={addUnitModifier}
+              removeUnitModifier={removeUnitModifier}
+              moveUnitModifier={moveUnitModifier}
+              onUnitModifierOptionChange={onUnitModifierOptionChange}
+              onUnitModifierToggle={onUnitModifierToggle}
+              getUnitModifierErrorCallBack={getUnitModifierErrorCallBack}
+              getModifierById={getModifierById}
+            />
+          </div>
         </ListItem>
       </div>
     );
