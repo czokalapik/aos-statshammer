@@ -35,11 +35,11 @@ export type TModifierInstanceOptions = { [name: string]: TOptionValue };
 
 export interface IModifierInstanceParameter {
   id: string;
+  active: boolean;
   options: TModifierInstanceOptions;
 }
 
 export interface IModifierInstance extends IModifierInstanceParameter {
   uuid: string;
-  active?: boolean;
   error?: boolean;
 }

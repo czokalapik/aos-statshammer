@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import autoTable, { RowInput } from 'jspdf-autotable';
 import store from 'store';
 import { ISanitizedUnit, modifierByIdSelector, targetModifierByIdSelector } from 'store/selectors';
-import type { IModifierInstance } from 'types/modifiers';
+import type { IModifierInstanceParameter } from 'types/modifiers';
 import type { IJsPDF } from 'types/pdf';
 import type { TResult } from 'types/stats';
 import type { ITargetStore } from 'types/store';
@@ -13,7 +13,7 @@ import type { ITargetStore } from 'types/store';
 import cursor from './cursor';
 import { addGraphs, addHeader, addHR, addPage, addSubHeader, headerColor, margin } from './pdfUtils';
 
-const getModifierItems = (modifiers: IModifierInstance[], isTarget = false): RowInput[] => {
+const getModifierItems = (modifiers: IModifierInstanceParameter[], isTarget = false): RowInput[] => {
   const state = store.getState();
   const getModifierById = modifierByIdSelector(state);
   const getTargetModifierById = targetModifierByIdSelector(state);

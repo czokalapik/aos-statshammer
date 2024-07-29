@@ -7,6 +7,8 @@ const INITIAL_STATE: IConfigStore = {
   desktopGraphList: false,
   numSimulations: appConfig.simulations.default,
   useRailLg: false,
+  importReplace: true,
+  exportFilename: 'army',
 };
 
 const toggleDarkMode = (state: IConfigStore) => {
@@ -22,8 +24,17 @@ const changeNumSimulations = (state: IConfigStore, action: { payload: { newValue
   state.numSimulations = newValue;
 };
 
+const updateExportFilename = (state: IConfigStore, action: { payload: { newName: string } }) => {
+  const { newName } = action.payload;
+  state.exportFilename = newName;
+};
+
 const toggleUseRailLg = (state: IConfigStore) => {
   state.useRailLg = !state.useRailLg;
+};
+
+const toggleImportReplace = (state: IConfigStore) => {
+  state.importReplace = !state.importReplace;
 };
 
 export const configStore = createSlice({
@@ -34,5 +45,7 @@ export const configStore = createSlice({
     toggleDesktopGraphList,
     changeNumSimulations,
     toggleUseRailLg,
+    toggleImportReplace,
+    updateExportFilename,
   },
 });

@@ -44,6 +44,6 @@ Keep an eye on the [Github Releases](https://github.com/Manwe56/aos-statshammer/
 
 ## Notes
 
-This is a free community tool built by Damon Hook (`NoMaDhOoK`) 2019-2021 then Grégory Ribéron (`Manwe56`) 2024+
+This is a free community tool built by Damon Hook (`NoMaDhOoK`) 2019-2021 then Grégory Ribéron (`Manwe`) 2024+
 
 **Remember:** There is more to a unit than just its damage output. This is a tool, not a definitive answer of which unit is better

@@ -1,9 +1,8 @@
 import { Button, Collapse, Paper, useMediaQuery } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Add, Remove, Sync } from '@material-ui/icons';
-import { useHashMatch } from 'hooks';
 import _ from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import type { IModifierDefinition } from 'types/modifiers';
 import type { TError } from 'types/store';
@@ -36,13 +35,15 @@ const ModifierSelector: React.FC<IModifierSelectorProps> = React.memo(
     const theme = useTheme();
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const history = useHistory();
-    const open = useHashMatch(HASHES.MODIFIERS);
+    const [opened, setOpened] = useState(false);
 
     const handleOpen = () => {
       history.push(HASHES.MODIFIERS);
+      setOpened(true);
     };
 
     const handleClose = useCallback(() => {
+      setOpened(false);
       history.goBack();
     }, [history]);
 
@@ -75,7 +76,7 @@ const ModifierSelector: React.FC<IModifierSelectorProps> = React.memo(
     }
     return (
       <div className={classes.selector}>
-        {open && !mobile ? (
+        {opened && !mobile ? (
           <Button
             className={classes.button}
             fullWidth
@@ -104,7 +105,7 @@ const ModifierSelector: React.FC<IModifierSelectorProps> = React.memo(
         {mobile ? (
           <SelectorDialog modifiers={modifiers} addModifier={addModifier} hash={HASHES.MODIFIERS} />
         ) : (
-          <Collapse in={open} timeout={{ enter: 200, exit: 0 }}>
+          <Collapse in={opened} timeout={{ enter: 200, exit: 0 }}>
             <Paper className={classes.list} square>
               {modifiers.map((modifier) => (
                 <ModifierOption modifier={modifier} onClick={addModifier} key={modifier.id} nested={nested} />

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-import { IModifierInstanceParameter } from 'types/modifiers';
+import { IModifierInstance, IModifierInstanceParameter } from 'types/modifiers';
 import type { IStore } from 'types/store';
-import type { IWeaponProfile } from 'types/unit';
+import type { IWeaponProfileParameter } from 'types/unit';
 
 /** Get the current units state */
 export const unitsSelector = (state: IStore) => state.units;
@@ -46,25 +46,51 @@ export const unitNamesSelector = createSelector(activeUnitsSelector, (units) =>
   units.map(({ name }) => name),
 );
 
+const sanitizeModifier = (modifier: IModifierInstance) => {
+  const { id, active, options, uuid } = modifier;
+  return { id, active, options, uuid };
+};
+
+const sanitizeWeaponProfile = (wp: IWeaponProfileParameter) => {
+  const { active, attacks, damage, modifiers, num_models, rend, to_hit, to_wound, name } = wp;
+  return {
+    active,
+    attacks,
+    damage,
+    modifiers: modifiers.map((m) => sanitizeModifier(m)),
+    num_models: Number(num_models),
+    rend: Number(rend),
+    to_hit: Number(to_hit),
+    to_wound: Number(to_wound),
+    name,
+  };
+};
+
 export interface ISanitizedUnit {
   name: string;
   points: number;
   health: number;
   models: number;
   save: number;
+  active: boolean;
+  reinforced: boolean;
   modifiers?: IModifierInstanceParameter[];
-  weapon_profiles: IWeaponProfile[];
+  weapon_profiles: IWeaponProfileParameter[];
 }
 export const getSanitizedUnitsSelector = createSelector(activeUnitsSelector, (units) =>
   _.memoize((useUuidAsName: boolean): ISanitizedUnit[] =>
-    units.map(({ uuid, name, points, weapon_profiles, health, models, save, modifiers }) => ({
-      name: useUuidAsName ? uuid : name,
-      points,
-      health,
-      models,
-      save,
-      modifiers,
-      weapon_profiles,
-    })),
+    units.map(
+      ({ uuid, name, active, reinforced, points, weapon_profiles, health, models, save, modifiers }) => ({
+        name: useUuidAsName ? uuid : name,
+        points: Number(points),
+        health: Number(health),
+        models: Number(models),
+        save: Number(save),
+        active,
+        reinforced,
+        modifiers: modifiers.map(sanitizeModifier),
+        weapon_profiles: weapon_profiles.map(sanitizeWeaponProfile),
+      }),
+    ),
   ),
 );

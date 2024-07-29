@@ -56,7 +56,7 @@ const Footer = () => {
           Damon Hook&nbsp;
           <i>(NoMaDhOoK)</i> 2019-2021
           <br /> Grégory Ribéron&nbsp;
-          <i>(Manwe56)</i> 2024+
+          <i>(Manwe)</i> 2024+
         </Typography>
         <Typography variant="body2" component="p">
           Disclaimer: This tool is in no way endorsed or sanctioned by Games Workshop - it is unofficial and

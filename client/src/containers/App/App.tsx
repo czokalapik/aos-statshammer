@@ -6,6 +6,7 @@ import Drawer from 'components/Drawer';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import FloatedContainer from 'containers/FloatedContainer';
+import ImportExport from 'containers/ImportExport';
 import React, { lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
@@ -61,6 +62,7 @@ const App = () => {
                     <Route exact path={ROUTES.SIMULATIONS} component={Simulations} />
                     <Route exact path={ROUTES.PDF} component={PdfContainer} />
                     <Route exact path={ROUTES.ABOUT} component={About} />
+                    <Route exact path={ROUTES.IMPORT} component={ImportExport} />
 
                     <Redirect exact from="/units" to={ROUTES.HOME} />
                     <Redirect from="/advanced" to={ROUTES.SIMULATIONS} />

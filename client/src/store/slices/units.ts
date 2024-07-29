@@ -3,7 +3,7 @@ import appConfig from 'appConfig';
 import { nanoid } from 'nanoid';
 import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
 import type { IUnitStore } from 'types/store';
-import type { IUnitParameter, IWeaponProfileParameter } from 'types/unit';
+import type { IUnitParameter, IWeaponProfile, IWeaponProfileParameter } from 'types/unit';
 import { moveItemInArray } from 'utils/arrayUpdates';
 
 const DEFAULT_WEAPON_PROFILE: IWeaponProfileParameter = {
@@ -32,22 +32,8 @@ const INITIAL_STATE: IUnitStore = [
   },
 ];
 
-export const addUnit = (
-  state: IUnitStore,
-  action: { payload: { unit: IUnitParameter; atPosition?: number | null } },
-) => {
-  const {
-    name,
-    weapon_profiles,
-    active,
-    points,
-    reinforced,
-    save,
-    models,
-    health,
-    modifiers,
-  } = action.payload.unit;
-  const { atPosition } = action.payload;
+const addSingleUnit = (state: IUnitStore, singleUnit: IUnitParameter, atPosition?: number | null) => {
+  const { name, weapon_profiles, active, points, reinforced, save, models, health, modifiers } = singleUnit;
   const profiles = weapon_profiles ?? [DEFAULT_WEAPON_PROFILE];
   const unit_modifiers = modifiers ?? [];
   const unit = {
@@ -73,6 +59,18 @@ export const addUnit = (
   } else {
     state.push(unit);
   }
+};
+
+export const addUnits = (state: IUnitStore, action: { payload: { units: IUnitParameter[] } }) => {
+  action.payload.units.forEach((unit) => addSingleUnit(state, unit));
+};
+
+export const addUnit = (
+  state: IUnitStore,
+  action: { payload: { unit: IUnitParameter; atPosition?: number | null } },
+) => {
+  const { atPosition } = action.payload;
+  addSingleUnit(state, action.payload.unit, atPosition);
 };
 
 export const deleteUnit = (state: IUnitStore, action: { payload: { index: number } }) => {
@@ -158,10 +156,11 @@ export const addWeaponProfile = (
   action: { payload: { index: number; weaponProfile?: IWeaponProfileParameter; atPosition?: number | null } },
 ) => {
   const { index, weaponProfile, atPosition } = action.payload;
-  const profile = weaponProfile ?? DEFAULT_WEAPON_PROFILE;
   const unit = state.find((_, i) => i === index);
   if (unit) {
-    const newProfile = {
+    const defaultWeaponProfile = { ...DEFAULT_WEAPON_PROFILE, num_models: unit.models };
+    const profile = weaponProfile ?? defaultWeaponProfile;
+    const newProfile: IWeaponProfile = {
       ...profile,
       uuid: nanoid(),
     };
@@ -309,6 +308,7 @@ export const unitsStore = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     addUnit,
+    addUnits,
     deleteUnit,
     editUnitName,
     editUnitPoints,

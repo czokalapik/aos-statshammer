@@ -50,6 +50,8 @@ export interface IConfigStore {
   numSimulations: number;
   /** Whether to use the rail version of the left navigation for lg breakpoints */
   useRailLg: boolean;
+  importReplace: boolean;
+  exportFilename: string;
 }
 
 export interface IStore {

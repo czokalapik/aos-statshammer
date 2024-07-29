@@ -159,19 +159,19 @@ const Unit = React.memo(
     };
 
     const handleEditPoints = (event: any) => {
-      dispatch(unitsStore.actions.editUnitPoints({ index: id, points: event.target.value }));
+      dispatch(unitsStore.actions.editUnitPoints({ index: id, points: Number(event.target.value) }));
     };
 
     const handleEditModels = (event: any) => {
-      dispatch(unitsStore.actions.editUnitModels({ index: id, models: event.target.value }));
+      dispatch(unitsStore.actions.editUnitModels({ index: id, models: Number(event.target.value) }));
     };
 
     const handleEditHealth = (event: any) => {
-      dispatch(unitsStore.actions.editUnitHealth({ index: id, health: event.target.value }));
+      dispatch(unitsStore.actions.editUnitHealth({ index: id, health: Number(event.target.value) }));
     };
 
     const handleEditSave = (event: any) => {
-      dispatch(unitsStore.actions.editUnitSave({ index: id, save: event.target.value }));
+      dispatch(unitsStore.actions.editUnitSave({ index: id, save: Number(event.target.value) }));
     };
 
     const handleAddProfile = () => {
@@ -237,6 +237,7 @@ const Unit = React.memo(
             { name: 'Move Down', onClick: moveUnitDown, disabled: id >= numUnits - 1 },
           ]}
           collapsible
+          startCollapsed={numUnits >= 5}
         >
           <div className={classes.inputs}>
             <TextField

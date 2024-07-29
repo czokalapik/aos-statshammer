@@ -50,7 +50,7 @@ const UnitModifierList: React.FC<IUnitModifierListProps> = ({
   const { pending, items: definitions, error } = modifiersState;
 
   const addModifier = (modifier) => {
-    const newModifier = { id: modifier.id, options: {} };
+    const newModifier = { id: modifier.id, options: {}, active: true };
     Object.keys(modifier.options).forEach((k) => {
       newModifier.options[k] = '';
       if (modifier.options[k].default != null) {

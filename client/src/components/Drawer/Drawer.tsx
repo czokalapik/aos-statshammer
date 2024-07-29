@@ -1,7 +1,7 @@
 import { Divider, List, SwipeableDrawer as AppDrawer, Typography, useMediaQuery } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { GetApp, Home, Info, Timeline } from '@material-ui/icons';
+import { GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
 import { useHashMatch, useRouteFind } from 'hooks';
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,8 +12,6 @@ import { HASHES, ROUTES } from 'utils/urls';
 import DrawerLogo from './DrawerLogo';
 import ClearTargetItem from './items/ClearTargetItem';
 import ClearUnitsItem from './items/ClearUnitsItem';
-import ExportArmyItem from './items/ExportArmyItem';
-import ImportArmyItem from './items/ImportArmyItem';
 import SocialItems from './items/SocialItems';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
@@ -116,9 +114,13 @@ const Drawer = () => {
           {isHome && !mobile && <ToggleGraphListItem />}
           {isHome && (
             <>
+              <MenuLinkItem
+                to={ROUTES.IMPORT}
+                label="Import/Export"
+                icon={<ImportExport />}
+                selected={page === ROUTES.IMPORT}
+              />
               <ClearUnitsItem />
-              <ImportArmyItem onClick={handleClose} />
-              <ExportArmyItem onClick={handleClose} />
               <ClearTargetItem />
             </>
           )}

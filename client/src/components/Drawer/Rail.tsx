@@ -1,6 +1,6 @@
 import { Divider, List, SwipeableDrawer as AppDrawer, useMediaQuery } from '@material-ui/core';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { GetApp, Home, Info, Timeline } from '@material-ui/icons';
+import { GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
 import { useRouteFind } from 'hooks';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -10,8 +10,6 @@ import { ROUTES } from 'utils/urls';
 import DrawerLogo from './DrawerLogo';
 import ClearTargetItem from './items/ClearTargetItem';
 import ClearUnitsItem from './items/ClearUnitsItem';
-import ExportArmyItem from './items/ExportArmyItem';
-import ImportArmyItem from './items/ImportArmyItem';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
@@ -94,9 +92,14 @@ const Drawer = () => {
         {isHome && !mobile && <ToggleGraphListItem mini />}
         {isHome && (
           <>
+            <MenuLinkItem
+              to={ROUTES.IMPORT}
+              label="Import / Export"
+              icon={<ImportExport />}
+              selected={page === ROUTES.IMPORT}
+              mini
+            />
             <ClearUnitsItem mini />
-            <ImportArmyItem mini />
-            <ExportArmyItem mini />
             <ClearTargetItem mini />
           </>
         )}

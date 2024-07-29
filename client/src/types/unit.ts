@@ -2,7 +2,6 @@ import type { IModifierInstance, IModifierInstanceParameter } from './modifiers'
 
 export interface IWeaponProfileParameter {
   name?: string;
-  uuid?: string;
   active: boolean;
   num_models: number;
   attacks: number | string;

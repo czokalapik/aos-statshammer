@@ -151,6 +151,8 @@ export const config: IConfigStore = {
   desktopGraphList: false,
   numSimulations: 5000,
   useRailLg: false,
+  importReplace: true,
+  exportFilename: 'aos-stathammer-army',
 };
 
 export const state: IStore = {

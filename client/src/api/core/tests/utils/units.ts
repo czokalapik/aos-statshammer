@@ -13,6 +13,8 @@ const buildUnit = (name, points, weapon_profiles) => {
     health: 1,
     models: 5,
     save: 4,
+    active: true,
+    reinforced: false,
     modifiers: [],
   });
 };
@@ -158,6 +160,8 @@ export const unitWithSave4 = new Unit({
   models: 10,
   name: 'save4',
   save: 4,
+  active: true,
+  reinforced: false,
   weapon_profiles: [],
   modifiers: [],
 });

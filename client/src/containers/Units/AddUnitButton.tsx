@@ -1,13 +1,11 @@
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Add, ImportExport } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 import appConfig from 'appConfig';
-import Uploader from 'components/Uploader';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { notificationsStore, unitsStore } from 'store/slices';
+import { unitsStore } from 'store/slices';
 import type { IUnitStore } from 'types/store';
-import type { IUnit } from 'types/unit';
 
 const useStyles = makeStyles({
   group: {
@@ -29,18 +27,6 @@ interface IAddUnitButtonProps {
 const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const onUpload = (data: IUnit) => {
-    if (data && data.name && data.weapon_profiles) {
-      dispatch(
-        notificationsStore.actions.addNotification({
-          message: 'Successfully imported unit',
-          variant: 'success',
-        }),
-      );
-      dispatch(unitsStore.actions.addUnit({ unit: data }));
-    }
-  };
 
   const handleaddUnit = () => {
     dispatch(
@@ -71,20 +57,6 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
       >
         Add Unit
       </Button>
-      <Uploader
-        onUpload={onUpload}
-        component={
-          <Button
-            variant="contained"
-            startIcon={<ImportExport />}
-            color="primary"
-            className={classes.button}
-            component="span"
-          >
-            Import
-          </Button>
-        }
-      />
     </div>
   );
 };

@@ -83,6 +83,7 @@ export const unit2: IUnit = {
             bonus: 1,
             numLeaders: 1,
           },
+          active: true,
           uuid: 'mod-0',
         },
       ],
@@ -118,6 +119,7 @@ export const unit3: IUnit = {
             characteristic: 'rend',
             bonus: 1,
           },
+          active: true,
         },
         {
           id: 'BONUS',
@@ -126,6 +128,7 @@ export const unit3: IUnit = {
             characteristic: 'damage',
             bonus: 1,
           },
+          active: true,
         },
       ],
     },
@@ -163,6 +166,8 @@ export const sanitizedUnit1Name: ISanitizedUnit = {
   models: 5,
   modifiers: [],
   save: 4,
+  active: true,
+  reinforced: false,
   weapon_profiles: [
     {
       active: true,
@@ -172,7 +177,6 @@ export const sanitizedUnit1Name: ISanitizedUnit = {
       to_wound: 3,
       rend: 2,
       damage: 'D6',
-      uuid: 'profile-0',
       modifiers: [
         {
           id: 'REROLL',
@@ -206,6 +210,8 @@ export const sanitizedUnit2Name: ISanitizedUnit = {
   models: 5,
   modifiers: [],
   save: 4,
+  active: true,
+  reinforced: false,
   weapon_profiles: [
     {
       active: true,
@@ -215,7 +221,6 @@ export const sanitizedUnit2Name: ISanitizedUnit = {
       to_wound: 3,
       rend: 1,
       damage: 2,
-      uuid: 'profile-0',
       modifiers: [
         {
           id: 'LEADER_BONUS',
@@ -224,6 +229,7 @@ export const sanitizedUnit2Name: ISanitizedUnit = {
             bonus: 1,
             numLeaders: 1,
           },
+          active: true,
           uuid: 'mod-0',
         },
       ],
@@ -238,6 +244,8 @@ export const sanitizedUnit3Name: ISanitizedUnit = {
   models: 5,
   modifiers: [],
   save: 4,
+  active: true,
+  reinforced: false,
   weapon_profiles: [
     {
       active: true,
@@ -247,7 +255,6 @@ export const sanitizedUnit3Name: ISanitizedUnit = {
       to_wound: 3,
       rend: 1,
       damage: 1,
-      uuid: 'profile-0',
       modifiers: [
         {
           id: 'BONUS',
@@ -256,6 +263,7 @@ export const sanitizedUnit3Name: ISanitizedUnit = {
             characteristic: 'rend',
             bonus: 1,
           },
+          active: true,
         },
         {
           id: 'BONUS',
@@ -264,6 +272,7 @@ export const sanitizedUnit3Name: ISanitizedUnit = {
             characteristic: 'damage',
             bonus: 1,
           },
+          active: true,
         },
       ],
     },
