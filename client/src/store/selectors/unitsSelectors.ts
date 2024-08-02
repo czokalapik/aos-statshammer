@@ -66,7 +66,17 @@ const sanitizeWeaponProfile = (wp: IWeaponProfileParameter) => {
   };
 };
 
-const sanitizeUnit = ({ name, active, reinforced, points, weapon_profiles, health, models, save, modifiers }) => ({
+const sanitizeUnit = ({
+  name,
+  active,
+  reinforced,
+  points,
+  weapon_profiles,
+  health,
+  models,
+  save,
+  modifiers,
+}) => ({
   name,
   points: Number(points),
   health: Number(health),
@@ -90,14 +100,8 @@ export interface ISanitizedUnit {
   weapon_profiles: IWeaponProfileParameter[];
 }
 export const getSanitizedActiveUnitsSelector = createSelector(activeUnitsSelector, (units) =>
-  _.memoize((): ISanitizedUnit[] =>
-    units.map(sanitizeUnit
-    ),
-  ),
+  _.memoize((): ISanitizedUnit[] => units.map(sanitizeUnit)),
 );
 export const getSanitizedAllUnitsSelector = createSelector(unitsSelector, (units) =>
-  _.memoize((): ISanitizedUnit[] =>
-    units.map(sanitizeUnit
-    ),
-  ),
+  _.memoize((): ISanitizedUnit[] => units.map(sanitizeUnit)),
 );

@@ -40,7 +40,7 @@ describe('unitsSelectors', () => {
   test('unitNamesSelector', () => {
     expect(selectors.unitNamesSelector(state)).toEqual(['Test Unit 1', 'Test Unit 2']);
   });
-  
+
   test('getSanitizedActiveUnitsSelector', () => {
     const getSanitizedUnits = selectors.getSanitizedActiveUnitsSelector(state);
     expect(typeof getSanitizedUnits).toEqual('function');

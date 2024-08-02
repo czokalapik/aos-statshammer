@@ -6,6 +6,7 @@ import SCE_VB from './SCE-Vigilant Brotherhood.json';
 import SERAPHON from './Seraphon-StarscaleWarhost.json';
 import SKAVENS_GC from './Skavens-Gnawfeast Clawpack.json';
 import STD from './SlavesToDarkness-BloodwindLegion.json';
+import SYLVANETH from './Sylvaneth-BitterbarkCopse.json';
 
 const SCEVigilantBrotherhood: IArmy = {
   ...SCE_VB,
@@ -43,6 +44,12 @@ const STDBL: IArmy = {
   label: 'Bloodwind Legion',
 };
 
+const SylvanethBC: IArmy = {
+  ...SYLVANETH,
+  faction: 'Sylvaneth',
+  label: 'Bitterbark Copse',
+};
+
 const SPEARHEADS: IArmy[] = [
   SCEVigilantBrotherhood,
   SKAVENSGnawfeastClawpack,
@@ -50,6 +57,7 @@ const SPEARHEADS: IArmy[] = [
   SeraphonSW,
   OssiarchTE,
   STDBL,
+  SylvanethBC,
 ];
 
 export default SPEARHEADS;

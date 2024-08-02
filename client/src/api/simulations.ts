@@ -1,8 +1,8 @@
 import appConfig from 'appConfig';
 import store from 'store';
 import {
-  getSanitizedTargetSelector,
   getSanitizedActiveUnitsSelector,
+  getSanitizedTargetSelector,
   numSimulationsSelector,
 } from 'store/selectors';
 import { configStore, simulationsStore } from 'store/slices';

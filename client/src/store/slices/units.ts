@@ -115,7 +115,9 @@ export const editUnitModels = (state: IUnitStore, action: { payload: { index: nu
   const unit = state[index];
   if (unit) {
     unit.models = models;
-    unit.weapon_profiles.forEach(wp => {wp.num_models=models;});
+    unit.weapon_profiles.forEach((wp) => {
+      wp.num_models = models;
+    });
   }
 };
 

@@ -81,6 +81,7 @@ const ImportExport = () => {
   const compareString = (a, b) => 0 - (a < b ? 1 : -1);
   const compareArmy = (a, b) =>
     a.faction === b.faction ? compareString(a.label, b.label) : compareString(a.faction, b.faction);
+  const compareUnit = (a, b) => compareString(a.name, b.name);
   const sortedSpearheads = SPEARHEADS.sort(compareArmy);
   const sortedMatchPlays = MATCHPLAY.sort(compareArmy);
 
@@ -92,7 +93,7 @@ const ImportExport = () => {
     if (config.importReplace) {
       dispatch(unitsStore.actions.clearAllUnits());
     }
-    units.forEach((unit) => {
+    units.sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
         dispatch(unitsStore.actions.addUnit({ unit }));
       }

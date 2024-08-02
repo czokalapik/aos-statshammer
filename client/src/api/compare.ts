@@ -1,5 +1,9 @@
 import store from 'store';
-import { getSanitizedTargetSelector, getSanitizedActiveUnitsSelector, statsPer100Points } from 'store/selectors';
+import {
+  getSanitizedActiveUnitsSelector,
+  getSanitizedTargetSelector,
+  statsPer100Points,
+} from 'store/selectors';
 import { statsStore } from 'store/slices';
 
 import type { TDispatch } from './api.types';

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import PdfGenerator from 'pdf';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSanitizedTargetSelector, getSanitizedActiveUnitsSelector } from 'store/selectors';
+import { getSanitizedActiveUnitsSelector, getSanitizedTargetSelector } from 'store/selectors';
 import type { IStore } from 'types/store';
 import { applyUnitNameMapping, getResultsMapping } from 'utils/mappers';
 
