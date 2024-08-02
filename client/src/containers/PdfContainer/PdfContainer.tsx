@@ -5,7 +5,7 @@ import _ from 'lodash';
 import PdfGenerator from 'pdf';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSanitizedTargetSelector, getSanitizedUnitsSelector } from 'store/selectors';
+import { getSanitizedTargetSelector, getSanitizedActiveUnitsSelector } from 'store/selectors';
 import type { IStore } from 'types/store';
 import { applyUnitNameMapping, getResultsMapping } from 'utils/mappers';
 
@@ -27,7 +27,7 @@ const PdfContainer = () => {
     (state: IStore) => state,
     _.isEqual,
   );
-  const sanitizedUnits = useSelector(getSanitizedUnitsSelector)(false);
+  const sanitizedUnits = useSelector(getSanitizedActiveUnitsSelector)();
   const target = useSelector(getSanitizedTargetSelector);
   const dispatch = useDispatch();
 

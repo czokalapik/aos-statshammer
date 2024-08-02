@@ -19,7 +19,7 @@ const AddUnitFab = () => {
           points: 100,
           reinforced: false,
           health: 2,
-          models: 5,
+          models: 1,
           modifiers: [],
           save: 4,
           active: numUnits < appConfig.limits.unitsVisibleByDefault,

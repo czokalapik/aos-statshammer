@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import { ImportExport } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSanitizedUnitsSelector, ISanitizedUnit } from 'store/selectors';
+import { getSanitizedAllUnitsSelector, ISanitizedUnit } from 'store/selectors';
 import { notificationsStore } from 'store/slices';
 
 const downloadArmy = (army: ISanitizedUnit[], filename: string) => {
@@ -21,7 +21,7 @@ interface IExportArmyItemProps {
 
 const ExportArmyItem = ({ onClick, filename }: IExportArmyItemProps) => {
   const dispatch = useDispatch();
-  const units = useSelector(getSanitizedUnitsSelector)(false);
+  const units = useSelector(getSanitizedAllUnitsSelector)();
 
   const exportArmy = () => {
     downloadArmy(units, filename);

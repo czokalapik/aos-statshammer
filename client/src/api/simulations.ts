@@ -2,7 +2,7 @@ import appConfig from 'appConfig';
 import store from 'store';
 import {
   getSanitizedTargetSelector,
-  getSanitizedUnitsSelector,
+  getSanitizedActiveUnitsSelector,
   numSimulationsSelector,
 } from 'store/selectors';
 import { configStore, simulationsStore } from 'store/slices';
@@ -24,7 +24,7 @@ const verifyNumSimulations = (state: IStore, dispatch: TDispatch): number => {
 export const fetchSimulations = () => async (dispatch: TDispatch) => {
   dispatch(simulationsStore.actions.fetchSimulationsPending());
   const state = store.getState();
-  const units = getSanitizedUnitsSelector(state)(false);
+  const units = getSanitizedActiveUnitsSelector(state)();
   if (!units) dispatch(simulationsStore.actions.fetchSimulationsSuccess({ results: [] }));
   const target = getSanitizedTargetSelector(state);
   const numSimulations = verifyNumSimulations(state, dispatch);

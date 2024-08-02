@@ -40,15 +40,15 @@ describe('unitsSelectors', () => {
   test('unitNamesSelector', () => {
     expect(selectors.unitNamesSelector(state)).toEqual(['Test Unit 1', 'Test Unit 2']);
   });
-
-  test('getSanitizedUnitsSelector', () => {
-    const getSanitizedUnits = selectors.getSanitizedUnitsSelector(state);
+  
+  test('getSanitizedActiveUnitsSelector', () => {
+    const getSanitizedUnits = selectors.getSanitizedActiveUnitsSelector(state);
     expect(typeof getSanitizedUnits).toEqual('function');
 
     const expectedUsingName = [testUnits.sanitizedUnit1Name, testUnits.sanitizedUnit2Name];
-    expect(getSanitizedUnits(false)).toEqual(expectedUsingName);
+    expect(getSanitizedUnits()).toEqual(expectedUsingName);
 
     const expectedUsingUuid = [testUnits.sanitizedUnit1Uuid, testUnits.sanitizedUnit2Uuid];
-    expect(getSanitizedUnits(true)).toEqual(expectedUsingUuid);
+    expect(getSanitizedUnits()).toEqual(expectedUsingUuid);
   });
 });

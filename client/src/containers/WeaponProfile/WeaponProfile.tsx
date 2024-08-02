@@ -122,7 +122,7 @@ const WeaponProfile: React.FC<IWeaponProfileProps> = React.memo(
       dispatch(unitsStore.actions.toggleWeaponProfile({ index: unitId, profileIndex: id }));
     };
 
-    const header = `Weapon Profile ${profile.name ? `(${profile.name})` : ''}`;
+    const header = `${profile.name ? `${profile.name}` : 'Weapon Profile'}`;
 
     return (
       <div ref={profileRef}>

@@ -8,8 +8,8 @@ import { moveItemInArray } from 'utils/arrayUpdates';
 
 const DEFAULT_WEAPON_PROFILE: IWeaponProfileParameter = {
   active: true,
-  num_models: 5,
-  attacks: 2,
+  num_models: 1,
+  attacks: 1,
   to_hit: 3,
   to_wound: 3,
   rend: 1,
@@ -25,7 +25,7 @@ const INITIAL_STATE: IUnitStore = [
     reinforced: false,
     points: 100,
     health: 2,
-    models: 5,
+    models: 1,
     modifiers: [],
     save: 4,
     weapon_profiles: [{ ...DEFAULT_WEAPON_PROFILE, uuid: nanoid() }],
@@ -43,7 +43,7 @@ const addSingleUnit = (state: IUnitStore, singleUnit: IUnitParameter, atPosition
     points: points ?? 100,
     reinforced: reinforced ?? false,
     health: health ?? 2,
-    models: models ?? 5,
+    models: models ?? 1,
     modifiers: unit_modifiers.map((modifier) => ({
       ...modifier,
       uuid: nanoid(),
@@ -115,6 +115,7 @@ export const editUnitModels = (state: IUnitStore, action: { payload: { index: nu
   const unit = state[index];
   if (unit) {
     unit.models = models;
+    unit.weapon_profiles.forEach(wp => {wp.num_models=models;});
   }
 };
 
