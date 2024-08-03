@@ -3,6 +3,13 @@ import { IArmy } from 'types/army';
 import NURGLE from './MaggotkinOfNurgle.json';
 import SOB from './SonsOfBehemath.json';
 import SYLV from './Sylvaneth.json';
+import SLAANESH from './HedonitesOfSlaanesh.json';
+
+const HedonitesOfSlaanesh: any = {
+  ...SLAANESH,
+  faction: 'Hedonites of Slaanesh',
+  label: '',
+};
 
 const SonsOfBehemath: IArmy = {
   ...SOB,
@@ -22,6 +29,6 @@ const Sylvaneth: any = {
   label: '',
 };
 
-const MATCHPLAY: IArmy[] = [SonsOfBehemath, MaggotkinOfNurgle, Sylvaneth];
+const MATCHPLAY: IArmy[] = [SonsOfBehemath, MaggotkinOfNurgle, Sylvaneth, HedonitesOfSlaanesh];
 
 export default MATCHPLAY;

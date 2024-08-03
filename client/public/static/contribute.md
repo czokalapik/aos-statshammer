@@ -11,3 +11,6 @@ A lot of units can be buff with various bonuses (for example a units that charge
 
 There is certainly other conventions to put in place, don't hesitate to give me feedback about it!
 
+### Thanks to all the contributors listed bellow!
+
+Lex - Faabz

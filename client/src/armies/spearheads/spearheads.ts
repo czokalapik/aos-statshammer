@@ -7,6 +7,34 @@ import SERAPHON from './Seraphon-StarscaleWarhost.json';
 import SKAVENS_GC from './Skavens-Gnawfeast Clawpack.json';
 import STD from './SlavesToDarkness-BloodwindLegion.json';
 import SYLVANETH from './Sylvaneth-BitterbarkCopse.json';
+import COS_CC from './CitiesOfSigmar-CasteliteCompany.json';
+import SLAANESH_BotLD from './Slaanesh-BladesOfTheLuridDream.json';
+import DOK_HT from './DaughterOfKhaine-HeartflayerTroupe.json';
+import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
+
+const Khorne_BloodboundGorePilgrims: IArmy = {
+  ...KHORNE_BGP,
+  faction: 'Blades of Khorne',
+  label: 'Bloodbound Gore Pilgrims',
+};
+
+const DaughterOfKhaine_HeartflayerTroupe: any = {
+  ...DOK_HT,
+  faction: 'Daughter of Khaine',
+  label:'Heartlayer Troupe',
+};
+
+const Slaanesh_BladesOfTheLuridDream: any = {
+  ...SLAANESH_BotLD,
+  faction: 'Hedonites of Slaanesh',
+  label: 'Blades of the Lurid Dream',
+};
+
+const Cos_CasteliteCompany: IArmy = {
+  ...COS_CC,
+  faction: 'Cities of Sigmar',
+  label: 'Castelite Company',
+};
 
 const SCEVigilantBrotherhood: IArmy = {
   ...SCE_VB,
@@ -51,6 +79,10 @@ const SylvanethBC: IArmy = {
 };
 
 const SPEARHEADS: IArmy[] = [
+  Khorne_BloodboundGorePilgrims,
+  DaughterOfKhaine_HeartflayerTroupe,
+  Slaanesh_BladesOfTheLuridDream,
+  Cos_CasteliteCompany,
   SCEVigilantBrotherhood,
   SKAVENSGnawfeastClawpack,
   KruelboyzSG,

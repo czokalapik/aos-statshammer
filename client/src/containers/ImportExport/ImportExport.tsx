@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   md: {
     margin: 'auto',
     marginTop: -theme.spacing(2),
-    maxWidth: 600,
     '& a': {
       color: theme.palette.primary.main,
       '&:visited': {
@@ -89,13 +88,18 @@ const ImportExport = () => {
     history.push(ROUTES.HOME);
   };
 
-  const loadUnits = (units: IUnitParameter[]) => {
+  const loadUnitsWithStatus = (units: IUnitParameter[], forceStatus:boolean, unitActiveStatus: boolean) => {
     if (config.importReplace) {
       dispatch(unitsStore.actions.clearAllUnits());
     }
     units.sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
-        dispatch(unitsStore.actions.addUnit({ unit }));
+        if (forceStatus){
+          const unitToAdd = {...unit, active:unitActiveStatus};
+          dispatch(unitsStore.actions.addUnit({ unit:unitToAdd }));
+        } else {
+          dispatch(unitsStore.actions.addUnit({ unit }));
+        }
       }
     });
     dispatch(
@@ -106,8 +110,9 @@ const ImportExport = () => {
     );
     goToHome();
   };
-
-  const loadArmy = (army: IArmy) => loadUnits(army.units);
+  const loadUnits = (units: IUnitParameter[]) => loadUnitsWithStatus(units, false, false);
+  const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units,true, true);
+  const loadInactiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, false);
 
   const toggleReplace = () => {
     dispatch(configStore.actions.toggleImportReplace());
@@ -160,8 +165,8 @@ const ImportExport = () => {
           </div>
           <div className={classes.flexRow}>
             <ImportArmy onArmyLoad={loadUnits} />
-            <ArmySelector onClick={loadArmy} armies={sortedMatchPlays} label="Import Faction" />
-            <ArmySelector onClick={loadArmy} armies={sortedSpearheads} label="Import Spearhead" />
+            <ArmySelector onClick={loadInactiveArmy} armies={sortedMatchPlays} label="Import Faction" />
+            <ArmySelector onClick={loadActiveArmy} armies={sortedSpearheads} label="Import Spearhead" />
           </div>
           <Divider className={classes.divider} />
           <Paper>
