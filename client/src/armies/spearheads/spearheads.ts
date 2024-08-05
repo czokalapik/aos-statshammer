@@ -1,16 +1,37 @@
 import { IArmy } from 'types/army';
 
+import COS_CC from './CitiesOfSigmar-CasteliteCompany.json';
+import DOK_HT from './DaughterOfKhaine-HeartflayerTroupe.json';
+import FEC_CR from './FleshEaterCourts-CarrionRetainers.json';
+import FYRESLAYERS_SA from './Fyreslayers-SagaAxeband.json';
+import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
 import KRUELBOYZ from './Kruelboyz-SwampskulkaGang.json';
 import OBR from './OssiarchBonereapers-Tithe-reaperEchelon.json';
 import SCE_VB from './SCE-Vigilant Brotherhood.json';
 import SERAPHON from './Seraphon-StarscaleWarhost.json';
 import SKAVENS_GC from './Skavens-Gnawfeast Clawpack.json';
+import SLAANESH_BotLD from './Slaanesh-BladesOfTheLuridDream.json';
 import STD from './SlavesToDarkness-BloodwindLegion.json';
 import SYLVANETH from './Sylvaneth-BitterbarkCopse.json';
-import COS_CC from './CitiesOfSigmar-CasteliteCompany.json';
-import SLAANESH_BotLD from './Slaanesh-BladesOfTheLuridDream.json';
-import DOK_HT from './DaughterOfKhaine-HeartflayerTroupe.json';
-import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
+import TZEENCH_FC from './Tzeentch-FluxbladeCoven.json';
+
+const Tzeentch_FluxbladeCoven: IArmy = {
+  ...TZEENCH_FC,
+  faction: 'Tzeentch',
+  label: 'Fluxblade Coven',
+};
+
+const Fyreslayers_SagaAxeband: IArmy = {
+  ...FYRESLAYERS_SA,
+  faction: 'Fyreslayers',
+  label: 'Saga Axeband',
+};
+
+const FleshEaterCourts_CarrionRetainers: IArmy = {
+  ...FEC_CR,
+  faction: 'Flesh Eater Courts',
+  label: 'Carrion Retainers',
+};
 
 const Khorne_BloodboundGorePilgrims: IArmy = {
   ...KHORNE_BGP,
@@ -21,7 +42,7 @@ const Khorne_BloodboundGorePilgrims: IArmy = {
 const DaughterOfKhaine_HeartflayerTroupe: any = {
   ...DOK_HT,
   faction: 'Daughter of Khaine',
-  label:'Heartlayer Troupe',
+  label: 'Heartlayer Troupe',
 };
 
 const Slaanesh_BladesOfTheLuridDream: any = {
@@ -79,6 +100,9 @@ const SylvanethBC: IArmy = {
 };
 
 const SPEARHEADS: IArmy[] = [
+  Tzeentch_FluxbladeCoven,
+  Fyreslayers_SagaAxeband,
+  FleshEaterCourts_CarrionRetainers,
   Khorne_BloodboundGorePilgrims,
   DaughterOfKhaine_HeartflayerTroupe,
   Slaanesh_BladesOfTheLuridDream,

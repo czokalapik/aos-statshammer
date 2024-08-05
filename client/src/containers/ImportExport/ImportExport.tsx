@@ -88,15 +88,15 @@ const ImportExport = () => {
     history.push(ROUTES.HOME);
   };
 
-  const loadUnitsWithStatus = (units: IUnitParameter[], forceStatus:boolean, unitActiveStatus: boolean) => {
+  const loadUnitsWithStatus = (units: IUnitParameter[], forceStatus: boolean, unitActiveStatus: boolean) => {
     if (config.importReplace) {
       dispatch(unitsStore.actions.clearAllUnits());
     }
     units.sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
-        if (forceStatus){
-          const unitToAdd = {...unit, active:unitActiveStatus};
-          dispatch(unitsStore.actions.addUnit({ unit:unitToAdd }));
+        if (forceStatus) {
+          const unitToAdd = { ...unit, active: unitActiveStatus };
+          dispatch(unitsStore.actions.addUnit({ unit: unitToAdd }));
         } else {
           dispatch(unitsStore.actions.addUnit({ unit }));
         }
@@ -111,7 +111,7 @@ const ImportExport = () => {
     goToHome();
   };
   const loadUnits = (units: IUnitParameter[]) => loadUnitsWithStatus(units, false, false);
-  const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units,true, true);
+  const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, true);
   const loadInactiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, false);
 
   const toggleReplace = () => {

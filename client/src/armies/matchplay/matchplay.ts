@@ -1,9 +1,9 @@
 import { IArmy } from 'types/army';
 
+import SLAANESH from './HedonitesOfSlaanesh.json';
 import NURGLE from './MaggotkinOfNurgle.json';
 import SOB from './SonsOfBehemath.json';
 import SYLV from './Sylvaneth.json';
-import SLAANESH from './HedonitesOfSlaanesh.json';
 
 const HedonitesOfSlaanesh: any = {
   ...SLAANESH,
