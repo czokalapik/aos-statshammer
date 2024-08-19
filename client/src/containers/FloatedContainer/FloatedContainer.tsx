@@ -21,7 +21,9 @@ const FloatedContainer = () => {
     switch (page) {
       case ROUTES.HOME:
         return <AddUnitFab />;
-      case ROUTES.STATS:
+      case ROUTES.DAMAGE:
+        return <ExportPdfFab />;
+      case ROUTES.HEALTH:
         return <ExportPdfFab />;
       case ROUTES.TARGET:
         return <AddTargetModifierFab />;

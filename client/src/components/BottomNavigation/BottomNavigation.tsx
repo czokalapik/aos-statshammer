@@ -39,7 +39,7 @@ const BottomNavigation = () => {
   const ref = useRef<HTMLDivElement>(null);
   const classes = useStyles({ height });
 
-  const routes = [ROUTES.HOME, ROUTES.STATS, ROUTES.SIMULATIONS, ROUTES.ABOUT];
+  const routes = [ROUTES.HOME, ROUTES.DAMAGE, ROUTES.SIMULATIONS, ROUTES.ABOUT];
   const [index] = useRouteFind(routes);
 
   const breakpoints = useBreakpointChanged();
@@ -63,7 +63,7 @@ const BottomNavigation = () => {
       <div ref={ref} className={classes.nav}>
         <Navigation value={index} onChange={handleChange} showLabels>
           <NavigationItem label="Home" icon={<Home />} className={classes.item} />
-          <NavigationItem label="Stats" icon={<BarChart />} className={classes.item} />
+          <NavigationItem label="Damage" icon={<BarChart />} className={classes.item} />
           <NavigationItem
             label="Simulations"
             icon={<TimelineIcon />}

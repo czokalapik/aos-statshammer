@@ -58,7 +58,7 @@ const App = () => {
                 <Suspense fallback={<Loader />}>
                   <Switch>
                     <Route exact path={ROUTES.HOME} component={Home} />
-                    <Route path={['/units', '/target', '/stats']} component={Home} />
+                    <Route path={['/units', ROUTES.TARGET, ROUTES.DAMAGE, ROUTES.HEALTH]} component={Home} />
                     <Route exact path={ROUTES.SIMULATIONS} component={Simulations} />
                     <Route exact path={ROUTES.PDF} component={PdfContainer} />
                     <Route exact path={ROUTES.ABOUT} component={About} />

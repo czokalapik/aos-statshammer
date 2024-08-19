@@ -2,6 +2,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { RoutedTabs } from 'components/Tabbed';
 import Stats from 'containers/Stats';
+import { ResultsMode } from 'containers/Stats/Results';
 import Target from 'containers/Target';
 import Units from 'containers/Units';
 import React from 'react';
@@ -42,12 +43,12 @@ const DesktopHome = () => {
         </Grid>
         <Grid item xs={6}>
           <div className={classes.statsContent}>
-            <Stats />
+            <Stats resultsMode={ResultsMode.ALL} />
           </div>
         </Grid>
       </Grid>
       <Switch>
-        <Redirect exact from="/stats" to="/" />
+        <Redirect exact from={ROUTES.DAMAGE} to="/" />
       </Switch>
     </div>
   );

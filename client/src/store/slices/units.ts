@@ -135,6 +135,7 @@ export const toggleReinforcedUnit = (state: IUnitStore, action: { payload: { ind
   if (unit) {
     const factor = unit.reinforced ? 0.5 : 2.0;
     unit.points *= factor;
+    unit.models *= factor;
     unit.name = unit.reinforced ? unit.name.replace(' [R]', '') : unit.name.concat(' [R]');
     unit.weapon_profiles.forEach((weapon) => {
       weapon.num_models *= factor;

@@ -83,6 +83,11 @@ const ImportExport = () => {
   const compareUnit = (a, b) => compareString(a.name, b.name);
   const sortedSpearheads = SPEARHEADS.sort(compareArmy);
   const sortedMatchPlays = MATCHPLAY.sort(compareArmy);
+  const CHANGE_TITLE = false;
+  const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
+  };
+  const adaptName = (str) => (CHANGE_TITLE ? toTitleCase(str) : str);
 
   const goToHome = () => {
     history.push(ROUTES.HOME);
@@ -95,10 +100,10 @@ const ImportExport = () => {
     units.sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
         if (forceStatus) {
-          const unitToAdd = { ...unit, active: unitActiveStatus };
+          const unitToAdd = { ...unit, active: unitActiveStatus, name: adaptName(unit.name) };
           dispatch(unitsStore.actions.addUnit({ unit: unitToAdd }));
         } else {
-          dispatch(unitsStore.actions.addUnit({ unit }));
+          dispatch(unitsStore.actions.addUnit({ unit: { ...unit, name: adaptName(unit.name) } }));
         }
       }
     });

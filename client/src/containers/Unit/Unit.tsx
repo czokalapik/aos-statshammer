@@ -10,11 +10,13 @@ import WeaponProfile from 'containers/WeaponProfile';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { numUnitsSelector, targetModifierByIdSelector, unitNamesSelector } from 'store/selectors';
 import { notificationsStore, unitsStore } from 'store/slices';
 import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
 import type { IUnit } from 'types/unit';
 import { scrollToRef } from 'utils/scrollIntoView';
+import { ROUTES } from 'utils/urls';
 
 const useStyles = makeStyles((theme) => ({
   unit: {
@@ -75,6 +77,7 @@ const Unit = React.memo(
     const unitNames = useSelector(unitNamesSelector, shallowEqual);
     const getModifierById = useSelector(targetModifierByIdSelector);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
       scrollToRef(unitRef);
@@ -97,6 +100,10 @@ const Unit = React.memo(
       downloadUnit(unit);
       dispatch(notificationsStore.actions.addNotification({ message: 'Exported Unit', variant: 'success' }));
     }, [dispatch, unit]);
+
+    const goToImportExport = () => {
+      history.push(ROUTES.IMPORT);
+    };
 
     const numProfiles = unit.weapon_profiles ? unit.weapon_profiles.length : 0;
     const addProfileEnabled = numProfiles < appConfig.limits.profiles;
@@ -233,6 +240,7 @@ const Unit = React.memo(
           ]}
           secondaryItems={[
             { name: 'Export', onClick: exportUnit },
+            { name: 'Import', onClick: goToImportExport },
             { name: 'Move Up', onClick: moveUnitUp, disabled: id <= 0 },
             { name: 'Move Down', onClick: moveUnitDown, disabled: id >= numUnits - 1 },
           ]}

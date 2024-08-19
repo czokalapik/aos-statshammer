@@ -46,7 +46,7 @@ const Drawer = () => {
   const [, , page] = useRouteFind(Object.values(ROUTES));
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const isHome = [ROUTES.HOME, ROUTES.TARGET, ROUTES.STATS].includes(page);
+  const isHome = [ROUTES.HOME, ROUTES.TARGET, ROUTES.DAMAGE, ROUTES.HEALTH].includes(page);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const dummyFunc = () => {};

@@ -3,6 +3,7 @@ import { IArmy } from 'types/army';
 import SLAANESH from './HedonitesOfSlaanesh.json';
 import NURGLE from './MaggotkinOfNurgle.json';
 import SOB from './SonsOfBehemath.json';
+import SCE from './Stormcast.json';
 import SYLV from './Sylvaneth.json';
 
 const HedonitesOfSlaanesh: any = {
@@ -29,6 +30,12 @@ const Sylvaneth: any = {
   label: '',
 };
 
-const MATCHPLAY: IArmy[] = [SonsOfBehemath, MaggotkinOfNurgle, Sylvaneth, HedonitesOfSlaanesh];
+const Stormcast: any = {
+  ...SCE,
+  faction: 'Stormcast Eternals',
+  label: 'incomplete',
+};
+
+const MATCHPLAY: IArmy[] = [SonsOfBehemath, MaggotkinOfNurgle, Sylvaneth, Stormcast, HedonitesOfSlaanesh];
 
 export default MATCHPLAY;

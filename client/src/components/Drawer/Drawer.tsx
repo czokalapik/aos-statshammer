@@ -68,7 +68,7 @@ const Drawer = () => {
     if (lg) handleClose();
   }, [handleClose, lg]);
 
-  const isHome = [ROUTES.HOME, ROUTES.TARGET, ROUTES.STATS].includes(page);
+  const isHome = [ROUTES.HOME, ROUTES.TARGET, ROUTES.DAMAGE, ROUTES.HEALTH].includes(page);
 
   const isPermanent = lg && !useRailLg;
   const useRail = md || (lg && useRailLg);

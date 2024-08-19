@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { RoutedTabs } from 'components/Tabbed';
 import Stats from 'containers/Stats';
+import { ResultsMode } from 'containers/Stats/Results';
 import Target from 'containers/Target';
 import Units from 'containers/Units';
 import React from 'react';
@@ -29,13 +30,14 @@ const MobileAppContent = () => {
     <div className={classes.mobileHome}>
       <RoutedTabs
         className={classes.tabs}
-        tabNames={['Units', 'Target', 'Stats']}
+        tabNames={['Units', 'Target', 'Damage', 'Health']}
         tabContent={[
           <Units className={classes.tab} />,
           <Target className={classes.tab} />,
-          <Stats className={classes.tab} />,
+          <Stats className={classes.tab} resultsMode={ResultsMode.DAMAGE} />,
+          <Stats className={classes.tab} resultsMode={ResultsMode.HEALTH} />,
         ]}
-        tabRoutes={[ROUTES.HOME, ROUTES.TARGET, ROUTES.STATS]}
+        tabRoutes={[ROUTES.HOME, ROUTES.TARGET, ROUTES.DAMAGE, ROUTES.HEALTH]}
       />
     </div>
   );
