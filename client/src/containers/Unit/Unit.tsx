@@ -1,6 +1,7 @@
 import { Button, Switch, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add, Delete, FileCopy } from '@material-ui/icons';
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import appConfig from 'appConfig';
 import clsx from 'clsx';
 import ListItem from 'components/ListItem';
@@ -14,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { numUnitsSelector, targetModifierByIdSelector, unitNamesSelector } from 'store/selectors';
 import { notificationsStore, unitsStore } from 'store/slices';
 import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
-import type { IUnit } from 'types/unit';
+import { IUnit, MINUS_ONE_HIT, MINUS_ONE_WOUND, PLUS_ONE_HIT, PLUS_ONE_WOUND } from 'types/unit';
 import { scrollToRef } from 'utils/scrollIntoView';
 import { ROUTES } from 'utils/urls';
 
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
   profiles: {
     marginTop: '1em',
+  },
+  toggleButtonsGroup: {
+    margin: '0.5em',
   },
   button: {
     backgroundColor: theme.palette.primary.light,
@@ -193,6 +197,14 @@ const Unit = React.memo(
       dispatch(unitsStore.actions.toggleReinforcedUnit({ index: id }));
     };
 
+    const handleHitModifier = (_event: any, value: string | null) => {
+      dispatch(unitsStore.actions.editHitModifier({ index: id, value }));
+    };
+
+    const handleWoundModifier = (_event: any, value: string | null) => {
+      dispatch(unitsStore.actions.editWoundModifier({ index: id, value }));
+    };
+
     const addUnitModifier = (modifier: IModifierInstanceParameter) => {
       dispatch(unitsStore.actions.addUnitModifier({ index: id, modifier }));
     };
@@ -222,6 +234,25 @@ const Unit = React.memo(
       }),
       [dispatch],
     );
+
+    const unitToHitModifier = (name: string) => {
+      if (name.includes(PLUS_ONE_HIT)) {
+        return PLUS_ONE_HIT;
+      }
+      if (name.includes(MINUS_ONE_HIT)) {
+        return MINUS_ONE_HIT;
+      }
+      return '';
+    };
+    const unitToWoundModifier = (name: string) => {
+      if (name.includes(PLUS_ONE_WOUND)) {
+        return PLUS_ONE_WOUND;
+      }
+      if (name.includes(MINUS_ONE_WOUND)) {
+        return MINUS_ONE_WOUND;
+      }
+      return '';
+    };
 
     return (
       <div ref={unitRef}>
@@ -267,10 +298,6 @@ const Unit = React.memo(
             />
           </div>
           <div className={classes.inputs}>
-            <div className={classes.fieldReinforced}>
-              <Typography variant="caption">Reinforced</Typography>
-              <Switch checked={unit.reinforced} onChange={handleToggleReinforced} />
-            </div>
             <TextField
               className={classes.fieldSmallNumber}
               label="Save"
@@ -298,6 +325,28 @@ const Unit = React.memo(
               error={Boolean(unitModelsError)}
               helperText={unitModelsError}
             />
+            <div className={classes.fieldReinforced}>
+              <Typography variant="caption">Reinforced</Typography>
+              <Switch checked={unit.reinforced} onChange={handleToggleReinforced} />
+            </div>
+            <ToggleButtonGroup
+              exclusive
+              value={unitToHitModifier(unit.name)}
+              onChange={handleHitModifier}
+              className={classes.toggleButtonsGroup}
+            >
+              <ToggleButton value={PLUS_ONE_HIT}>{PLUS_ONE_HIT}</ToggleButton>
+              <ToggleButton value={MINUS_ONE_HIT}>{MINUS_ONE_HIT}</ToggleButton>
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+              exclusive
+              value={unitToWoundModifier(unit.name)}
+              onChange={handleWoundModifier}
+              className={classes.toggleButtonsGroup}
+            >
+              <ToggleButton value={PLUS_ONE_WOUND}>{PLUS_ONE_WOUND}</ToggleButton>
+              <ToggleButton value={MINUS_ONE_WOUND}>{MINUS_ONE_WOUND}</ToggleButton>
+            </ToggleButtonGroup>
           </div>
           <div className={classes.profiles}>
             {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (

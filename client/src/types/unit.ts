@@ -33,3 +33,8 @@ export interface IUnit extends IUnitParameter {
   modifiers: IModifierInstance[];
   weapon_profiles: IWeaponProfile[];
 }
+
+export const PLUS_ONE_HIT = '+1H';
+export const MINUS_ONE_HIT = '-1H';
+export const PLUS_ONE_WOUND = '+1W';
+export const MINUS_ONE_WOUND = '-1W';

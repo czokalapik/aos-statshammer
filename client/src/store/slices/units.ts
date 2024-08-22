@@ -3,7 +3,16 @@ import appConfig from 'appConfig';
 import { nanoid } from 'nanoid';
 import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
 import type { IUnitStore } from 'types/store';
-import type { IUnitParameter, IWeaponProfile, IWeaponProfileParameter } from 'types/unit';
+import {
+  IUnit,
+  IUnitParameter,
+  IWeaponProfile,
+  IWeaponProfileParameter,
+  MINUS_ONE_HIT,
+  MINUS_ONE_WOUND,
+  PLUS_ONE_HIT,
+  PLUS_ONE_WOUND,
+} from 'types/unit';
 import { moveItemInArray } from 'utils/arrayUpdates';
 
 const DEFAULT_WEAPON_PROFILE: IWeaponProfileParameter = {
@@ -293,6 +302,58 @@ const toggleUnitModifierActive = (
   }
 };
 
+const changeUnitToHit = (unit: IUnit, delta: number) => {
+  unit.weapon_profiles.forEach((wp) => {
+    wp.to_hit = Number(wp.to_hit) + delta;
+  });
+};
+
+const changeUnitToWound = (unit: IUnit, delta: number) => {
+  unit.weapon_profiles.forEach((wp) => {
+    wp.to_wound = Number(wp.to_wound) + delta;
+  });
+};
+
+const editToHitToWoundModifier = (
+  state: IUnitStore,
+  action: { payload: { index: number; value: string | null } },
+  plusOneString: string,
+  minusOneString: string,
+  changeFct: (unit: IUnit, delta: number) => void,
+) => {
+  const { index, value } = action.payload;
+  const unit = state.find((_, i) => i === index);
+  if (unit) {
+    if (unit.name.includes(plusOneString)) {
+      unit.name = unit.name.replace(` ${plusOneString}`, '');
+      changeFct(unit, +1);
+    }
+    if (unit.name.includes(minusOneString)) {
+      unit.name = unit.name.replace(` ${minusOneString}`, '');
+      changeFct(unit, -1);
+    }
+    if (value === plusOneString) {
+      unit.name = `${unit.name} ${plusOneString}`;
+      changeFct(unit, -1);
+    }
+    if (value === minusOneString) {
+      unit.name = `${unit.name} ${minusOneString}`;
+      changeFct(unit, +1);
+    }
+  }
+};
+
+const editHitModifier = (state: IUnitStore, action: { payload: { index: number; value: string | null } }) => {
+  editToHitToWoundModifier(state, action, PLUS_ONE_HIT, MINUS_ONE_HIT, changeUnitToHit);
+};
+
+const editWoundModifier = (
+  state: IUnitStore,
+  action: { payload: { index: number; value: string | null } },
+) => {
+  editToHitToWoundModifier(state, action, PLUS_ONE_WOUND, MINUS_ONE_WOUND, changeUnitToWound);
+};
+
 const editTargetModifierError = (
   state: IUnitStore,
   action: { payload: { index: number; modifierIndex: number; error: boolean } },
@@ -321,6 +382,8 @@ export const unitsStore = createSlice({
     editUnitModels,
     toggleUnit,
     toggleReinforcedUnit,
+    editHitModifier,
+    editWoundModifier,
     clearAllUnits,
     moveUnit,
     addWeaponProfile,
