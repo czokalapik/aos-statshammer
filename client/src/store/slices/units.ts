@@ -74,6 +74,11 @@ export const addUnits = (state: IUnitStore, action: { payload: { units: IUnitPar
   action.payload.units.forEach((unit) => addSingleUnit(state, unit));
 };
 
+export const replaceUnits = (state: IUnitStore, action: { payload: { units: IUnitParameter[] } }) => {
+  state.splice(0, state.length);
+  addUnits(state, action);
+};
+
 export const addUnit = (
   state: IUnitStore,
   action: { payload: { unit: IUnitParameter; atPosition?: number | null } },
@@ -374,6 +379,7 @@ export const unitsStore = createSlice({
   reducers: {
     addUnit,
     addUnits,
+    replaceUnits,
     deleteUnit,
     editUnitName,
     editUnitPoints,

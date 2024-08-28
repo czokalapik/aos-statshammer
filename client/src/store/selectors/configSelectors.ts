@@ -11,3 +11,7 @@ export const desktopGraphListSelector = createSelector(
 export const numSimulationsSelector = createSelector(configSelector, ({ numSimulations }) => numSimulations);
 
 export const useRailLgSelector = createSelector(configSelector, ({ useRailLg }) => useRailLg);
+
+export const otherPlayerArmy = createSelector(configSelector, ({ otherPlayerArmy }) => otherPlayerArmy);
+
+export const activePlayer = createSelector(configSelector, ({ activePlayer }) => activePlayer);

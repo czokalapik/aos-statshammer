@@ -153,6 +153,8 @@ export const config: IConfigStore = {
   useRailLg: false,
   importReplace: true,
   exportFilename: 'aos-stathammer-army',
+  otherPlayerArmy: [],
+  activePlayer: 'Attacker',
 };
 
 export const state: IStore = {

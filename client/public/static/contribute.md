@@ -13,4 +13,4 @@ There is certainly other conventions to put in place, don't hesitate to give me 
 
 ### Thanks to all the contributors listed bellow!
 
-Lex - Faabz
+Lex - Faabz - Oteku

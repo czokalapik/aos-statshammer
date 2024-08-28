@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import appConfig from 'appConfig';
 import type { IConfigStore } from 'types/store';
+import { IUnit } from 'types/unit';
 
 const INITIAL_STATE: IConfigStore = {
   darkMode: false,
@@ -9,6 +10,8 @@ const INITIAL_STATE: IConfigStore = {
   useRailLg: false,
   importReplace: true,
   exportFilename: 'army',
+  otherPlayerArmy: [],
+  activePlayer: 'Attacker',
 };
 
 const toggleDarkMode = (state: IConfigStore) => {
@@ -37,6 +40,11 @@ const toggleImportReplace = (state: IConfigStore) => {
   state.importReplace = !state.importReplace;
 };
 
+const setOtherPlayerArmy = (state: IConfigStore, action: { payload: { otherPlayerArmy: IUnit[] } }) => {
+  state.otherPlayerArmy = action.payload.otherPlayerArmy;
+  state.activePlayer = state.activePlayer === 'Attacker' ? 'Defender' : 'Attacker';
+};
+
 export const configStore = createSlice({
   name: 'config',
   initialState: INITIAL_STATE,
@@ -47,5 +55,6 @@ export const configStore = createSlice({
     toggleUseRailLg,
     toggleImportReplace,
     updateExportFilename,
+    setOtherPlayerArmy,
   },
 });

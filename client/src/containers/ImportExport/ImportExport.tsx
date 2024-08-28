@@ -97,16 +97,18 @@ const ImportExport = () => {
     if (config.importReplace) {
       dispatch(unitsStore.actions.clearAllUnits());
     }
+    const unitsToAdd: IUnitParameter[] = [];
     units.sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
         if (forceStatus) {
           const unitToAdd = { ...unit, active: unitActiveStatus, name: adaptName(unit.name) };
-          dispatch(unitsStore.actions.addUnit({ unit: unitToAdd }));
+          unitsToAdd.push(unitToAdd);
         } else {
-          dispatch(unitsStore.actions.addUnit({ unit: { ...unit, name: adaptName(unit.name) } }));
+          unitsToAdd.push({ ...unit, name: adaptName(unit.name) });
         }
       }
     });
+    dispatch(unitsStore.actions.addUnits({ units: unitsToAdd }));
     dispatch(
       notificationsStore.actions.addNotification({
         message: 'Successfully imported units',

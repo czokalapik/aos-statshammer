@@ -4,6 +4,7 @@ import COS_CC from './CitiesOfSigmar-CasteliteCompany.json';
 import DOK_HT from './DaughterOfKhaine-HeartflayerTroupe.json';
 import FEC_CR from './FleshEaterCourts-CarrionRetainers.json';
 import FYRESLAYERS_SA from './Fyreslayers-SagaAxeband.json';
+import IDONETH_SH from './IdonethDeepkin-SoulraidHunt.json';
 import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
 import KRUELBOYZ from './Kruelboyz-SwampskulkaGang.json';
 import OBR from './OssiarchBonereapers-Tithe-reaperEchelon.json';
@@ -99,21 +100,28 @@ const SylvanethBC: IArmy = {
   label: 'Bitterbark Copse',
 };
 
+const IdonethSH: IArmy = {
+  ...IDONETH_SH,
+  faction: 'Idoneth Deepkin',
+  label: 'Soulraid Hunt',
+};
+
 const SPEARHEADS: IArmy[] = [
-  Tzeentch_FluxbladeCoven,
-  Fyreslayers_SagaAxeband,
-  FleshEaterCourts_CarrionRetainers,
-  Khorne_BloodboundGorePilgrims,
-  DaughterOfKhaine_HeartflayerTroupe,
-  Slaanesh_BladesOfTheLuridDream,
   Cos_CasteliteCompany,
+  DaughterOfKhaine_HeartflayerTroupe,
+  FleshEaterCourts_CarrionRetainers,
+  Fyreslayers_SagaAxeband,
+  IdonethSH,
+  Khorne_BloodboundGorePilgrims,
+  KruelboyzSG,
+  OssiarchTE,
   SCEVigilantBrotherhood,
   SKAVENSGnawfeastClawpack,
-  KruelboyzSG,
-  SeraphonSW,
-  OssiarchTE,
   STDBL,
+  SeraphonSW,
+  Slaanesh_BladesOfTheLuridDream,
   SylvanethBC,
+  Tzeentch_FluxbladeCoven,
 ];
 
 export default SPEARHEADS;

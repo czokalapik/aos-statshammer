@@ -52,6 +52,8 @@ export interface IConfigStore {
   useRailLg: boolean;
   importReplace: boolean;
   exportFilename: string;
+  otherPlayerArmy: IUnit[];
+  activePlayer: 'Attacker' | 'Defender';
 }
 
 export interface IStore {
