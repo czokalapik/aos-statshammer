@@ -11,9 +11,11 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import MATCHPLAY from 'armies/matchplay/matchplay';
 import SPEARHEADS from 'armies/spearheads/spearheads';
+import ArmyFromList from 'components/ImportExport/ArmyFromList';
 import ArmySelector from 'components/ImportExport/ArmySelector';
 import ExportArmyItem from 'components/ImportExport/ExportArmyItem';
 import ImportArmy from 'components/ImportExport/ImportArmy';
+import ReferenceUnits from 'components/ImportExport/ReferenceUnits';
 import { useReadFromFile } from 'hooks';
 import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -84,6 +86,7 @@ const ImportExport = () => {
   const sortedSpearheads = SPEARHEADS.sort(compareArmy);
   const sortedMatchPlays = MATCHPLAY.sort(compareArmy);
   const CHANGE_TITLE = false;
+
   const toTitleCase = (str) => {
     return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
   };
@@ -164,7 +167,9 @@ const ImportExport = () => {
           <Typography variant="h5">Import army</Typography>
           <Typography variant="caption">
             You can import units from here. Either from a file you exported previously, either from a
-            pre-built selection within the application.
+            pre-built selection within the application. You can also import an army list by directly copy
+            pasting the text of your list in the text area bellow and click on the import from list button.
+            This will work only if your faction is already in the available factions covered by the app.
           </Typography>
           <div>
             <Switch onChange={toggleReplace} checked={config.importReplace} />
@@ -174,6 +179,11 @@ const ImportExport = () => {
             <ImportArmy onArmyLoad={loadUnits} />
             <ArmySelector onClick={loadInactiveArmy} armies={sortedMatchPlays} label="Import Faction" />
             <ArmySelector onClick={loadActiveArmy} armies={sortedSpearheads} label="Import Spearhead" />
+            <ReferenceUnits onLoadReferenceUnits={loadInactiveArmy} />
+          </div>
+          <Divider className={classes.divider} />
+          <div className={classes.flexRow}>
+            <ArmyFromList onLoadArmyFromList={loadActiveArmy} />
           </div>
           <Divider className={classes.divider} />
           <Paper>

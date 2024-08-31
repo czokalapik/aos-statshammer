@@ -34,6 +34,7 @@ interface IListItemProps {
   loading?: boolean;
   loaderDelay?: number;
   startCollapsed?: boolean;
+  onCollapseChange?: (collapsed: boolean) => void;
 }
 
 /**
@@ -52,10 +53,18 @@ const ListItem: React.FC<IListItemProps> = ({
   loading,
   loaderDelay,
   startCollapsed,
+  onCollapseChange,
   ...other
 }) => {
   const classes = useStyles();
   const [collapsed, setColapsed] = useState(startCollapsed || false);
+
+  const changeCollapsed = (newCollapsed: boolean) => {
+    if (onCollapseChange) {
+      onCollapseChange(newCollapsed);
+    }
+    setColapsed(newCollapsed);
+  };
 
   return (
     <Card className={clsx(classes.listItem, className)} {...other}>
@@ -67,7 +76,7 @@ const ListItem: React.FC<IListItemProps> = ({
         secondaryItems={secondaryItems}
         collapsible={collapsible}
         collapsed={collapsed}
-        setColapsed={setColapsed}
+        setColapsed={changeCollapsed}
       />
       {loading && <LoadingBar wait={loaderDelay} />}
       <Collapse in={!collapsed}>

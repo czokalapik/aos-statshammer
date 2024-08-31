@@ -9,7 +9,7 @@ import NoItemsCard from 'components/NoItemsCard';
 import UnitModifierList from 'components/UnitModifierList';
 import WeaponProfile from 'containers/WeaponProfile';
 import _ from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { numUnitsSelector, targetModifierByIdSelector, unitNamesSelector } from 'store/selectors';
@@ -82,6 +82,7 @@ const Unit = React.memo(
     const getModifierById = useSelector(targetModifierByIdSelector);
     const dispatch = useDispatch();
     const history = useHistory();
+    const [collapsed, setColapsed] = useState(numUnits > 5);
 
     useEffect(() => {
       scrollToRef(unitRef);
@@ -261,6 +262,7 @@ const Unit = React.memo(
           header={`${unit.name}`}
           checked={unit.active}
           onToggle={handleToggleUnit}
+          onCollapseChange={setColapsed}
           primaryItems={[
             {
               name: 'Copy',
@@ -276,122 +278,126 @@ const Unit = React.memo(
             { name: 'Move Down', onClick: moveUnitDown, disabled: id >= numUnits - 1 },
           ]}
           collapsible
-          startCollapsed={numUnits >= 5}
+          startCollapsed={collapsed}
         >
-          <div className={classes.inputs}>
-            <TextField
-              className={classes.fieldName}
-              label="Unit Name"
-              value={unit.name}
-              onChange={handleEditName}
-              error={Boolean(unitNameError)}
-              helperText={unitNameError}
-            />
-            <TextField
-              className={classes.fieldPoints}
-              label="Unit Points"
-              value={unit.points}
-              type="number"
-              onChange={handleEditPoints}
-              error={Boolean(unitPointsError)}
-              helperText={unitPointsError}
-            />
-          </div>
-          <div className={classes.inputs}>
-            <TextField
-              className={classes.fieldSmallNumber}
-              label="Save"
-              value={unit.save}
-              type="number"
-              onChange={handleEditSave}
-              error={Boolean(unitSaveError)}
-              helperText={unitSaveError}
-            />
-            <TextField
-              className={classes.fieldSmallNumber}
-              label="Health"
-              value={unit.health}
-              type="number"
-              onChange={handleEditHealth}
-              error={Boolean(unitHealthError)}
-              helperText={unitHealthError}
-            />
-            <TextField
-              className={classes.fieldSmallNumber}
-              label="Models"
-              value={unit.models}
-              type="number"
-              onChange={handleEditModels}
-              error={Boolean(unitModelsError)}
-              helperText={unitModelsError}
-            />
-            <div className={classes.fieldReinforced}>
-              <Typography variant="caption">Reinforced</Typography>
-              <Switch checked={unit.reinforced} onChange={handleToggleReinforced} />
-            </div>
-            <ToggleButtonGroup
-              exclusive
-              value={unitToHitModifier(unit.name)}
-              onChange={handleHitModifier}
-              className={classes.toggleButtonsGroup}
-            >
-              <ToggleButton value={PLUS_ONE_HIT}>{PLUS_ONE_HIT}</ToggleButton>
-              <ToggleButton value={MINUS_ONE_HIT}>{MINUS_ONE_HIT}</ToggleButton>
-            </ToggleButtonGroup>
-            <ToggleButtonGroup
-              exclusive
-              value={unitToWoundModifier(unit.name)}
-              onChange={handleWoundModifier}
-              className={classes.toggleButtonsGroup}
-            >
-              <ToggleButton value={PLUS_ONE_WOUND}>{PLUS_ONE_WOUND}</ToggleButton>
-              <ToggleButton value={MINUS_ONE_WOUND}>{MINUS_ONE_WOUND}</ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-          <div className={classes.profiles}>
-            {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (
-              unit.weapon_profiles.map((profile, index) => (
-                <WeaponProfile
-                  unitId={id}
-                  id={index}
-                  profile={profile}
-                  key={profile.uuid}
-                  addProfileEnabled={addProfileEnabled}
-                  numProfiles={numProfiles}
+          {!collapsed && (
+            <div>
+              <div className={classes.inputs}>
+                <TextField
+                  className={classes.fieldName}
+                  label="Unit Name"
+                  value={unit.name}
+                  onChange={handleEditName}
+                  error={Boolean(unitNameError)}
+                  helperText={unitNameError}
                 />
-              ))
-            ) : (
-              <NoItemsCard
-                header="No Profiles"
-                body="No profiles have been added for this unit"
-                dense
-                nested
-              />
-            )}
-          </div>
-          <Button
-            onClick={handleAddProfile}
-            className={classes.button}
-            startIcon={<Add />}
-            variant="contained"
-            color="primary"
-            disabled={!addProfileEnabled}
-            fullWidth
-          >
-            Add Profile
-          </Button>
-          <div className={classes.profiles}>
-            <UnitModifierList
-              activeModifiers={unit.modifiers}
-              addUnitModifier={addUnitModifier}
-              removeUnitModifier={removeUnitModifier}
-              moveUnitModifier={moveUnitModifier}
-              onUnitModifierOptionChange={onUnitModifierOptionChange}
-              onUnitModifierToggle={onUnitModifierToggle}
-              getUnitModifierErrorCallBack={getUnitModifierErrorCallBack}
-              getModifierById={getModifierById}
-            />
-          </div>
+                <TextField
+                  className={classes.fieldPoints}
+                  label="Unit Points"
+                  value={unit.points}
+                  type="number"
+                  onChange={handleEditPoints}
+                  error={Boolean(unitPointsError)}
+                  helperText={unitPointsError}
+                />
+              </div>
+              <div className={classes.inputs}>
+                <TextField
+                  className={classes.fieldSmallNumber}
+                  label="Save"
+                  value={unit.save}
+                  type="number"
+                  onChange={handleEditSave}
+                  error={Boolean(unitSaveError)}
+                  helperText={unitSaveError}
+                />
+                <TextField
+                  className={classes.fieldSmallNumber}
+                  label="Health"
+                  value={unit.health}
+                  type="number"
+                  onChange={handleEditHealth}
+                  error={Boolean(unitHealthError)}
+                  helperText={unitHealthError}
+                />
+                <TextField
+                  className={classes.fieldSmallNumber}
+                  label="Models"
+                  value={unit.models}
+                  type="number"
+                  onChange={handleEditModels}
+                  error={Boolean(unitModelsError)}
+                  helperText={unitModelsError}
+                />
+                <div className={classes.fieldReinforced}>
+                  <Typography variant="caption">Reinforced</Typography>
+                  <Switch checked={unit.reinforced} onChange={handleToggleReinforced} />
+                </div>
+                <ToggleButtonGroup
+                  exclusive
+                  value={unitToHitModifier(unit.name)}
+                  onChange={handleHitModifier}
+                  className={classes.toggleButtonsGroup}
+                >
+                  <ToggleButton value={PLUS_ONE_HIT}>{PLUS_ONE_HIT}</ToggleButton>
+                  <ToggleButton value={MINUS_ONE_HIT}>{MINUS_ONE_HIT}</ToggleButton>
+                </ToggleButtonGroup>
+                <ToggleButtonGroup
+                  exclusive
+                  value={unitToWoundModifier(unit.name)}
+                  onChange={handleWoundModifier}
+                  className={classes.toggleButtonsGroup}
+                >
+                  <ToggleButton value={PLUS_ONE_WOUND}>{PLUS_ONE_WOUND}</ToggleButton>
+                  <ToggleButton value={MINUS_ONE_WOUND}>{MINUS_ONE_WOUND}</ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+              <div className={classes.profiles}>
+                {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (
+                  unit.weapon_profiles.map((profile, index) => (
+                    <WeaponProfile
+                      unitId={id}
+                      id={index}
+                      profile={profile}
+                      key={profile.uuid}
+                      addProfileEnabled={addProfileEnabled}
+                      numProfiles={numProfiles}
+                    />
+                  ))
+                ) : (
+                  <NoItemsCard
+                    header="No Profiles"
+                    body="No profiles have been added for this unit"
+                    dense
+                    nested
+                  />
+                )}
+              </div>
+              <Button
+                onClick={handleAddProfile}
+                className={classes.button}
+                startIcon={<Add />}
+                variant="contained"
+                color="primary"
+                disabled={!addProfileEnabled}
+                fullWidth
+              >
+                Add Profile
+              </Button>
+              <div className={classes.profiles}>
+                <UnitModifierList
+                  activeModifiers={unit.modifiers}
+                  addUnitModifier={addUnitModifier}
+                  removeUnitModifier={removeUnitModifier}
+                  moveUnitModifier={moveUnitModifier}
+                  onUnitModifierOptionChange={onUnitModifierOptionChange}
+                  onUnitModifierToggle={onUnitModifierToggle}
+                  getUnitModifierErrorCallBack={getUnitModifierErrorCallBack}
+                  getModifierById={getModifierById}
+                />
+              </div>
+            </div>
+          )}
         </ListItem>
       </div>
     );
