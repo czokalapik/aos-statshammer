@@ -8,6 +8,7 @@ import SOB from './SonsOfBehemath.json';
 import SBG from './SoulblightGravelords.json';
 import SCE from './Stormcast.json';
 import SYLV from './Sylvaneth.json';
+import OGOR from './OgorMawtribes.json';
 
 const HedonitesOfSlaanesh: any = {
   ...SLAANESH,
@@ -57,10 +58,17 @@ const IdonethDeepkin: any = {
   label: '',
 };
 
+const OgorMawtribes: any = {
+  ...OGOR,
+  faction: 'Ogor Mawtribes',
+  label: '',
+};
+
 const MATCHPLAY: IArmy[] = [
   HedonitesOfSlaanesh,
   IdonethDeepkin,
   MaggotkinOfNurgle,
+  OgorMawtribes,
   SlavesToDarkness,
   SonsOfBehemath,
   SoulblightGravelords,
