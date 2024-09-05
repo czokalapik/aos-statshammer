@@ -4,6 +4,7 @@ import COS_CC from './CitiesOfSigmar-CasteliteCompany.json';
 import DOK_HT from './DaughterOfKhaine-HeartflayerTroupe.json';
 import FEC_CR from './FleshEaterCourts-CarrionRetainers.json';
 import FYRESLAYERS_SA from './Fyreslayers-SagaAxeband.json';
+import GLOOM_BMM from './GlomspiteGitz-BadMoonMadmob.json';
 import IDONETH_SH from './IdonethDeepkin-SoulraidHunt.json';
 import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
 import KRUELBOYZ from './Kruelboyz-SwampskulkaGang.json';
@@ -106,11 +107,18 @@ const IdonethSH: IArmy = {
   label: 'Soulraid Hunt',
 };
 
+const GloomspiteBMM: IArmy = {
+  ...GLOOM_BMM,
+  faction: 'Gloomspite Gitz',
+  label: 'Bad Moon Madmob',
+};
+
 const SPEARHEADS: IArmy[] = [
   Cos_CasteliteCompany,
   DaughterOfKhaine_HeartflayerTroupe,
   FleshEaterCourts_CarrionRetainers,
   Fyreslayers_SagaAxeband,
+  GloomspiteBMM,
   IdonethSH,
   Khorne_BloodboundGorePilgrims,
   KruelboyzSG,
