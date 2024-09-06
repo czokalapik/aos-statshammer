@@ -3,6 +3,7 @@ import { grey } from '@material-ui/core/colors';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import { GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
 import { useHashMatch, useRouteFind } from 'hooks';
+import preval from 'preval.macro';
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -132,6 +133,9 @@ const Drawer = () => {
               {`v${process.env.REACT_APP_VERSION}`}
             </Typography>
           )}
+          <Typography variant="caption" className={classes.version}>
+            Last update: {preval`module.exports = new Date().toLocaleDateString('zh');`}
+          </Typography>
         </List>
       </AppDrawer>
     </>

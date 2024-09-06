@@ -46,7 +46,7 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
   };
 
   return (
-    <div className={classes.group}>
+    <div className={classes.group} id="add-unit-button">
       <Button
         fullWidth
         onClick={handleaddUnit}

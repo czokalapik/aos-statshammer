@@ -1,6 +1,6 @@
 {
     "name": "statshammer",
-    "version": "4.7.2",
+    "version": "4.8.0",
     "private": true,
     "proxy": "http://localhost:5000/",
     "dependencies": {
@@ -32,6 +32,7 @@
         "lorem-ipsum": "^2.0.3",
         "nanoid": "^3.1.9",
         "node-sass": "^9.0.0",
+        "preval.macro": "^5.0.0",
         "prop-types": "^15.7.2",
         "react": "~16.13.1",
         "react-device-detect": "^1.11.14",
