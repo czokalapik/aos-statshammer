@@ -1,2 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Disallow: /target 
+Disallow: /simulations
+Disallow: /pdf
+Disallow: /import
+Disallow: /about
+Disallow: /damage
+Disallow: /health
