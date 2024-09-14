@@ -1,6 +1,7 @@
 import { IArmy } from 'types/army';
 
 import KHORNE from './BladesOfKhorne.json';
+import DOK from './DaughtersOfKhaine.json';
 import FS from './Fyreslayers.json';
 import SLAANESH from './HedonitesOfSlaanesh.json';
 import IDONETH from './IdonethDeepkin.json';
@@ -19,6 +20,12 @@ import SYLV from './Sylvaneth.json';
 const BladesOfKhorne: any = {
   ...KHORNE,
   faction: 'Blades of Khorne',
+  label: '',
+};
+
+const DaughtersOfKhaine: any = {
+  ...DOK,
+  faction: 'Daughters of Khaine',
   label: '',
 };
 
@@ -108,6 +115,7 @@ const Sylvaneth: any = {
 
 const MATCHPLAY: IArmy[] = [
   BladesOfKhorne,
+  DaughtersOfKhaine,
   Fyreslayers,
   HedonitesOfSlaanesh,
   IdonethDeepkin,
