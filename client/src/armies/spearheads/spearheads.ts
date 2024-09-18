@@ -17,25 +17,25 @@ import STD from './SlavesToDarkness-BloodwindLegion.json';
 import SYLVANETH from './Sylvaneth-BitterbarkCopse.json';
 import TZEENCH_FC from './Tzeentch-FluxbladeCoven.json';
 
-const Tzeentch_FluxbladeCoven: IArmy = {
+const Tzeentch_FluxbladeCoven: any = {
   ...TZEENCH_FC,
   faction: 'Tzeentch',
   label: 'Fluxblade Coven',
 };
 
-const Fyreslayers_SagaAxeband: IArmy = {
+const Fyreslayers_SagaAxeband: any = {
   ...FYRESLAYERS_SA,
   faction: 'Fyreslayers',
   label: 'Saga Axeband',
 };
 
-const FleshEaterCourts_CarrionRetainers: IArmy = {
+const FleshEaterCourts_CarrionRetainers: any = {
   ...FEC_CR,
   faction: 'Flesh Eater Courts',
   label: 'Carrion Retainers',
 };
 
-const Khorne_BloodboundGorePilgrims: IArmy = {
+const Khorne_BloodboundGorePilgrims: any = {
   ...KHORNE_BGP,
   faction: 'Blades of Khorne',
   label: 'Bloodbound Gore Pilgrims',
@@ -53,61 +53,61 @@ const Slaanesh_BladesOfTheLuridDream: any = {
   label: 'Blades of the Lurid Dream',
 };
 
-const Cos_CasteliteCompany: IArmy = {
+const Cos_CasteliteCompany: any = {
   ...COS_CC,
   faction: 'Cities of Sigmar',
   label: 'Castelite Company',
 };
 
-const SCEVigilantBrotherhood: IArmy = {
+const SCEVigilantBrotherhood: any = {
   ...SCE_VB,
   faction: 'Stormcast Eternals',
   label: 'Vigilant Brotherhood',
 };
 
-const SKAVENSGnawfeastClawpack: IArmy = {
+const SKAVENSGnawfeastClawpack: any = {
   ...SKAVENS_GC,
   faction: 'Skavens',
   label: 'Gnawfeast Clawpack',
 };
 
-const KruelboyzSG: IArmy = {
+const KruelboyzSG: any = {
   ...KRUELBOYZ,
   faction: 'Kruelboyz',
   label: 'Swampskulka Gang',
 };
 
-const SeraphonSW: IArmy = {
+const SeraphonSW: any = {
   ...SERAPHON,
   faction: 'Seraphon',
   label: 'Starscale Warhost',
 };
 
-const OssiarchTE: IArmy = {
+const OssiarchTE: any = {
   ...OBR,
   faction: 'Ossiarch Bonereapers',
   label: 'Tithe-reaper Echelon',
 };
 
-const STDBL: IArmy = {
+const STDBL: any = {
   ...STD,
   faction: 'Slaves to Darkness',
   label: 'Bloodwind Legion',
 };
 
-const SylvanethBC: IArmy = {
+const SylvanethBC: any = {
   ...SYLVANETH,
   faction: 'Sylvaneth',
   label: 'Bitterbark Copse',
 };
 
-const IdonethSH: IArmy = {
+const IdonethSH: any = {
   ...IDONETH_SH,
   faction: 'Idoneth Deepkin',
   label: 'Soulraid Hunt',
 };
 
-const GloomspiteBMM: IArmy = {
+const GloomspiteBMM: any = {
   ...GLOOM_BMM,
   faction: 'Gloomspite Gitz',
   label: 'Bad Moon Madmob',

@@ -150,6 +150,7 @@ const Unit = React.memo(
             points: unit.points,
             health: unit.health,
             models: unit.models,
+            attacksModifier: unit.attacksModifier,
             modifiers: [...unit.modifiers],
             save: unit.save,
             active: numUnits < appConfig.limits.unitsVisibleByDefault,
@@ -180,6 +181,12 @@ const Unit = React.memo(
 
     const handleEditHealth = (event: any) => {
       dispatch(unitsStore.actions.editUnitHealth({ index: id, health: Number(event.target.value) }));
+    };
+
+    const handleEditAttackModifier = (event: any) => {
+      dispatch(
+        unitsStore.actions.editUnitAttackModifier({ index: id, attacksModifier: Number(event.target.value) }),
+      );
     };
 
     const handleEditSave = (event: any) => {
@@ -351,6 +358,13 @@ const Unit = React.memo(
                   <ToggleButton value={PLUS_ONE_WOUND}>{PLUS_ONE_WOUND}</ToggleButton>
                   <ToggleButton value={MINUS_ONE_WOUND}>{MINUS_ONE_WOUND}</ToggleButton>
                 </ToggleButtonGroup>
+                <TextField
+                  className={classes.fieldSmallNumber}
+                  label="Attack modifier"
+                  value={unit?.attacksModifier}
+                  type="number"
+                  onChange={handleEditAttackModifier}
+                />
               </div>
               <div className={classes.profiles}>
                 {unit && unit.weapon_profiles && unit.weapon_profiles.length ? (

@@ -75,6 +75,7 @@ const sanitizeUnit = ({
   health,
   models,
   save,
+  attacksModifier,
   modifiers,
 }) => ({
   name,
@@ -82,6 +83,7 @@ const sanitizeUnit = ({
   health: Number(health),
   models: Number(models),
   save: Number(save),
+  attacksModifier: Number(attacksModifier),
   active,
   reinforced,
   modifiers: modifiers.map(sanitizeModifier),
@@ -96,6 +98,7 @@ export interface ISanitizedUnit {
   save: number;
   active: boolean;
   reinforced: boolean;
+  attacksModifier: number;
   modifiers?: IModifierInstanceParameter[];
   weapon_profiles: IWeaponProfileParameter[];
 }

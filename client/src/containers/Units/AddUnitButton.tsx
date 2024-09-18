@@ -39,6 +39,7 @@ const AddUnitButton = ({ units }: IAddUnitButtonProps) => {
           models: 1,
           modifiers: [],
           save: 4,
+          attacksModifier: 0,
           active: units.length < appConfig.limits.unitsVisibleByDefault,
         },
       }),

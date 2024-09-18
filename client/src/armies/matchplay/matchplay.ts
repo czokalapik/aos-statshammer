@@ -89,7 +89,7 @@ const SlavesToDarkness: any = {
   label: '',
 };
 
-const SonsOfBehemath: IArmy = {
+const SonsOfBehemath: any = {
   ...SOB,
   faction: 'Sons of Behemat',
   label: '',

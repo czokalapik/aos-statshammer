@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import appConfig from 'appConfig';
+import { isNaN } from 'lodash';
 import { nanoid } from 'nanoid';
 import { IModifierInstanceParameter, TOptionValue } from 'types/modifiers';
 import type { IUnitStore } from 'types/store';
@@ -35,6 +36,7 @@ const INITIAL_STATE: IUnitStore = [
     points: 100,
     health: 2,
     models: 1,
+    attacksModifier: 0,
     modifiers: [],
     save: 4,
     weapon_profiles: [{ ...DEFAULT_WEAPON_PROFILE, uuid: nanoid() }],
@@ -42,7 +44,18 @@ const INITIAL_STATE: IUnitStore = [
 ];
 
 const addSingleUnit = (state: IUnitStore, singleUnit: IUnitParameter, atPosition?: number | null) => {
-  const { name, weapon_profiles, active, points, reinforced, save, models, health, modifiers } = singleUnit;
+  const {
+    name,
+    weapon_profiles,
+    active,
+    points,
+    reinforced,
+    save,
+    models,
+    health,
+    attacksModifier,
+    modifiers,
+  } = singleUnit;
   const profiles = weapon_profiles ?? [DEFAULT_WEAPON_PROFILE];
   const unit_modifiers = modifiers ?? [];
   const unit = {
@@ -53,6 +66,7 @@ const addSingleUnit = (state: IUnitStore, singleUnit: IUnitParameter, atPosition
     reinforced: reinforced ?? false,
     health: health ?? 2,
     models: models ?? 1,
+    attacksModifier: attacksModifier ?? 0,
     modifiers: unit_modifiers.map((modifier) => ({
       ...modifier,
       uuid: nanoid(),
@@ -113,6 +127,31 @@ export const editUnitHealth = (state: IUnitStore, action: { payload: { index: nu
   const unit = state[index];
   if (unit) {
     unit.health = health;
+  }
+};
+
+export const editUnitAttackModifier = (
+  state: IUnitStore,
+  action: { payload: { index: number; attacksModifier: number } },
+) => {
+  const { index, attacksModifier } = action.payload;
+  const unit = state[index];
+  if (unit) {
+    if (!unit.attacksModifier || isNaN(unit.attacksModifier)) {
+      unit.attacksModifier = 0;
+    }
+    const delta = attacksModifier - unit.attacksModifier ?? 0;
+    unit.attacksModifier = attacksModifier;
+    unit.weapon_profiles.forEach((weapon) => {
+      weapon.attacks = Number(weapon.attacks) + delta;
+    });
+    const unitNameWithoutAttack = unit.name.replace(/ [+|-]\d+Atk/, '');
+    if (attacksModifier === 0) {
+      unit.name = unitNameWithoutAttack;
+    } else {
+      const signPrefix = attacksModifier > 0 ? '+' : '';
+      unit.name = `${unitNameWithoutAttack} ${signPrefix}${attacksModifier}Atk`;
+    }
   }
 };
 
@@ -385,6 +424,7 @@ export const unitsStore = createSlice({
     editUnitPoints,
     editUnitSave,
     editUnitHealth,
+    editUnitAttackModifier,
     editUnitModels,
     toggleUnit,
     toggleReinforcedUnit,

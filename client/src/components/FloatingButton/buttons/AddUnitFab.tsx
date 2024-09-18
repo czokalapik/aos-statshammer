@@ -22,6 +22,7 @@ const AddUnitFab = () => {
           models: 1,
           modifiers: [],
           save: 4,
+          attacksModifier: 0,
           active: numUnits < appConfig.limits.unitsVisibleByDefault,
         },
       }),

@@ -24,6 +24,7 @@ export interface IUnitParameter {
   health: number;
   models: number;
   save: number;
+  attacksModifier: number;
   modifiers?: IModifierInstanceParameter[];
   weapon_profiles?: IWeaponProfileParameter[];
 }
