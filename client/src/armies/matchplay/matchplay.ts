@@ -2,9 +2,12 @@ import { IArmy } from 'types/army';
 
 import KHORNE from './BladesOfKhorne.json';
 import DOK from './DaughtersOfKhaine.json';
+import TZEENCH from './DisciplesOfTzeentch.json';
+import FEC from './Flesh-EaterCourts.json';
 import FS from './Fyreslayers.json';
 import SLAANESH from './HedonitesOfSlaanesh.json';
 import IDONETH from './IdonethDeepkin.json';
+import KO from './KharadronsOverlord.json';
 import KB from './Kruleboyz.json';
 import LRL from './LuminethRealm-Lords.json';
 import NURGLE from './MaggotkinOfNurgle.json';
@@ -29,6 +32,18 @@ const DaughtersOfKhaine: any = {
   label: '',
 };
 
+const DisciplesOfTzeentch: any = {
+  ...TZEENCH,
+  faction: 'Disciples of Tzeentch',
+  label: '',
+};
+
+const FleshEaterCourts: any = {
+  ...FEC,
+  faction: 'Flesh-Eater Courts',
+  label: '',
+};
+
 const Fyreslayers: any = {
   ...FS,
   faction: 'Fyreslayers',
@@ -44,6 +59,12 @@ const HedonitesOfSlaanesh: any = {
 const IdonethDeepkin: any = {
   ...IDONETH,
   faction: 'Idoneth Deepkin',
+  label: '',
+};
+
+const KharadronsOverlord: any = {
+  ...KO,
+  faction: 'Kharadrons Overlord',
   label: '',
 };
 
@@ -116,9 +137,12 @@ const Sylvaneth: any = {
 const MATCHPLAY: IArmy[] = [
   BladesOfKhorne,
   DaughtersOfKhaine,
+  DisciplesOfTzeentch,
+  FleshEaterCourts,
   Fyreslayers,
   HedonitesOfSlaanesh,
   IdonethDeepkin,
+  KharadronsOverlord,
   Kruleboyz,
   LuminethRealmLords,
   MaggotkinOfNurgle,
