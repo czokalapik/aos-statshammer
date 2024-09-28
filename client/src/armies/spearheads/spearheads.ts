@@ -7,6 +7,7 @@ import FYRESLAYERS_SA from './Fyreslayers-SagaAxeband.json';
 import GLOOM_BMM from './GlomspiteGitz-BadMoonMadmob.json';
 import IDONETH_SH from './IdonethDeepkin-SoulraidHunt.json';
 import KHORNE_BGP from './Khorne-BloodboundGorePilgrims.json';
+import KO_STF from './KharadronOverlords-SkyhammerTaskForce.json';
 import KRUELBOYZ from './Kruelboyz-SwampskulkaGang.json';
 import OBR from './OssiarchBonereapers-Tithe-reaperEchelon.json';
 import SCE_VB from './SCE-Vigilant Brotherhood.json';
@@ -113,6 +114,12 @@ const GloomspiteBMM: any = {
   label: 'Bad Moon Madmob',
 };
 
+const KharadronOverlords_STF: any = {
+  ...KO_STF,
+  faction: 'Kharadron Overlords',
+  label: 'Skyhammer Task Force',
+};
+
 const SPEARHEADS: IArmy[] = [
   Cos_CasteliteCompany,
   DaughterOfKhaine_HeartflayerTroupe,
@@ -120,6 +127,7 @@ const SPEARHEADS: IArmy[] = [
   Fyreslayers_SagaAxeband,
   GloomspiteBMM,
   IdonethSH,
+  KharadronOverlords_STF,
   Khorne_BloodboundGorePilgrims,
   KruelboyzSG,
   OssiarchTE,
