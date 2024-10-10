@@ -7,6 +7,7 @@ import FEC from './Flesh-EaterCourts.json';
 import FS from './Fyreslayers.json';
 import SLAANESH from './HedonitesOfSlaanesh.json';
 import IDONETH from './IdonethDeepkin.json';
+import IJ from './Ironjaws.json';
 import KO from './KharadronsOverlord.json';
 import KB from './Kruleboyz.json';
 import LRL from './LuminethRealm-Lords.json';
@@ -59,6 +60,12 @@ const HedonitesOfSlaanesh: any = {
 const IdonethDeepkin: any = {
   ...IDONETH,
   faction: 'Idoneth Deepkin',
+  label: '',
+};
+
+const Ironjaws: any = {
+  ...IJ,
+  faction: 'Iron Jaws',
   label: '',
 };
 
@@ -142,6 +149,7 @@ const MATCHPLAY: IArmy[] = [
   Fyreslayers,
   HedonitesOfSlaanesh,
   IdonethDeepkin,
+  Ironjaws,
   KharadronsOverlord,
   Kruleboyz,
   LuminethRealmLords,
