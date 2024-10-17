@@ -4,9 +4,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSanitizedAllUnitsSelector, ISanitizedUnit } from 'store/selectors';
 import { notificationsStore } from 'store/slices';
+import { Faction } from 'types/army';
 
-const downloadArmy = (army: ISanitizedUnit[], filename: string) => {
-  const data = encodeURIComponent(JSON.stringify({ units: army }));
+const downloadArmy = (army: ISanitizedUnit[], filename: string, exportAsBT: boolean, faction: Faction) => {
+  const toExport = exportAsBT ? { units: army, faction } : { units: army };
+
+  const data = encodeURIComponent(JSON.stringify(toExport));
   // eslint-disable-next-line no-undef
   const a = document.createElement('a');
   a.href = `data:text/json;charset=utf-8,${data}`;
@@ -17,15 +20,22 @@ const downloadArmy = (army: ISanitizedUnit[], filename: string) => {
 interface IExportArmyItemProps {
   onClick?: () => void;
   filename: string;
+  exportAsBT: boolean;
+  faction: Faction;
 }
 
-const ExportArmyItem = ({ onClick, filename }: IExportArmyItemProps) => {
+const ExportArmyItem = ({ onClick, filename, exportAsBT, faction }: IExportArmyItemProps) => {
   const dispatch = useDispatch();
   const units = useSelector(getSanitizedAllUnitsSelector)();
 
   const exportArmy = () => {
-    downloadArmy(units, filename);
-    dispatch(notificationsStore.actions.addNotification({ message: 'Exported Army', variant: 'success' }));
+    downloadArmy(units, filename, exportAsBT, faction);
+    dispatch(
+      notificationsStore.actions.addNotification({
+        message: exportAsBT ? 'Exported Battletome' : 'Exported Army',
+        variant: 'success',
+      }),
+    );
     if (onClick) onClick();
   };
 

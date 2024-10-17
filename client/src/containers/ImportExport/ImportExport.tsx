@@ -9,21 +9,20 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MATCHPLAY from 'armies/matchplay/matchplay';
-import SPEARHEADS from 'armies/spearheads/spearheads';
 import ArmyFromList from 'components/ImportExport/ArmyFromList';
 import ArmySelector from 'components/ImportExport/ArmySelector';
 import ExportArmyItem from 'components/ImportExport/ExportArmyItem';
+import FactionSelector from 'components/ImportExport/FactionSelector';
 import ImportArmy from 'components/ImportExport/ImportArmy';
 import ReferenceUnits from 'components/ImportExport/ReferenceUnits';
 import { useReadFromFile } from 'hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { configSelector } from 'store/selectors';
-import { configStore, notificationsStore, unitsStore } from 'store/slices';
-import { IArmy } from 'types/army';
+import { configSelector, mergedBattletomesSelector, spearheadSelector } from 'store/selectors';
+import { battletomesStore, configStore, notificationsStore, unitsStore } from 'store/slices';
+import { Faction, IArmy } from 'types/army';
 import { IUnitParameter } from 'types/unit';
 import { scrollToTop } from 'utils/scrollIntoView';
 import { ROUTES } from 'utils/urls';
@@ -80,12 +79,17 @@ const ImportExport = () => {
   const content = useReadFromFile('contribute.md');
   const config = useSelector(configSelector);
   const compareString = (a, b) => 0 - (a < b ? 1 : -1);
-  const compareArmy = (a, b) =>
-    a.faction === b.faction ? compareString(a.label, b.label) : compareString(a.faction, b.faction);
   const compareUnit = (a, b) => compareString(a.name, b.name);
-  const sortedSpearheads = SPEARHEADS.sort(compareArmy);
-  const sortedMatchPlays = MATCHPLAY.sort(compareArmy);
+  const sortedSpearheads = useSelector(spearheadSelector);
+  const sortedMatchPlays = useSelector(mergedBattletomesSelector);
   const CHANGE_TITLE = false;
+  const [exportAsBT, setExportAsBT] = useState(false);
+  const [faction, setFaction] = useState(Faction.SCE);
+
+  const setBattletomeFaction = (newFaction) => {
+    setFaction(newFaction);
+  };
+  const toggleBattletome = () => setExportAsBT(!exportAsBT);
 
   const toTitleCase = (str) => {
     return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
@@ -96,12 +100,26 @@ const ImportExport = () => {
     history.push(ROUTES.HOME);
   };
 
-  const loadUnitsWithStatus = (units: IUnitParameter[], forceStatus: boolean, unitActiveStatus: boolean) => {
+  const loadUnitsWithStatus = (
+    units: IUnitParameter[],
+    forceStatus: boolean,
+    unitActiveStatus: boolean,
+    faction: Faction,
+  ) => {
+    if (faction && faction !== Faction.List) {
+      dispatch(
+        notificationsStore.actions.addNotification({
+          message: `This file seems containing the battletome for ${faction}. Use import battletome instead.`,
+          variant: 'error',
+        }),
+      );
+      return;
+    }
     if (config.importReplace) {
       dispatch(unitsStore.actions.clearAllUnits());
     }
     const unitsToAdd: IUnitParameter[] = [];
-    units.sort(compareUnit).forEach((unit) => {
+    [...units].sort(compareUnit).forEach((unit) => {
       if (unit.name && unit.weapon_profiles) {
         if (forceStatus) {
           const unitToAdd = { ...unit, active: unitActiveStatus, name: adaptName(unit.name) };
@@ -120,9 +138,29 @@ const ImportExport = () => {
     );
     goToHome();
   };
-  const loadUnits = (units: IUnitParameter[]) => loadUnitsWithStatus(units, false, false);
-  const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, true);
-  const loadInactiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, false);
+  const loadUnits = (units: IUnitParameter[], faction: Faction) =>
+    loadUnitsWithStatus(units, false, false, faction);
+  const loadBT = (units: IUnitParameter[], faction: Faction) => {
+    if (faction === Faction.List) {
+      dispatch(
+        notificationsStore.actions.addNotification({
+          message: `File is containing an army list, not a known faction. You can't import it as a battletome`,
+          variant: 'error',
+        }),
+      );
+      return;
+    }
+    const battletome: IArmy = { faction, label: 'Battletome', units };
+    dispatch(battletomesStore.actions.addBattletome({ battletome }));
+    dispatch(
+      notificationsStore.actions.addNotification({
+        message: `Battletome ${faction} updated successfully`,
+        variant: 'success',
+      }),
+    );
+  };
+  const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, true, Faction.List);
+  const loadInactiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, false, Faction.List);
 
   const toggleReplace = () => {
     dispatch(configStore.actions.toggleImportReplace());
@@ -157,8 +195,13 @@ const ImportExport = () => {
               error={Boolean(FilenameError())}
               helperText={FilenameError()}
             />
+            <div>
+              <Switch onChange={toggleBattletome} checked={exportAsBT} />
+              {`${exportAsBT ? 'Export as a battletome' : 'Export as a list of units'}`}
+            </div>
+            {exportAsBT && <FactionSelector value={faction} handleSelect={setBattletomeFaction} />}
             <div className={classes.topleftMargin}>
-              <ExportArmyItem filename={config.exportFilename} />
+              <ExportArmyItem filename={config.exportFilename} exportAsBT={exportAsBT} faction={faction} />
             </div>
           </div>
         </Card>
@@ -176,9 +219,10 @@ const ImportExport = () => {
             {`${config.importReplace ? 'Replace all units' : 'Add units to existing units'}`}
           </div>
           <div className={classes.flexRow}>
-            <ImportArmy onArmyLoad={loadUnits} />
+            <ImportArmy onArmyLoad={loadUnits} text="Import units from a file" />
             <ArmySelector onClick={loadInactiveArmy} armies={sortedMatchPlays} label="Import Faction" />
             <ArmySelector onClick={loadActiveArmy} armies={sortedSpearheads} label="Import Spearhead" />
+            <ImportArmy onArmyLoad={loadBT} text="Import battletome" />
             <ReferenceUnits onLoadReferenceUnits={loadInactiveArmy} />
           </div>
           <Divider className={classes.divider} />

@@ -1,3 +1,4 @@
+import { IArmy } from './army';
 import type { IModifierDefinition, IModifierInstance } from './modifiers';
 import type { INotification } from './notification';
 import type { ISimulationResult } from './simulations';
@@ -56,10 +57,15 @@ export interface IConfigStore {
   activePlayer: 'Attacker' | 'Defender';
 }
 
+export interface IBattletomesStore {
+  battletomes: IArmy[];
+}
+
 export interface IStore {
   modifiers: IModifiersStore;
   targetModifiers: ITargetModifiersStore;
   units: IUnitStore;
+  battletomes: IBattletomesStore;
   target: ITargetStore;
   stats: IStatsStore;
   simulations: ISimulationsStore;

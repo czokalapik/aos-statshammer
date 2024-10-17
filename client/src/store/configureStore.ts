@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import type { IStore } from 'types/store';
 
 import {
+  battletomesStore,
   configStore,
   modifiersStore,
   notificationsStore,
@@ -17,6 +18,7 @@ import {
 } from './slices';
 
 export const appReducer = combineReducers({
+  battletomes: battletomesStore.reducer,
   config: configStore.reducer,
   modifiers: modifiersStore.reducer,
   notifications: notificationsStore.reducer,

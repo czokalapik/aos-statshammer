@@ -1,11 +1,11 @@
 import { Button, TextField } from '@material-ui/core';
 import { ImportExport } from '@material-ui/icons';
-import MATCHPLAY from 'armies/matchplay/matchplay';
 import { lowerCase } from 'lodash';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { mergedBattletomesSelector } from 'store/selectors';
 import { notificationsStore } from 'store/slices';
-import { IArmy } from 'types/army';
+import { Faction, IArmy } from 'types/army';
 
 interface IArmyFromListProps {
   onLoadArmyFromList: (ArmyFromList: IArmy) => void;
@@ -14,14 +14,15 @@ interface IArmyFromListProps {
 const ArmyFromList = ({ onLoadArmyFromList }: IArmyFromListProps) => {
   const [armyList, setArmyList] = useState('');
   const dispatch = useDispatch();
+  const matchPlay = useSelector(mergedBattletomesSelector);
   const onClick = () => {
     const lowercaseArmylist = lowerCase(armyList);
     const armyUnits: IArmy = {
-      faction: '',
+      faction: Faction.List,
       label: '',
       units: [],
     };
-    MATCHPLAY.forEach((army) => {
+    matchPlay.forEach((army) => {
       army.units.forEach((unit) => {
         const strippedUnitName = lowerCase(unit.name.replace(/\(.*\)/g, '').trim());
         if (lowercaseArmylist.includes(strippedUnitName)) {

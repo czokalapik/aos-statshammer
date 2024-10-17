@@ -1,4 +1,5 @@
 import type {
+  IBattletomesStore,
   IConfigStore,
   IModifiersStore,
   INotificationsStore,
@@ -157,7 +158,12 @@ export const config: IConfigStore = {
   activePlayer: 'Attacker',
 };
 
+export const battletomes: IBattletomesStore = {
+  battletomes: [],
+};
+
 export const state: IStore = {
+  battletomes,
   modifiers,
   targetModifiers,
   units,

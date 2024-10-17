@@ -1,4 +1,4 @@
-import { IArmy } from 'types/army';
+import { Faction, IArmy } from 'types/army';
 
 import KHORNE from './BladesOfKhorne.json';
 import DOK from './DaughtersOfKhaine.json';
@@ -23,122 +23,122 @@ import SYLV from './Sylvaneth.json';
 
 const BladesOfKhorne: any = {
   ...KHORNE,
-  faction: 'Blades of Khorne',
-  label: '',
+  faction: Faction.Khorne,
+  label: 'index',
 };
 
 const DaughtersOfKhaine: any = {
   ...DOK,
-  faction: 'Daughters of Khaine',
-  label: '',
+  faction: Faction.DoK,
+  label: 'index',
 };
 
 const DisciplesOfTzeentch: any = {
   ...TZEENCH,
-  faction: 'Disciples of Tzeentch',
-  label: '',
+  faction: Faction.Tzeentch,
+  label: 'index',
 };
 
 const FleshEaterCourts: any = {
   ...FEC,
-  faction: 'Flesh-Eater Courts',
-  label: '',
+  faction: Faction.FEC,
+  label: 'index',
 };
 
 const Fyreslayers: any = {
   ...FS,
-  faction: 'Fyreslayers',
-  label: '',
+  faction: Faction.FS,
+  label: 'index',
 };
 
 const HedonitesOfSlaanesh: any = {
   ...SLAANESH,
-  faction: 'Hedonites of Slaanesh',
-  label: '',
+  faction: Faction.Slaanesh,
+  label: 'index',
 };
 
 const IdonethDeepkin: any = {
   ...IDONETH,
-  faction: 'Idoneth Deepkin',
-  label: '',
+  faction: Faction.Idoneth,
+  label: 'index',
 };
 
 const Ironjaws: any = {
   ...IJ,
-  faction: 'Iron Jaws',
-  label: '',
+  faction: Faction.IJ,
+  label: 'index',
 };
 
 const KharadronsOverlord: any = {
   ...KO,
-  faction: 'Kharadrons Overlord',
-  label: '',
+  faction: Faction.KO,
+  label: 'index',
 };
 
 const Kruleboyz: any = {
   ...KB,
-  faction: 'Kruleboyz',
-  label: '',
+  faction: Faction.Kruleboyz,
+  label: 'index',
 };
 
 const LuminethRealmLords: any = {
   ...LRL,
-  faction: 'Lumineth Realm-Lords',
-  label: '',
+  faction: Faction.LRL,
+  label: 'index',
 };
 
 const MaggotkinOfNurgle: any = {
   ...NURGLE,
-  faction: 'Maggotkin of Nurgle',
-  label: '',
+  faction: Faction.Nurgle,
+  label: 'index',
 };
 
 const NightHaunt: any = {
   ...NH,
-  faction: 'Nighthaunt',
-  label: '',
+  faction: Faction.NH,
+  label: 'index',
 };
 
 const OgorMawtribes: any = {
   ...OGOR,
-  faction: 'Ogor Mawtribes',
-  label: '',
+  faction: Faction.Ogor,
+  label: 'index',
 };
 
 const OssiarchBonereapers: any = {
   ...OBR,
-  faction: 'Ossiarch Bonereapers',
-  label: '',
+  faction: Faction.OBR,
+  label: 'index',
 };
 
 const SlavesToDarkness: any = {
   ...STD,
-  faction: 'Slaves to Darkness',
-  label: '',
+  faction: Faction.StD,
+  label: 'index',
 };
 
 const SonsOfBehemath: any = {
   ...SOB,
-  faction: 'Sons of Behemat',
-  label: '',
+  faction: Faction.SoB,
+  label: 'index',
 };
 
 const SoulblightGravelords: any = {
   ...SBG,
-  faction: 'Soulblight Gravelords',
-  label: '',
+  faction: Faction.SbG,
+  label: 'index',
 };
 
 const Stormcast: any = {
   ...SCE,
-  faction: 'Stormcast Eternals',
-  label: 'incomplete',
+  faction: Faction.SCE,
+  label: 'index - incomplete',
 };
 
 const Sylvaneth: any = {
   ...SYLV,
-  faction: 'Sylvaneth',
-  label: '',
+  faction: Faction.Sylvaneth,
+  label: 'index',
 };
 
 const MATCHPLAY: IArmy[] = [

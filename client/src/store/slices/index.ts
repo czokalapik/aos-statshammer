@@ -1,3 +1,4 @@
+export * from './battletomes';
 export * from './config';
 export * from './modifiers';
 export * from './notifications';
