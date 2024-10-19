@@ -35,7 +35,7 @@ const persistConfig = {
   key: 'aos-statshammer-4-2-0',
   storage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ['units', 'config', 'target'],
+  whitelist: ['units', 'config', 'target', 'battletomes'],
 };
 
 const persistedReducer = persistReducer<IStore>(persistConfig, appReducer);
