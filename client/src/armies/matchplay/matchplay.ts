@@ -132,7 +132,7 @@ const SoulblightGravelords: any = {
 const Stormcast: any = {
   ...SCE,
   faction: Faction.SCE,
-  label: 'index - incomplete',
+  label: 'index',
 };
 
 const Sylvaneth: any = {
