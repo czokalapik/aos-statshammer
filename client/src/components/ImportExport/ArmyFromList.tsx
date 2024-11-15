@@ -24,7 +24,11 @@ const ArmyFromList = ({ onLoadArmyFromList }: IArmyFromListProps) => {
     };
     matchPlay.forEach((army) => {
       army.units.forEach((unit) => {
-        const strippedUnitName = lowerCase(unit.name.replace(/\(.*\)/g, '').trim());
+        const strippedUnitName = lowerCase(unit.name
+          .replace(/ - .*/g, '')
+          .replace(/,.*/g, '')
+          .replace(/\(.*\)/g, '')
+          .trim());
         if (lowercaseArmylist.includes(strippedUnitName)) {
           armyUnits.units.push(unit);
         }

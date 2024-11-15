@@ -65,13 +65,19 @@ const ResultsTable: React.FC<IResultsTableProps> = ({
       />
     );
   }
+  const total = 'total';
+  const unitNamesWithTotal = [...unitNames, total];
+  const sum = (a,b) => a+b;
+  const resultsWithTotal = results.map((result) => {
+    return {...result, total:unitNames.map(name => result[name]).reduce(sum, 0).toFixed(2)};
+  });
   return (
     <Paper className={classes.container}>
       <Table size="small" className={clsx(classes.table, className)}>
         <TableHead>
           <TableRow className={classes.header}>
             <TableCell className={clsx(classes.sticky, classes.header)}>{chartsLabels.axisLabel}</TableCell>
-            {unitNames.map((name) => (
+            {unitNamesWithTotal.map((name) => (
               <TableCell align="right" key={name} className={classes.header}>
                 {name}
               </TableCell>
@@ -79,12 +85,12 @@ const ResultsTable: React.FC<IResultsTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {results.map((result) => {
+          {resultsWithTotal.map((result) => {
             return (
               // eslint-disable-next-line react/no-array-index-key
               <TableRow key={result.label}>
                 <TableCell className={clsx(classes.sticky, classes.cell)}>{result.label}</TableCell>
-                {unitNames.map((name) => (
+                {unitNamesWithTotal.map((name) => (
                   <TableCell key={name} align="right">
                     {result[name]}
                   </TableCell>
