@@ -35,7 +35,7 @@ const StatsSubscriber = () => {
   const per100Points = useSelector(statsPer100Points, _.isEqual);
 
   const [debouncedUseEffect] = useDebouncedCallback(() => {
-    dispatch(fetchStatsCompare());
+    dispatch(fetchStatsCompare(false));
   }, appConfig.timers.debounce);
 
   useEffect(() => {

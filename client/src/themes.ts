@@ -1,5 +1,5 @@
 import { amber, green, grey, red, teal } from '@material-ui/core/colors';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import type { IConfigStore } from 'types/store';
 
 const commonOptions = {
@@ -56,7 +56,7 @@ const seriesColor = [
   '#f50057',
 ];
 
-const lightTheme = createMuiTheme({
+const lightTheme = createTheme({
   name: 'Light Theme',
   palette: {
     type: 'light',
@@ -83,7 +83,7 @@ const lightTheme = createMuiTheme({
   ...commonOptions,
 });
 
-const darkTheme = createMuiTheme({
+const darkTheme = createTheme({
   name: 'Dark Theme',
   palette: {
     type: 'dark',

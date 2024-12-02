@@ -15,7 +15,7 @@ const StatsErrorCard = ({ className }: IStatsErrorCardProps) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(fetchStatsCompare());
+    dispatch(fetchStatsCompare(false));
   };
 
   return <ErrorCard className={className} retryFunc={handleClick} />;

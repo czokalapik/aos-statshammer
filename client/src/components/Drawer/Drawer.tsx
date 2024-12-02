@@ -18,6 +18,7 @@ import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
 import Rail from './Rail';
+import BetaTag from 'components/BetaTag';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -108,6 +109,12 @@ const Drawer = () => {
             icon={<GetApp />}
             selected={page === ROUTES.PDF}
             disabled={numUnits <= 0}
+          />
+          <MenuLinkItem
+            to={ROUTES.RANKINGS}
+            label="Rankings"
+            icon={<BetaTag />}
+            selected={page === ROUTES.RANKINGS}
           />
           <MenuLinkItem to={ROUTES.ABOUT} label="About" icon={<Info />} selected={page === ROUTES.ABOUT} />
           <Divider className={classes.divider} variant="middle" />

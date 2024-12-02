@@ -13,6 +13,7 @@ import ClearUnitsItem from './items/ClearUnitsItem';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
+import BetaTag from 'components/BetaTag';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -84,6 +85,13 @@ const Drawer = () => {
           icon={<GetApp />}
           selected={page === ROUTES.PDF}
           disabled={numUnits <= 0}
+          mini
+        />
+        <MenuLinkItem
+          to={ROUTES.RANKINGS}
+          label="Rankings"
+          icon={<BetaTag />}
+          selected={page === ROUTES.RANKINGS}
           mini
         />
         <MenuLinkItem to={ROUTES.ABOUT} label="About" icon={<Info />} selected={page === ROUTES.ABOUT} mini />

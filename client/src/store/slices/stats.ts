@@ -8,6 +8,8 @@ const INITIAL_STATE: IStatsStore = {
   payload: [],
   damageResults: [],
   effectiveHealthResults: [],
+  rankingDamageResults: [],
+  rankingEffectiveHealthResults: [],
   per100Points: false,
   error: null,
 };
@@ -19,16 +21,22 @@ const fetchStatsPending = (state: IStatsStore) => {
 
 const fetchStatsSuccess = (
   state: IStatsStore,
-  action: { payload: { results: TResults; effectiveHealthResults: StatsResults } },
+  action: { payload: { results: TResults; effectiveHealthResults: StatsResults, rankings: boolean } },
 ) => {
-  const { results, effectiveHealthResults } = action.payload;
+  const { results, effectiveHealthResults, rankings } = action.payload;
   state.pending = false;
   state.error = null;
   state.payload = results;
-  state.damageResults = results.map((result) => {
+  const labeledResult = results.map((result) => {
     return { label: saveLabel(result.save), ...result };
   });
-  state.effectiveHealthResults = effectiveHealthResults;
+  if (rankings){
+    state.rankingDamageResults = labeledResult;
+    state.rankingEffectiveHealthResults = effectiveHealthResults;  
+  } else {
+    state.damageResults = labeledResult;
+    state.effectiveHealthResults = effectiveHealthResults;  
+  }
 };
 
 const fetchStatsError = (state: IStatsStore, action: { payload: { error: TError } }) => {

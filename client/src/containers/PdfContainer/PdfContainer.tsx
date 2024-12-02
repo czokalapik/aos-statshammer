@@ -39,7 +39,7 @@ const PdfContainer = () => {
   const probabilities = simulations.results;
 
   useEffect(() => {
-    dispatch(fetchStatsCompare());
+    dispatch(fetchStatsCompare(false));
     dispatch(fetchModifiers());
     dispatch(fetchTargetModifiers());
     dispatch(fetchSimulations());

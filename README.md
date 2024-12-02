@@ -64,23 +64,24 @@ a number of modifiers (abilities)
 
 ## Installation
 
-Ensure that you have `node`, `yarn`, and `nodedeamon` installed.
+Ensure that you have `node`, `pnpm`, and `nodedeamon` installed.
 
-Install the packages needed for the express server (backend) and the client (frontend)
+Install the packages needed for the client (frontend)
 
 ```bash
-yarn setup
+cd client
+pnpm install
 ```
 
 ## Usage
 
-### `yarn dev`
+### `pnpm dev`
 
 Runs the app in development mode (launches both the express server, and the react frontend).
 
 Open http://localhost:3000 to view it in the browser
 
-### `yarn test`
+### `pnpm test`
 
 Runs the api tests. Please make sure you run this whenever you make any changes to the api / backend
 

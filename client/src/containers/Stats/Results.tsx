@@ -6,7 +6,7 @@ import ListItem from 'components/ListItem';
 import TargetSummary from 'components/TargetSummary';
 import Graphs from 'containers/Graphs';
 import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { statsStore } from 'store/slices';
 import { ChartsLabels } from 'types/charts';
@@ -38,11 +38,36 @@ const Results: React.FC<IResultsProps> = React.memo(
     const dispatch = useDispatch();
     const classes = useStyles();
     const theme = useTheme();
+    const NO_SORT = "None";
     const firstLoad = !stats?.payload?.length && stats?.pending;
     const mobile = useMediaQuery(theme.breakpoints.down('sm'));
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
     const showDamage = resultsMode === ResultsMode.ALL || resultsMode === ResultsMode.DAMAGE;
     const showHealth = resultsMode === ResultsMode.ALL || resultsMode === ResultsMode.HEALTH;
+    const [sortByDamage, setSortByDamage] = useState(NO_SORT);
+    const [sortByHealth, setSortByHealth] = useState(NO_SORT);
+
+    const damageSortResults = stats.damageResults && sortByDamage!==NO_SORT && stats.damageResults.length>0 ? stats.damageResults.filter(result => result.label===sortByDamage)[0]:{};
+    const sortedDamageUnitNames = sortByDamage === NO_SORT ? [...unitNames]: [...unitNames].sort((a,b)=>Number(damageSortResults[b])-Number(damageSortResults[a]));    
+
+    const changeDamageSort = (sort:string) => {
+      if (sort === sortByDamage){
+        setSortByDamage(NO_SORT)
+      } else {
+        setSortByDamage(sort);
+      }
+    };
+
+    const healthSortResults = stats.effectiveHealthResults && sortByHealth!==NO_SORT && stats.effectiveHealthResults.length>0 ? stats.effectiveHealthResults.filter(result => result.label===sortByHealth)[0]:{};
+    const sortedHealthUnitNames = sortByHealth === NO_SORT ? [...unitNames]: [...unitNames].sort((a,b)=>Number(healthSortResults[b])-Number(healthSortResults[a]));    
+
+    const changeHealthSort = (sort:string) => {
+      if (sort === sortByHealth){
+        setSortByHealth(NO_SORT)
+      } else {
+        setSortByHealth(sort);
+      }
+    };
 
     const damageChartsLabel = (per100Points: boolean): ChartsLabels => {
       return {
@@ -100,8 +125,12 @@ const Results: React.FC<IResultsProps> = React.memo(
               loading={firstLoad}
               error={stats.error}
               results={stats.damageResults}
-              unitNames={unitNames}
+              unitNames={sortedDamageUnitNames}
               chartsLabels={damageChartsLabel(stats.per100Points)}
+              showTotal={true}
+              maxUnits={1000}
+              sortBy={sortByDamage}
+              changeSort={changeDamageSort}
             />
           </ListItem>
         )}
@@ -111,7 +140,7 @@ const Results: React.FC<IResultsProps> = React.memo(
             error={stats.error}
             per100Points={stats.per100Points}
             results={stats.damageResults}
-            unitNames={unitNames}
+            unitNames={sortedDamageUnitNames}
             chartsLabels={damageChartsLabel(stats.per100Points)}
           />
         )}
@@ -129,8 +158,12 @@ const Results: React.FC<IResultsProps> = React.memo(
               loading={firstLoad}
               error={stats.error}
               results={stats.effectiveHealthResults}
-              unitNames={unitNames}
+              unitNames={sortedHealthUnitNames}
               chartsLabels={healthChartsLabel(stats.per100Points)}
+              showTotal={true}
+              maxUnits={1000}
+              sortBy={sortByHealth}
+              changeSort={changeHealthSort}
             />
           </ListItem>
         )}
@@ -140,7 +173,7 @@ const Results: React.FC<IResultsProps> = React.memo(
             error={stats.error}
             per100Points={stats.per100Points}
             results={stats.effectiveHealthResults}
-            unitNames={unitNames}
+            unitNames={sortedHealthUnitNames}
             chartsLabels={healthChartsLabel(stats.per100Points)}
           />
         )}

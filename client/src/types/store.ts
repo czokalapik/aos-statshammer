@@ -30,6 +30,8 @@ export interface IStatsStore {
   payload: TResults;
   damageResults: StatsResults;
   effectiveHealthResults: StatsResults;
+  rankingDamageResults: StatsResults;
+  rankingEffectiveHealthResults: StatsResults;
   per100Points: boolean;
   error: TError;
 }

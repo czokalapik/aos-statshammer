@@ -40,7 +40,7 @@ const Wrapper = ({ children }: IWrapperProps) => {
   const classes = useStyles();
   const [, , page] = useRouteFind(Object.values(ROUTES));
 
-  const useFullWidth = [ROUTES.PDF, ROUTES.SIMULATIONS].includes(page);
+  const useFullWidth = [ROUTES.PDF, ROUTES.SIMULATIONS, ROUTES.RANKINGS].includes(page);
   const isHome = [ROUTES.HOME, ROUTES.TARGET].includes(page);
 
   return (

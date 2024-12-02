@@ -25,19 +25,21 @@ export const unitByUuidSelector = createSelector(unitsSelector, unitIndexByUuidS
   _.memoize((uuid: string) => units[findIndex(uuid)]),
 );
 
+export const activeUnit = (unit) =>  ({
+  ...unit,
+  weapon_profiles: unit.weapon_profiles
+    .filter((profile) => profile.active)
+    .map((profile) => ({
+      ...profile,
+      modifiers: (profile.modifiers ?? []).filter((mod) => mod.active ?? true),
+    })),
+  modifiers: unit.modifiers.filter((mod) => mod.active),
+});
+
 export const activeUnitsSelector = createSelector(unitsSelector, (units) =>
   units
-    .filter((unit) => unit.active)
-    .map((unit) => ({
-      ...unit,
-      weapon_profiles: unit.weapon_profiles
-        .filter((profile) => profile.active)
-        .map((profile) => ({
-          ...profile,
-          modifiers: (profile.modifiers ?? []).filter((mod) => mod.active ?? true),
-        })),
-      modifiers: unit.modifiers.filter((mod) => mod.active),
-    }))
+    .filter(unit => unit.active)
+    .map(activeUnit)
     .filter(({ weapon_profiles }) => weapon_profiles && weapon_profiles?.length),
 );
 
