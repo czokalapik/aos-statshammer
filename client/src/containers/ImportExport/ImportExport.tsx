@@ -9,12 +9,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import BetaTag from 'components/BetaTag';
 import ArmyFromList from 'components/ImportExport/ArmyFromList';
 import ArmySelector from 'components/ImportExport/ArmySelector';
+import BSDataUnits from 'components/ImportExport/BSDataUnits';
 import ExportArmyItem from 'components/ImportExport/ExportArmyItem';
 import FactionSelector from 'components/ImportExport/FactionSelector';
 import ImportArmy from 'components/ImportExport/ImportArmy';
-import ReferenceUnits from 'components/ImportExport/ReferenceUnits';
 import { useReadFromFile } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -159,6 +160,16 @@ const ImportExport = () => {
       }),
     );
   };
+  const loadBSDataFaction = (units: IUnitParameter[], faction: Faction) => {
+    const battletome: IArmy = { faction, label: 'BS Data', units };
+    dispatch(battletomesStore.actions.addBattletome({ battletome }));
+    dispatch(
+      notificationsStore.actions.addNotification({
+        message: `Battletome ${faction} updated successfully from BS Data`,
+        variant: 'success',
+      }),
+    );
+  };
   const loadActiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, true, Faction.List);
   const loadInactiveArmy = (army: IArmy) => loadUnitsWithStatus(army.units, true, false, Faction.List);
 
@@ -185,7 +196,7 @@ const ImportExport = () => {
         <Card className={classes.card}>
           <Typography variant="h5">Export army</Typography>
           <Typography variant="caption">
-            Export all your units in a file you will be able to import later on
+            Export all your units in a file you will be able to import later on either as a simple list of units, either to update a battletome with your own modifications.
           </Typography>
           <div className={classes.flexRow}>
             <TextField
@@ -212,7 +223,6 @@ const ImportExport = () => {
             You can import units from here. Either from a file you exported previously, either from a
             pre-built selection within the application. You can also import an army list by directly copy
             pasting the text of your list in the text area bellow and click on the import from list button.
-            This will work only if your faction is already in the available factions covered by the app.
           </Typography>
           <div>
             <Switch onChange={toggleReplace} checked={config.importReplace} />
@@ -222,8 +232,6 @@ const ImportExport = () => {
             <ImportArmy onArmyLoad={loadUnits} text="Import units from a file" />
             <ArmySelector onClick={loadInactiveArmy} armies={sortedMatchPlays} label="Import Faction" />
             <ArmySelector onClick={loadActiveArmy} armies={sortedSpearheads} label="Import Spearhead" />
-            <ImportArmy onArmyLoad={loadBT} text="Import battletome" />
-            <ReferenceUnits onLoadReferenceUnits={loadInactiveArmy} />
           </div>
           <Divider className={classes.divider} />
           <div className={classes.flexRow}>
@@ -238,6 +246,22 @@ const ImportExport = () => {
             )}
             <ReactMarkdown source={content} className={classes.md} />
           </Paper>
+        </Card>
+        <Divider className={classes.divider} />
+        <Card className={classes.card}>
+          <Typography variant="h5">Update factions</Typography>
+          <Typography variant="caption">
+            The application is by default containing only indexes defintions of the factions, and some factions are even missing. In this section you can update a faction with a list of units you exported previously and that represent an updated version of the faction. You may also have corrected some mistakes for a faction and wants to correct them.
+            <br/><BetaTag /> You can also now update all the factions by loading the units defintions directly from the <a href="https://github.com/BSData/age-of-sigmar-4th">BSData AoS 4th</a> open source repository. Please note that this is not fully supported yet, and here is a list of known features that are not working well. Double check the configured warscroll before trusting the stats!
+            <ul>
+              <li>Any weapon rule that requires to read a paragraph to know how it works (like instead of using the standard sequence, throw a D3 and on a 2+ inflict the corresponding Mortal Wounds)</li>
+              <li>When there is several weapon options for a same profile, sometimes the numbers are incorrect, sometimes the additional attack from the champion is given to all the profiles</li>
+            </ul>
+          </Typography>
+          <div className={classes.flexRow}>
+            <ImportArmy onArmyLoad={loadBT} text="Import battletome" />
+            <BSDataUnits onLoadBSDataUnits={loadBSDataFaction} />
+          </div>
         </Card>
       </div>
     </div>
