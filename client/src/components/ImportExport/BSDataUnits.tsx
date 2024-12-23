@@ -45,16 +45,10 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     return defaultAmountString.split(',').map(s => Number(s));
   }
 
-  const readUnitFromNode = (element:Element, costs:Map<string,number>):IUnitParameter => {
+  const readUnitFromNode = (element:Element, costs:Map<string,number>, faction:string):IUnitParameter|undefined => {
     const name = element.getAttribute('name')||'';
     const health = Number(findNodeValue(element, 'characteristic', 'name', 'Health', name));
     const save = Number(findNodeValue(element, 'characteristic', 'name', 'Save', name).replace('+',''));
-    const modelNode = findNode(element, 'selectionEntry', 'type', 'model', name, false)||findNode(element, 'selectionEntry', 'name', name, name, true)||element;
-    const modelDefaultAmounts = readDefaultAmount(modelNode);
-
-    const constraintsNode = element.querySelectorAll('selectionEntry[type="model"]>constraints')[0];
-    const modelMinCount = Number(findNode(constraintsNode||modelNode, 'constraint', 'type', 'min', name)?.getAttribute('value'));
-    const models = modelDefaultAmounts? modelDefaultAmounts.reduce((a,b)=>a+b):modelMinCount;
     const points = costs.get(name)||100;
     const modifiers:IModifierInstanceParameter[] = [];
     const champion = element.querySelectorAll('categoryLink[name="CHAMPION"]').length>0;
@@ -70,82 +64,108 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     if (ethereal){
       modifiers.push({id:"TARGET_ETHEREAL",active:true, options:{}});
     }
-
-    const elementToWeapon = (selectionEntry:Element):IWeaponProfileParameter|undefined => {
-      const profile = selectionEntry.querySelectorAll('profile')[0];
-      if (!profile) {
-        // console.log(`no profile found for unit ${name} with entry ${selectionEntry.getAttribute('name')}`);
+    
+    let modelNodes = element.querySelectorAll('selectionEntry[type="model"]').values().toArray();
+    
+    if (modelNodes.length===0){
+      console.log(`Faction: ${faction}: model node not found for unit ${name}`);
+      const modelNode = findNode(element, 'selectionEntry', 'name', name, name, true);
+      if (modelNode===undefined){
+        console.log(`Faction: ${faction}: no valid definition node for unit ${name}`);
         return undefined;
       }
-      let weaponName = profile.getAttribute('name')||'Unknown weapon';
-      let active = true;
-
-      const typeName = profile.getAttribute('typeName');
-      if (typeName!=='Melee Weapon' && typeName!=='Ranged Weapon') {
-        // console.log(`Unkown weapon type ${typeName} for unit ${name} profile ${weaponName}`);
-        return undefined;
-      }
-      if (typeName==='Ranged Weapon'){
-        weaponName+=' (ranged)';
-      }
-      const weaponDefaultAmounts = readDefaultAmount(selectionEntry);
-
-      const computeModels = (unitModels:number[]|undefined, weaponModels:number[]|undefined):number => {
-        if (!unitModels || !weaponModels) {
-          return models;
-        }
-        if (unitModels.length!==weaponModels.length){
-          if (unitModels.length<weaponModels.length){
-            console.log(`Double check weapon profile ${weaponName} on unit ${name} that has more default values`);
-          }
-          return unitModels.reduce((a,b)=>a+b);
-        }
-        return unitModels.map((v,i)=>v*weaponModels[i]).reduce((a,b)=>a+b);
-      }
-
-      const num_models=computeModels(modelDefaultAmounts,weaponDefaultAmounts);
-      const attacks=findNodeValue(profile, 'characteristic', 'name', 'Atk', weaponName);
-      const to_hit=Number(findNodeValue(profile, 'characteristic', 'name', 'Hit', weaponName).replace('+',''));
-      const to_wound=Number(findNodeValue(profile, 'characteristic', 'name', 'Wnd', weaponName).replace('+',''));
-      const rend=Number(findNodeValue(profile, 'characteristic', 'name', 'Rnd', weaponName));
-      const damage=findNodeValue(profile, 'characteristic', 'name', 'Dmg', weaponName);
-      const ability=findNodeValue(profile, 'characteristic', 'name', 'Ability', weaponName);
-
-      const modifiers:IModifierInstance[] = [];
-
-      if (champion && !ability.includes('Companion')){
-        modifiers.push({id:"LEADER_BONUS", active:true, uuid:nanoid(),options:{characteristic:"attacks",bonus:1,numLeaders:1}});
-      }
-      if (ability.includes('Crit (Mortal)')){
-        modifiers.push({id:"MORTAL_WOUNDS",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,mortalWounds:damage,unmodified:true,inAddition:false}});
-      }
-      if (ability.includes('Crit (Auto-wound)')){
-        modifiers.push({id:"AUTO_WOUND",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,unmodified:true}});
-      }
-      if (ability.includes('Crit (2 Hits)')){
-        modifiers.push({id:"EXPLODING",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,extraHits:1,unmodified:true}});
-      }
-
-      if (isNaN(to_wound)){
-        active = false;
-        weaponName+=' (check rules)';
-      }
-
-      return {
-        name:weaponName,
-        active,
-        num_models,
-        attacks,
-        to_hit,
-        to_wound,
-        rend,
-        damage,
-        modifiers,
-      };
+      modelNodes = [modelNode];
     }
 
-    const weapon_profiles = modelNode.querySelectorAll('selectionEntry[type="upgrade"]').values().map(e => elementToWeapon(e)).filter(w => w!==undefined).toArray();
+    const readModelNode = (modelNode:Element) => {
+      const modelDefaultAmounts = readDefaultAmount(modelNode);
+      const constraintsNode = modelNode.childNodes.values().filter(c=>c.nodeType===c.ELEMENT_NODE).filter(c => (c as Element).tagName==='constraints').toArray()[0] as Element;
+      const modelMinCount = Number(findNode(constraintsNode, 'constraint', 'type', 'min', name)?.getAttribute('value'));
+      const models = modelDefaultAmounts? modelDefaultAmounts.reduce((a,b)=>a+b):modelMinCount;
+  
+      const elementToWeapon = (selectionEntry:Element):IWeaponProfileParameter|undefined => {
+        const profile = selectionEntry.querySelectorAll('profile')[0];
+        if (!profile) {
+          // console.log(`no profile found for unit ${name} with entry ${selectionEntry.getAttribute('name')}`);
+          return undefined;
+        }
+        let weaponName = profile.getAttribute('name')||'Unknown weapon';
+        let active = true;
+  
+        const typeName = profile.getAttribute('typeName');
+        if (typeName!=='Melee Weapon' && typeName!=='Ranged Weapon') {
+          // console.log(`Unkown weapon type ${typeName} for unit ${name} profile ${weaponName}`);
+          return undefined;
+        }
+        if (typeName==='Ranged Weapon'){
+          weaponName+=' (ranged)';
+        }
+        const weaponDefaultAmounts = readDefaultAmount(selectionEntry);
+  
+        const computeModels = (unitModels:number[]|undefined, weaponModels:number[]|undefined):number => {
+          if (!unitModels || !weaponModels) {
+            return models;
+          }
+          if (unitModels.length!==weaponModels.length){
+            if (unitModels.length<weaponModels.length){
+              console.log(`Double check weapon profile ${weaponName} on unit ${name} that has more default values`);
+            }
+            return unitModels.reduce((a,b)=>a+b);
+          }
+          return unitModels.map((v,i)=>v*weaponModels[i]).reduce((a,b)=>a+b);
+        }
+  
+        const num_models=computeModels(modelDefaultAmounts,weaponDefaultAmounts);
+        const attacks=findNodeValue(profile, 'characteristic', 'name', 'Atk', weaponName);
+        const to_hit=Number(findNodeValue(profile, 'characteristic', 'name', 'Hit', weaponName).replace('+',''));
+        const to_wound=Number(findNodeValue(profile, 'characteristic', 'name', 'Wnd', weaponName).replace('+',''));
+        const rend=Number(findNodeValue(profile, 'characteristic', 'name', 'Rnd', weaponName));
+        const damage=findNodeValue(profile, 'characteristic', 'name', 'Dmg', weaponName);
+        const ability=findNodeValue(profile, 'characteristic', 'name', 'Ability', weaponName).replaceAll(' ','');
 
+        const modifiers:IModifierInstance[] = [];
+  
+        if (champion && !ability.includes('Companion')){
+          modifiers.push({id:"LEADER_BONUS", active:true, uuid:nanoid(),options:{characteristic:"attacks",bonus:1,numLeaders:1}});
+        }
+        if (ability.includes('Crit(Mortal)')){
+          modifiers.push({id:"MORTAL_WOUNDS",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,mortalWounds:damage,unmodified:true,inAddition:false}});
+        }
+        if (ability.includes('Crit(Auto-wound)')){
+          modifiers.push({id:"AUTO_WOUND",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,unmodified:true}});
+        }
+        if (ability.includes('Crit(2Hits)')){
+          modifiers.push({id:"EXPLODING",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,extraHits:1,unmodified:true}});
+        }
+  
+        if (isNaN(to_wound)){
+          active = false;
+          weaponName+=' (check rules)';
+        }
+  
+        return {
+          name:weaponName,
+          active,
+          num_models,
+          attacks,
+          to_hit,
+          to_wound,
+          rend,
+          damage,
+          modifiers,
+        };
+      }
+  
+      const weapon_profiles = modelNode.querySelectorAll('selectionEntry[type="upgrade"]').values().map(e => elementToWeapon(e)).filter(w => w!==undefined).toArray();
+  
+      return {models, weapon_profiles};
+    }
+
+    const modelsDefinitions = modelNodes.map(m => readModelNode(m));
+    
+    const models = modelsDefinitions.map(def => def.models).reduce((a,b)=>a+b);
+    const weapon_profiles = modelsDefinitions.flatMap(def => def.weapon_profiles);
+    
     return {
       name,
       active: false,
@@ -185,7 +205,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
         const units = doc.querySelectorAll('selectionEntry').entries()
         .filter(entry => entry[1].getAttribute('type')==='unit')
         .filter(entry => !hasChild(entry[1], 'categoryLink', 'name', 'FACTION TERRAIN')&&!hasChild(entry[1], 'categoryLink', 'name', 'MANIFESTATION')&&!hasChild(entry[1], 'categoryLink', 'name', 'ENDLESS SPELL'))
-        .map(entry => readUnitFromNode(entry[1], costs)).toArray();
+        .map(entry => readUnitFromNode(entry[1], costs, Faction[faction])).filter(u => u!==undefined).toArray();
         onLoadBSDataUnits(units, Faction[faction]);
       };
       const readCosts = (doc:Document) => {
