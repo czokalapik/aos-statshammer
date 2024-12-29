@@ -45,7 +45,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     return defaultAmountString.split(',').map(s => Number(s));
   }
 
-  const readUnitFromNode = (element:Element, costs:Map<string,number>, faction:string):IUnitParameter|undefined => {
+  const readUnitFromNode = (element:Element, costs:Map<string,number>, faction:string):IUnitParameter[] => {
     const name = element.getAttribute('name')||'';
     const health = Number(findNodeValue(element, 'characteristic', 'name', 'Health', name));
     const save = Number(findNodeValue(element, 'characteristic', 'name', 'Save', name).replace('+',''));
@@ -72,7 +72,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
       const modelNode = findNode(element, 'selectionEntry', 'name', name, name, true);
       if (modelNode===undefined){
         console.log(`Faction: ${faction}: no valid definition node for unit ${name}`);
-        return undefined;
+        return [];
       }
       modelNodes = [modelNode];
     }
@@ -137,6 +137,10 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
         if (ability.includes('Crit(2Hits)')){
           modifiers.push({id:"EXPLODING",active:true, uuid:nanoid(),options:{characteristic:"to_hit",on:6,extraHits:1,unmodified:true}});
         }
+        if (ability.includes('Charge(+1Damage)')) {
+          modifiers.push(
+            {id:"BONUS_CHARGE",active:false, uuid:nanoid(),options:{characteristic:"damage",bonus:1}})
+        }
   
         if (isNaN(to_wound)){
           active = false;
@@ -165,8 +169,44 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     
     const models = modelsDefinitions.map(def => def.models).reduce((a,b)=>a+b);
     const weapon_profiles = modelsDefinitions.flatMap(def => def.weapon_profiles);
-    
-    return {
+
+    const duplicateChargeBonus = (unit:IUnitParameter):IUnitParameter[] => {
+      if (!unit.weapon_profiles){
+        return [unit];
+      }
+      if (unit.weapon_profiles?.filter(w=>w.modifiers.filter(m=>m.id==="BONUS_CHARGE").length>0).length>0){
+        return [{
+          ...unit,
+          weapon_profiles:weapon_profiles.map(p => {
+            if (p.modifiers.filter(m=>m.id==="BONUS_CHARGE").length>0){
+              return {...p, modifiers:p.modifiers.filter(m=>m.id!=="BONUS_CHARGE")}
+            } else {
+              return p;
+            }
+          })
+        },{
+          ...unit,
+          name:unit.name+' (charged)',
+          weapon_profiles:weapon_profiles.map(p => {
+            if (p.modifiers.filter(m=>m.id==="BONUS_CHARGE").length>0){
+              const chargedModifiers = p.modifiers.filter(m=>m.id!=="BONUS_CHARGE")
+                .map(m => {
+                  if (m.id==='MORTAL_WOUNDS'){
+                    return {...m, options:{...m.options, mortalWounds:m.options.mortalWounds+'+1'}}
+                  }
+                  return m;
+                });
+              return {...p, name:p.name+' (charged)', damage:p.damage+`+1`, modifiers:chargedModifiers}
+            } else {
+              return p;
+            }
+          })
+        }]
+      }
+      return [unit];
+    };
+
+    return [{
       name,
       active: false,
       reinforced: false,
@@ -177,7 +217,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
       attacksModifier: 0,
       modifiers,
       weapon_profiles,
-    }
+    }].map(duplicateChargeBonus).flatMap(u=>u);
   }
 
   const onClick = () => {
@@ -205,7 +245,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
         const units = doc.querySelectorAll('selectionEntry').entries()
         .filter(entry => entry[1].getAttribute('type')==='unit')
         .filter(entry => !hasChild(entry[1], 'categoryLink', 'name', 'FACTION TERRAIN')&&!hasChild(entry[1], 'categoryLink', 'name', 'MANIFESTATION')&&!hasChild(entry[1], 'categoryLink', 'name', 'ENDLESS SPELL'))
-        .map(entry => readUnitFromNode(entry[1], costs, Faction[faction])).filter(u => u!==undefined).toArray();
+        .map(entry => readUnitFromNode(entry[1], costs, Faction[faction])).flatMap(u => u).toArray();
         onLoadBSDataUnits(units, Faction[faction]);
       };
       const readCosts = (doc:Document) => {
