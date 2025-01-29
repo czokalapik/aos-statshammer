@@ -84,6 +84,7 @@ const ImportExport = () => {
   const sortedSpearheads = useSelector(spearheadSelector);
   const sortedMatchPlays = useSelector(mergedBattletomesSelector);
   const CHANGE_TITLE = false;
+  const excludedFactions = [Faction.All, Faction.List];
   const [exportAsBT, setExportAsBT] = useState(false);
   const [faction, setFaction] = useState(Faction.SCE);
 
@@ -210,7 +211,7 @@ const ImportExport = () => {
               <Switch onChange={toggleBattletome} checked={exportAsBT} />
               {`${exportAsBT ? 'Export as a battletome' : 'Export as a list of units'}`}
             </div>
-            {exportAsBT && <FactionSelector value={faction} handleSelect={setBattletomeFaction} />}
+            {exportAsBT && <FactionSelector value={faction} excluded={excludedFactions} handleSelect={setBattletomeFaction} />}
             <div className={classes.topleftMargin}>
               <ExportArmyItem filename={config.exportFilename} exportAsBT={exportAsBT} faction={faction} />
             </div>

@@ -1,6 +1,6 @@
 import store from 'store';
 import {
-  getAllFactionsUnits,
+  getFactionUnits,
   getSanitizedActiveUnitsSelector,
   getSanitizedTargetSelector,
   statsPer100Points,
@@ -13,7 +13,7 @@ import StatsController from './core/controllers/statsController';
 export const fetchStatsCompare = (rankings:boolean) => async (dispatch: TDispatch) => {
   dispatch(statsStore.actions.fetchStatsPending());
   const state = store.getState();
-  const units = rankings ? getAllFactionsUnits(state) : getSanitizedActiveUnitsSelector(state)();
+  const units = rankings ? getFactionUnits(state) : getSanitizedActiveUnitsSelector(state)();
   const target = getSanitizedTargetSelector(state);
   const per100Points = statsPer100Points(state);
   if (!units) dispatch(statsStore.actions.fetchStatsSuccess({ results: [], effectiveHealthResults: [], rankings }));

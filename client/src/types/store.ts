@@ -1,4 +1,4 @@
-import { IArmy } from './army';
+import { Faction, IArmy } from './army';
 import type { IModifierDefinition, IModifierInstance } from './modifiers';
 import type { INotification } from './notification';
 import type { ISimulationResult } from './simulations';
@@ -61,6 +61,7 @@ export interface IConfigStore {
 
 export interface IBattletomesStore {
   battletomes: IArmy[];
+  rankingFaction: Faction;
 }
 
 export interface IStore {

@@ -3,15 +3,17 @@ import ListItem from 'components/ListItem';
 import Tabbed from 'components/Tabbed';
 import ResultsTable from 'containers/Stats/ResultsTable';
 import React, { useEffect, useState } from 'react';
-import { statsStore } from 'store/slices';
+import { statsStore, battletomesStore } from 'store/slices';
 import { useDispatch, useSelector } from 'react-redux';
-import { statsSelector } from 'store/selectors';
+import { getRankingFaction, statsSelector } from 'store/selectors';
 import { averageDamageTitle, healthTitle } from 'utils/texts';
 import { ChartsLabels } from 'types/charts';
 import { fetchStatsCompare } from 'api';
-import { Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import ReactMarkdown from 'react-markdown';
 import { useReadFromFile } from 'hooks';
+import FactionSelector from 'components/ImportExport/FactionSelector';
+import { Faction } from 'types/army';
 
 const useStyles = makeStyles((theme: Theme) => ({
   app: {
@@ -20,6 +22,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     background: theme.palette.background.default,
+  },
+  toolbar: {
+    margin: '1em',
+  },
+  paper: {
+    padding: '1em',
+  },
+  flexrow:{
+    display: 'flex',
+    flexDirection: 'row',
+    gap:'1em',
   },
   container: {
     display: 'flex',
@@ -48,14 +61,16 @@ const Rankings = () => {
   const disclaimer = useReadFromFile('rankings-disclaimer.md')
 
   const stats = useSelector(statsSelector);
+  const rankingFaction = useSelector(getRankingFaction);
   const firstLoad = !stats?.payload?.length && stats?.pending;
   const top =50;
+  const excludedFactions = [Faction.List];
   const [sortByDamage, setSortByDamage] = useState('3+');
   const [sortByHealth, setSortByHealth] = useState('2');
   const damageResults = stats.rankingDamageResults && stats.rankingDamageResults.length>0 ? stats.rankingDamageResults.filter(result => result.label === sortByDamage)[0] : {};
-  const unitNamesDamage = Object.keys(damageResults).filter(name => name!=='label').sort((a,b)=>Number(damageResults[b])-Number(damageResults[a]));
+  const unitNamesDamage = Object.keys(damageResults).filter(name => name!=='label' && name!=='save').sort((a,b)=>Number(damageResults[b])-Number(damageResults[a]));
   const healthResults = stats.rankingEffectiveHealthResults && stats.rankingEffectiveHealthResults.length>0 ? stats.rankingEffectiveHealthResults.filter(result => result.label === sortByHealth)[0]: {};
-  const unitNamesHealth = Object.keys(healthResults).filter(name => name!=='label').sort((a,b)=>Number(healthResults[b])-Number(healthResults[a]));
+  const unitNamesHealth = Object.keys(healthResults).filter(name => name!=='label' && name!=='save').sort((a,b)=>Number(healthResults[b])-Number(healthResults[a]));
 
   useEffect(() => {
     dispatch(fetchStatsCompare(true));
@@ -63,6 +78,11 @@ const Rankings = () => {
 
   const handleStatsToggle = () => {
     dispatch(statsStore.actions.toggleStatsPer100Points());
+    dispatch(fetchStatsCompare(true));
+  };
+
+  const handleFactionSelected = (faction) => {
+    dispatch(battletomesStore.actions.setRankingFaction({faction}));
     dispatch(fetchStatsCompare(true));
   };
   
@@ -86,7 +106,15 @@ const Rankings = () => {
     <div className={classes.app} id="rankings">
       <div className={classes.container}>
         <ReactMarkdown source={disclaimer}></ReactMarkdown>
-        <Typography>Total units ranked: {unitNamesDamage.length}</Typography>
+        <div className={classes.toolbar}>
+          <Paper className={classes.paper}>
+            <div className={classes.flexrow}>
+              <Typography variant='h6'>Faction to rank: </Typography>
+              <FactionSelector value={rankingFaction} excluded={excludedFactions} handleSelect={handleFactionSelected} ></FactionSelector>
+            </div>
+            <Typography variant="body1">Total units ranked: {unitNamesDamage.length}</Typography>
+          </Paper>
+        </div>
         {unitNamesDamage.length>0 &&(
         <Tabbed
           className={classes.tabs}

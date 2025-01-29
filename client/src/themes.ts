@@ -29,9 +29,28 @@ const commonOptions = {
   },
 };
 
+const darkBlue= 
+{
+  50: '#e8eaf9',
+  100: '#c4c9f1',
+  200: '#9ca6e7',
+  300: '#7283de',
+  400: '#5067d7',
+  500: '#284cce',
+  600: '#2244c4',
+  700: '#1439b8',
+  800: '#012eac',
+  900: '#001a99',
+  A100: '#8c9eff',
+  A200: '#536dfe',
+  A400: '#3d5afe',
+  A700: '#304ffe'
+};
+
 const seriesColor = [
+  darkBlue[500],
+  amber[500],
   '#f44336',
-  '#673ab7',
   '#03a9f4',
   '#4caf50',
   '#ffeb3b',
@@ -56,11 +75,12 @@ const seriesColor = [
   '#f50057',
 ];
 
+
 const lightTheme = createTheme({
   name: 'Light Theme',
   palette: {
     type: 'light',
-    primary: teal,
+    primary: darkBlue,
     background: {
       nested: '#fff',
       paper: '#fff',
@@ -87,9 +107,7 @@ const darkTheme = createTheme({
   name: 'Dark Theme',
   palette: {
     type: 'dark',
-    primary: {
-      main: teal[500],
-    },
+    primary: amber,
     secondary: {
       main: red[500],
     },

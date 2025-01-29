@@ -1,14 +1,11 @@
 import { Switch, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import appConfig from 'appConfig';
 import clsx from 'clsx';
-import ActionsDialog from 'components/ActionsDialog';
 import { CardHeader } from 'components/Card';
 import ListControls from 'components/ListControls';
 import type { IPrimaryItem, ISecondaryItem } from 'components/ListControls/types';
-import useLongPress from 'hooks/useLongPress';
-import React, { useState } from 'react';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -68,19 +65,7 @@ const ListItemHeader: React.FC<IListItemHeaderProps> = ({
 }) => {
   const classes = useStyles();
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const longPress = useLongPress(() => setDialogOpen(true), appConfig.timers.longPress);
-
   const handleClick = () => setColapsed(!collapsible ? false : !collapsed);
-
-  let dialogActions: ISecondaryItem[] = [];
-  if (primaryItems && primaryItems.length) {
-    dialogActions = primaryItems.map(({ name, onClick, disabled }) => ({
-      name,
-      onClick,
-      disabled,
-    }));
-  }
 
   return (
     <CardHeader className={clsx(classes.header, collapsible ? classes.collapsible : '', className)}>
@@ -95,18 +80,9 @@ const ListItemHeader: React.FC<IListItemHeaderProps> = ({
         role="button"
         component="span"
         variant="h6"
-        {...longPress}
       >
         {header}
       </Typography>
-      {dialogActions && (
-        <ActionsDialog
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
-          target={header}
-          actions={dialogActions}
-        />
-      )}
       {onToggle && <Switch onChange={onToggle} checked={checked} />}
       <ListControls
         primaryItems={primaryItems}

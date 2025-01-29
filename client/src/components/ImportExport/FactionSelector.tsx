@@ -5,6 +5,7 @@ import { Faction } from 'types/army';
 
 interface IFactionSelectorProps {
   value: Faction;
+  excluded: Faction[];
   handleSelect: (faction: Faction) => void;
 }
 
@@ -12,7 +13,7 @@ interface IFactionSelectorProps {
  * A component used to select a faction
  */
 const FactionSelector: React.FC<IFactionSelectorProps> = React.memo(
-  ({ value, handleSelect }) => {
+  ({ value, excluded, handleSelect }) => {
     const selectFaction = useCallback(
       (event) => {
         handleSelect(event.target.value);
@@ -22,7 +23,9 @@ const FactionSelector: React.FC<IFactionSelectorProps> = React.memo(
 
     return (
       <Select value={value} onChange={selectFaction}>
-        {Object.values(Faction).map((faction) => (
+        {Object.values(Faction)
+          .filter((faction)=> excluded.indexOf(faction)===-1)
+          .map((faction) => (
           <MenuItem value={faction}>{faction}</MenuItem>
         ))}
       </Select>

@@ -1,7 +1,7 @@
 import { Divider, List, SwipeableDrawer as AppDrawer, Typography, useMediaQuery } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
+import { EmojiEvents, GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
 import { useHashMatch, useRouteFind } from 'hooks';
 import preval from 'preval.macro';
 import React, { useCallback, useEffect } from 'react';
@@ -18,7 +18,6 @@ import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
 import Rail from './Rail';
-import BetaTag from 'components/BetaTag';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -113,7 +112,7 @@ const Drawer = () => {
           <MenuLinkItem
             to={ROUTES.RANKINGS}
             label="Rankings"
-            icon={<BetaTag />}
+            icon={<EmojiEvents />}
             selected={page === ROUTES.RANKINGS}
           />
           <MenuLinkItem to={ROUTES.ABOUT} label="About" icon={<Info />} selected={page === ROUTES.ABOUT} />

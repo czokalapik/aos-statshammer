@@ -3,6 +3,7 @@ import SPEARHEADS from 'armies/spearheads/spearheads';
 import { createSelector } from 'reselect';
 import type { IStore } from 'types/store';
 import { activeUnit } from './unitsSelectors';
+import { Faction } from 'types/army';
 
 const compareString = (a, b) => 0 - (a < b ? 1 : -1);
 const compareArmy = (a, b) =>
@@ -11,16 +12,24 @@ const compareArmy = (a, b) =>
 /** Get the current target state */
 export const battletomesSelector = (state: IStore) => state.battletomes;
 
-export const mergedBattletomesSelector = createSelector(battletomesSelector, ({ battletomes }) =>
-  [
+const mergeBattleTomesWithMatchPlay = (battletomes) => {
+  return [
     ...MATCHPLAY.filter((army) => !battletomes.find((btArmy) => army.faction === btArmy.faction)),
     ...battletomes,
-  ].sort(compareArmy),
+  ].sort(compareArmy);
+}
+
+export const mergedBattletomesSelector = createSelector(battletomesSelector, ({ battletomes }) =>
+  mergeBattleTomesWithMatchPlay(battletomes)
 );
 
-export const getAllFactionsUnits = createSelector(mergedBattletomesSelector, (armies) => armies
+export const getFactionUnits = createSelector(battletomesSelector, ({ battletomes, rankingFaction }) => mergeBattleTomesWithMatchPlay(battletomes)
+  .map(f => {console.log(`${f} vs ${rankingFaction}`);return f;})
+  .filter(army => rankingFaction===Faction.All ? true: army.faction===rankingFaction)
   .flatMap(army => army.units)
   .map(activeUnit)
 );
+
+export const getRankingFaction = createSelector(battletomesSelector, ({rankingFaction}) => rankingFaction);
 
 export const spearheadSelector = createSelector(battletomesSelector, () => [...SPEARHEADS].sort(compareArmy));

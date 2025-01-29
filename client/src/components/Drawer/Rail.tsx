@@ -1,6 +1,6 @@
 import { Divider, List, SwipeableDrawer as AppDrawer, useMediaQuery } from '@material-ui/core';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
+import { EmojiEvents, GetApp, Home, ImportExport, Info, Timeline } from '@material-ui/icons';
 import { useRouteFind } from 'hooks';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ import ClearUnitsItem from './items/ClearUnitsItem';
 import ToggleDarkModeItem from './items/ToggleDarkModeItem';
 import ToggleGraphListItem from './items/ToggleGraphListItem';
 import MenuLinkItem from './MenuLinkItem';
-import BetaTag from 'components/BetaTag';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawer: {
@@ -90,7 +89,7 @@ const Drawer = () => {
         <MenuLinkItem
           to={ROUTES.RANKINGS}
           label="Rankings"
-          icon={<BetaTag />}
+          icon={<EmojiEvents />}
           selected={page === ROUTES.RANKINGS}
           mini
         />

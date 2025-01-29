@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IArmy } from 'types/army';
+import { Faction, IArmy } from 'types/army';
 import type { IBattletomesStore } from 'types/store';
 
 const INITIAL_STATE: IBattletomesStore = {
   battletomes: [],
+  rankingFaction : Faction.All,
 };
 
 const addBattletome = (state: IBattletomesStore, action: { payload: { battletome: IArmy } }) => {
@@ -13,10 +14,16 @@ const addBattletome = (state: IBattletomesStore, action: { payload: { battletome
   ];
 };
 
+const setRankingFaction = (state: IBattletomesStore, action: { payload: { faction: Faction } }) => {
+  const { faction } = action.payload;
+  state.rankingFaction = faction;
+};
+
 export const battletomesStore = createSlice({
   name: 'battletomes',
   initialState: INITIAL_STATE,
   reducers: {
     addBattletome,
+    setRankingFaction
   },
 });

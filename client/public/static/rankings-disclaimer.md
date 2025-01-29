@@ -1,8 +1,7 @@
 ## Rankings
 
-Thanks to all the contributors, we have the warscrolls of more than 500 units, over 20 factions. As you noticed in the import/export section, only the units described in the indexes are covered, and for the factions with now battletomes, some units are not available or inacurate. 
-Note that if you own a battletome, you can complete the index by importing your favorite faction from the import export section, add all the missing warscrolls, and export it as a battletome file. Then you import this battletome in the import export section, and the additional/modified units will be available in this ranking section.
+You will find bellow a ramking of units per damage or effective health. As for the main section of the app, you can also compare the values per one hundred points.
 
-If you are not finding units from your favorite faction, maybe it is one of the few factions that have not been covered yet (Skaven, Seraphon, Beat of Chaos, BoneSplitters). Or simply there have been errors when entering manually all the warscrolls. If you have updates or corrections, feel free to reach out to me on discord to propose an updated file for a faction.
+The units that are taken into account are all the units that are defined in the application. By default you should have approximatively 500 warscrolls over 20 factions. Only the units covered in the index are included by default, and if you own the relevant battletome, you can update your factions in the import/export section. You can also filter out on your favorite faction to have an overview.
 
-Keep in mind that this feature is in Beta, and you will certainly find several errors in the results bellow.
+Please note that as the number bellows are based on the units definitions that are in the app, they might be wrong. In case of doubt, and to fix the definitions, go in the import/export, import your faction, update the relevant warscrolls, export it as a battletome, and import it again. This should update the units that are ranked bellow.

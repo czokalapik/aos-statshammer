@@ -49,12 +49,13 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     return defaultAmountString.split(',').map(s => Number(s));
   }
 
-  const readUnitFromNode = (element:Element, costs:Map<string,number>, faction:string):IUnitParameter[] => {
+  const readUnitFromNode = (element:Element, costs:Map<string,number>, faction:string, canBeReinforced):IUnitParameter[] => {
     const name = element.getAttribute('name')||'';
 
     const health = Number(findNodeValue(element, 'characteristic', 'name', 'Health', name));
     const save = Number(findNodeValue(element, 'characteristic', 'name', 'Save', name).replace('+',''));
-    const points = costs.get(name)||100;
+    const points = costs.get(name)||1000;
+    const reinforced = canBeReinforced.get(name)||false;
     const modifiers:IModifierInstanceParameter[] = [];
     const champion = element.querySelectorAll('categoryLink[name="CHAMPION"]').length>0;
     const ward = element.querySelectorAll('categoryLink[name^="WARD"]');
@@ -221,12 +222,12 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
       }
       return [unit];
     };
-    
+
    const emptyWeapons:IWeaponProfileParameter[] = [];
    const unit = {
     name,
     active: false,
-    reinforced: false,
+    reinforced,
     points,
     health,
     models,
@@ -247,7 +248,21 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
     }
   });
 
-    return variations.map(duplicateChargeBonus).flatMap(u=>u);
+  const applyReinforced = (unit:IUnitParameter):IUnitParameter => {
+    if (unit.reinforced){
+      unit.name = unit.name.concat(' [R]');
+      unit.points = unit.points*2;
+      unit.models = unit.models*2;
+      if(unit.weapon_profiles){
+        unit.weapon_profiles = unit.weapon_profiles.map((weapon) => {
+          return {...weapon, num_models:weapon.num_models*2};
+        });
+      }
+    }
+    return unit;
+  }
+
+    return variations.map(applyReinforced).map(duplicateChargeBonus).flatMap(u=>u);
   }
 
   const onClick = () => {
@@ -273,20 +288,26 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
           })
         }
       };
-      const readUnits = (doc:Document, costs) => {
+      const readUnits = (doc:Document, costs, reinforced) => {
         const units = doc.querySelectorAll('selectionEntry').entries()
         .filter(entry => entry[1].getAttribute('type')==='unit')
         .filter(entry => !hasChild(entry[1], 'categoryLink', 'name', 'FACTION TERRAIN')&&!hasChild(entry[1], 'categoryLink', 'name', 'MANIFESTATION')&&!hasChild(entry[1], 'categoryLink', 'name', 'ENDLESS SPELL'))
-        .map(entry => readUnitFromNode(entry[1], costs, Faction[faction])).flatMap(u => u).toArray();
+        .map(entry => readUnitFromNode(entry[1], costs, Faction[faction], reinforced)).flatMap(u => u).toArray();
         onLoadBSDataUnits(units, Faction[faction]);
       };
       const readCosts = (doc:Document) => {
         const costs:Map<string, number> = new Map<string, number>();
+        const canBeReinforced:Map<string, boolean> = new Map<string, boolean>();
         doc.querySelectorAll('entryLink').values()
           .filter(entry => entry.querySelectorAll('cost').length>0)
           .forEach(entry => {
             const unitName = entry.getAttribute('name')||'';
             const costValue = Number(entry.querySelectorAll('cost')[0].getAttribute('value'));
+            const reinforced = findNode(entry, 'entryLink', 'name', 'Reinforced', unitName, false)!==undefined;
+            if (reinforced){
+              canBeReinforced.set(unitName, true);
+              // console.log(`Unit ${unitName} can be reinforced`);
+            }
             if (costs.has(unitName)){
               // in case of 'single' version of the same unit (stormdrake etc)
               if (costValue>(costs.get(unitName)||0)){
@@ -297,7 +318,7 @@ const BSDataUnits = ({ onLoadBSDataUnits }: IBSDataUnitsProps) => {
             }
             
           });
-        readXmlFileFromUrl(libraryUrl, libraryDoc => readUnits(libraryDoc, costs))
+        readXmlFileFromUrl(libraryUrl, libraryDoc => readUnits(libraryDoc, costs, canBeReinforced))
       };
       readXmlFileFromUrl(costUrl, readCosts);
     });

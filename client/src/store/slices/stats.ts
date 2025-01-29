@@ -56,6 +56,6 @@ export const statsStore = createSlice({
     fetchStatsPending,
     fetchStatsSuccess,
     fetchStatsError,
-    toggleStatsPer100Points,
+    toggleStatsPer100Points
   },
 });

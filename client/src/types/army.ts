@@ -1,7 +1,8 @@
 import { IUnitParameter } from './unit';
 
 export enum Faction {
-  List = 'User defined', // used for compilation when not targeting a particular faction
+  List = 'User defined', // used for user lists that are not a battletome
+  All = 'All', // All factions. Used for rankings
   BoC = 'Beasts of Chaos', // index missing
   Khorne = 'Blades of Khorne',
   Bonesplitterz = 'Bonesplitterz', // index missing
