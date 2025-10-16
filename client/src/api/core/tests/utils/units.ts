@@ -168,6 +168,8 @@ export const unitWithSave4 = new Unit({
   modifiers: [],
 });
 
+export const noDamageWeapons = new Unit('NoDamageWeapons', [new WeaponProfile(10, 2, 4, 4, 0, 0, [])]);
+
 // #region edge cases
 export const explodingAndConditionalSame = buildUnit('Exploding And Conditional (Same Characteristic)', 100, [
   new WeaponProfile(1, 3, 3, 4, 1, 2, [
