@@ -1,0 +1,673 @@
+{
+  "units": [
+    {
+      "name": "Ashen Elder",
+      "points": 120,
+      "health": 6,
+      "models": 1,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": false,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 4,
+          "name": "Black Hammer of Hashut"
+        }
+      ]
+    },
+    {
+      "name": "Daemonsmith ",
+      "points": 110,
+      "health": 6,
+      "models": 1,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": false,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 4,
+          "name": "Darkiron Talon"
+        },
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3",
+          "modifiers": [
+            {
+              "id": "EXPLODING",
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "extraHits": "d3",
+                "unmodified": true
+              },
+              "uuid": "N3XtJlP1OXQMpANkheAfo"
+            }
+          ],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 4,
+          "name": "Hurled Daemonfire (ranged)"
+        }
+      ]
+    },
+    {
+      "name": "Urak Taar, the First Daemonsmith",
+      "points": 100,
+      "health": 16,
+      "models": 1,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "6",
+          "damage": "d3",
+          "modifiers": [
+            {
+              "id": "EXPLODING",
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "extraHits": "d3",
+                "unmodified": true
+              },
+              "uuid": "Ejsfrm5WIccSiq2BP7D3K"
+            }
+          ],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Ruinous Torrents (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 3,
+          "name": "Dumakar"
+        },
+        {
+          "active": true,
+          "attacks": "6",
+          "damage": "3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 2,
+          "to_hit": 4,
+          "to_wound": 2,
+          "name": "Ghorrakos's Horns and Hooves"
+        }
+      ]
+    },
+    {
+      "name": "Urak Taar, the First Daemonsmith (charged)",
+      "points": 350,
+      "health": 16,
+      "models": 1,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "6",
+          "damage": "d3",
+          "modifiers": [
+            {
+              "id": "EXPLODING",
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "extraHits": "d3",
+                "unmodified": true
+              },
+              "uuid": "Ejsfrm5WIccSiq2BP7D3K"
+            }
+          ],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Ruinous Torrents (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 3,
+          "name": "Dumakar"
+        },
+        {
+          "active": true,
+          "attacks": "6",
+          "damage": "3+1",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 2,
+          "to_hit": 4,
+          "to_wound": 2,
+          "name": "Ghorrakos's Horns and Hooves"
+        }
+      ]
+    },
+    {
+      "name": "War Despot",
+      "points": 90,
+      "health": 6,
+      "models": 1,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "5",
+          "damage": "2",
+          "modifiers": [
+            {
+              "id": "MORTAL_WOUNDS",
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "mortalWounds": "2",
+                "unmodified": true,
+                "inAddition": false
+              },
+              "uuid": "-LZnSdHbwrOCFTFIDxACp"
+            }
+          ],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3,
+          "name": "Daemonflame Glaive"
+        }
+      ]
+    },
+    {
+      "name": "Hobgrot Vandalz ",
+      "points": 70,
+      "health": 1,
+      "models": 10,
+      "save": 5,
+      "attacksModifier": 0,
+      "active": false,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "2",
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 10,
+          "rend": 0,
+          "to_hit": 4,
+          "to_wound": 5,
+          "name": "Scavenged Weapons"
+        }
+      ]
+    },
+    {
+      "name": "Infernal Cohort with Hashutite Blades",
+      "points": 100,
+      "health": 1,
+      "models": 10,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "2",
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 10,
+          "rend": 0,
+          "to_hit": 3,
+          "to_wound": 4,
+          "name": "Hashutite Blade"
+        }
+      ]
+    },
+    {
+      "name": "Infernal Cohort with Hashutite Spears",
+      "points": 110,
+      "health": 1,
+      "models": 10,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "2",
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 10,
+          "rend": 0,
+          "to_hit": 3,
+          "to_wound": 4,
+          "name": "Hashutite Spear"
+        }
+      ]
+    },
+    {
+      "name": "Infernal Razers with Blunderbusses",
+      "points": 110,
+      "health": 1,
+      "models": 5,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": 1,
+          "damage": "2",
+          "modifiers": [],
+          "num_models": 5,
+          "rend": 0,
+          "to_hit": 3,
+          "to_wound": 2,
+          "name": "Grizmalok Blunderbusses (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": 1,
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 5,
+          "rend": 0,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Weapon Butt"
+        }
+      ]
+    },
+    {
+      "name": "Infernal Razers with  Flamehurlers",
+      "points": 100,
+      "health": 1,
+      "models": 5,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "1",
+          "modifiers": [],
+          "num_models": 5,
+          "rend": 0,
+          "to_hit": 2,
+          "to_wound": 4,
+          "name": "Karagthrun Flamehurlers (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": 1,
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 5,
+          "rend": 0,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Weapon Butt"
+        }
+      ]
+    },
+    {
+      "name": "Deathshrieker Rocket Battery",
+      "points": 140,
+      "health": 8,
+      "models": 1,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3+2",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 2,
+          "to_hit": 4,
+          "to_wound": 2,
+          "name": "Hashu-Zharr Rockets"
+        },
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 0,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Artillerist Weapons"
+        }
+      ]
+    },
+    {
+      "name": "Dominator Engine with Bane Maces",
+      "points": 170,
+      "health": 10,
+      "models": 1,
+      "save": 2,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 2,
+          "name": "Bane Maces\t"
+        }
+      ]
+    },
+    {
+      "name": "Dominator Engine with Bane Maces (charged)",
+      "points": 170,
+      "health": 10,
+      "models": 1,
+      "save": 2,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "3+1",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 2,
+          "name": "Bane Maces\t"
+        }
+      ]
+    },
+    {
+      "name": "Dominator Engine with Immolation Cannons",
+      "points": 190,
+      "health": 10,
+      "models": 1,
+      "save": 2,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "5",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 2,
+          "to_wound": 4,
+          "name": "Immolation Cannons (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 3,
+          "name": "Bane Maces\t"
+        }
+      ]
+    },
+    {
+      "name": "Dominator Engine with Immolation Cannons (charged)",
+      "points": 190,
+      "health": 10,
+      "models": 1,
+      "save": 2,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "5",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 2,
+          "to_wound": 4,
+          "name": "Immolation Cannons (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "d3+1",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 4,
+          "to_wound": 3,
+          "name": "Bane Maces\t"
+        }
+      ]
+    },
+    {
+      "name": " Tormentor Bombard",
+      "points": 130,
+      "health": 8,
+      "models": 1,
+      "save": 3,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "d3",
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3,
+          "name": "Torrent of Ruinous Energy (ranged)"
+        },
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": 1,
+          "modifiers": [],
+          "num_models": 1,
+          "rend": 0,
+          "to_hit": 4,
+          "to_wound": 4,
+          "name": "Artillerist Weapons"
+        }
+      ]
+    },
+    {
+      "name": "Anointed Sentinels ",
+      "points": 160,
+      "health": 4,
+      "models": 3,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "2",
+          "modifiers": [],
+          "num_models": 3,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3
+        }
+      ]
+    },
+    {
+      "name": "Anointed Sentinels  (charged)",
+      "points": 160,
+      "health": 4,
+      "models": 3,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "3",
+          "damage": "2+1",
+          "modifiers": [],
+          "num_models": 3,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3
+        }
+      ]
+    },
+    {
+      "name": "Bull Centaurs",
+      "points": 190,
+      "health": 4,
+      "models": 3,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "2",
+          "modifiers": [
+            {
+              "id": "MORTAL_WOUNDS",
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "mortalWounds": "2",
+                "unmodified": true,
+                "inAddition": false
+              },
+              "uuid": "Htw0Dv2vwyDoHGjHbSgSG"
+            }
+          ],
+          "num_models": 3,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3,
+          "name": "Brazen Mauls"
+        }
+      ]
+    },
+    {
+      "name": "Bull Centaurs (charged)",
+      "points": 190,
+      "health": 4,
+      "models": 3,
+      "save": 4,
+      "attacksModifier": 0,
+      "active": true,
+      "reinforced": false,
+      "modifiers": [],
+      "weapon_profiles": [
+        {
+          "active": true,
+          "attacks": "4",
+          "damage": "2+1",
+          "modifiers": [
+            {
+              "id": "MORTAL_WOUNDS",
+              "active": true,
+              "options": {
+                "characteristic": "to_hit",
+                "on": 6,
+                "mortalWounds": "2+1",
+                "unmodified": true,
+                "inAddition": false
+              },
+              "uuid": "Htw0Dv2vwyDoHGjHbSgSG"
+            }
+          ],
+          "num_models": 3,
+          "rend": 1,
+          "to_hit": 3,
+          "to_wound": 3,
+          "name": "Brazen Mauls"
+        }
+      ]
+    }
+  ]
+}

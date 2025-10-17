@@ -13,6 +13,7 @@ export enum Faction {
   FS = 'Fyreslayers',
   Gitz = 'Gloomspite Gitz', // index missing
   Slaanesh = 'Hedonites of Slaanesh',
+  Hashut = 'Hellsmiths of Hashut',
   Idoneth = 'Idoneth Deepkin',
   IJ = 'Ironjawz',
   KO = 'Kharadron Overlords',

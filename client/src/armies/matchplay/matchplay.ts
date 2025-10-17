@@ -6,6 +6,7 @@ import TZEENCH from './DisciplesOfTzeentch.json';
 import FEC from './Flesh-EaterCourts.json';
 import FS from './Fyreslayers.json';
 import SLAANESH from './HedonitesOfSlaanesh.json';
+import HASHUT from './HellsmithsOfHashut.json';
 import IDONETH from './IdonethDeepkin.json';
 import IJ from './Ironjaws.json';
 import KO from './KharadronsOverlord.json';
@@ -54,6 +55,12 @@ const Fyreslayers: any = {
 const HedonitesOfSlaanesh: any = {
   ...SLAANESH,
   faction: Faction.Slaanesh,
+  label: 'index',
+};
+
+const HellsmithsOfHashut: any = {
+  ...HASHUT,
+  faction: Faction.Hashut,
   label: 'index',
 };
 
@@ -148,6 +155,7 @@ const MATCHPLAY: IArmy[] = [
   FleshEaterCourts,
   Fyreslayers,
   HedonitesOfSlaanesh,
+  HellsmithsOfHashut,
   IdonethDeepkin,
   Ironjaws,
   KharadronsOverlord,
